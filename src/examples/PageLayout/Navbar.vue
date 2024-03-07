@@ -8,8 +8,8 @@
       <router-link
         class="navbar-brand font-weight-bolder ms-lg-0 ms-3"
         :class="darkMode ? 'text-black' : 'text-white'"
-        to="/tables"
-        >My ToDo List App</router-link
+        to="/"
+        >To Do for Frontend</router-link
       >
       <button
         class="shadow-none navbar-toggler ms-2"
@@ -32,14 +32,14 @@
             <router-link
               class="nav-link d-flex align-items-center me-2 active"
               aria-current="page"
-              to="/tables"
+              to="/dashboard-default"
             >
               <i
                 class="fa fa-chart-pie opacity-6 me-1"
                 aria-hidden="true"
                 :class="isBlur ? 'text-dark' : 'text-white'"
               ></i>
-              My ToDo
+              Dashboard
             </router-link>
           </li>
           <li class="nav-item">

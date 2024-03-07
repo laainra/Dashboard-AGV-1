@@ -1,199 +1,246 @@
-<script>
-import { useListStore } from "../../store/todo";
-import { mapState, mapActions } from "pinia";
-
-// import component
-import BaseInput from "../components/BaseInput.vue";
-import BaseTable from "../components/BaseTable.vue";
-
-const initialInput = {
-  title: "",
-  description: "",
-  category: "",
-  completed: false,
-};
-
-export default {
-  name: "ListView",
-  data: () => ({
-    input: { ...initialInput },
-    editing: false,
-
-    table: {
-      columns: ["id", "title", "description", "completed"],
-      actions: [
-        {
-          title: "Handle",
-          event: "handle-event",
-        },
-        {
-          title: "Edit",
-          event: "edit-event",
-        },
-        {
-          title: "Remove",
-          event: "remove-event",
-        },
-      ],
-    },
-  }),
-
-  components: {
-    BaseInput,
-    BaseTable,
-  },
-  computed: {
-    ...mapState(useListStore, ["getList", "getDetail"]),
-  },
-  async mounted() {
-    await this.a$list();
-  },
-  methods: {
-    ...mapActions(useListStore, ["a$list", "a$add", "a$edit", "a$delete"]),
-
-    async handleEditEvent(row) {
-      try {
-        this.editing = row.id;
-        this.input = { ...row };
-      } catch (error) {
-        console.error("Failed to prepare edit:", error);
-      }
-    },
-
-    async addForm(event) {
-      try {
-        event.preventDefault();
-        if (this.editing) {
-          await this.a$edit({ id: this.input.id, data: this.input });
-        } else {
-          await this.a$add({ ...this.input });
-        }
-
-        this.resetForm();
-      } catch (error) {
-        console.error("Failed to add/edit entry:", error);
-      }
-    },
-
-    async handleRemoveEvent(row) {
-      try {
-        await this.a$delete(row.id);
-      } catch (error) {
-        console.error("Failed to remove row:", error);
-      }
-    },
-
-    resetForm() {
-      this.input = { ...initialInput };
-      this.editing = false;
-    },
-  },
-};
-</script>
-
 <template>
-  <div class="text-center mb-4">
-    <h2 class="text-white">Create Your ToDo List</h2>
-  </div>
   <div class="card">
-    <div class="d-flex justify-between card-header pb-0">
-      <h6>Login first, then input your ToDo List here 👇🏻</h6>
+    <div class="card-header pb-0">
+      <h6>Authors table</h6>
     </div>
-    <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
-      <form
-        class="card-header"
-        @submit.prevent="($event) => addForm($event)"
-        method="post"
-        @reset="() => resetForm()"
-      >
-        <base-input
-          v-model="input.title"
-          name="Title"
-          class="input"
-          placeholder="add new"
-          required
-        ></base-input>
-        <br />
-
-        <base-input
-          v-model="input.description"
-          name="Description"
-          class="input"
-          placeholder="description"
-          required
-        ></base-input>
-        <br />
-
-        <input v-model="input.completed" class="completed" type="checkbox" />
-        Completed
-        <br />
-
-        <div class="button-action">
-          <button type="reset" class="button-cancel">Cancel</button>
-          <button type="submit" class="button-submit">
-            {{ editing !== false ? "Edit" : "Add" }}
-          </button>
-        </div>
-      </form>
-
-      <div class="container table-responsive">
-        <base-table
-          class="table"
-          :data="getList"
-          :columns="table.columns"
-          :actions="table.actions"
-          @handle-row="handleLogEvent"
-          @edit-row="handleEditEvent"
-          @remove-row="handleRemoveEvent"
-        />
+    <div class="card-body px-0 pt-0 pb-2">
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+              <th
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+              >Function</th>
+              <th
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+              >Status</th>
+              <th
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+              >Employed</th>
+              <th class="text-secondary opacity-7"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div>
+                    <img
+                      src="../../assets/img/team-2.jpg"
+                      class="avatar avatar-sm me-3"
+                      alt="user1"
+                    />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">John Michael</h6>
+                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">Manager</p>
+                <p class="text-xs text-secondary mb-0">Organization</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <span class="badge badge-sm bg-gradient-success">Online</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
+              </td>
+              <td class="align-middle">
+                <a
+                  href="javascript:;"
+                  class="text-secondary font-weight-bold text-xs"
+                  data-toggle="tooltip"
+                  data-original-title="Edit user"
+                >Edit</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div>
+                    <img
+                      src="../../assets/img/team-3.jpg"
+                      class="avatar avatar-sm me-3"
+                      alt="user2"
+                    />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">Alexa Liras</h6>
+                    <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">Programator</p>
+                <p class="text-xs text-secondary mb-0">Developer</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
+              </td>
+              <td class="align-middle">
+                <a
+                  href="javascript:;"
+                  class="text-secondary font-weight-bold text-xs"
+                  data-toggle="tooltip"
+                  data-original-title="Edit user"
+                >Edit</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div>
+                    <img
+                      src="../../assets/img/team-4.jpg"
+                      class="avatar avatar-sm me-3"
+                      alt="user3"
+                    />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">Laurent Perrier</h6>
+                    <p class="text-xs text-secondary mb-0">laurent@creative-tim.com</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">Executive</p>
+                <p class="text-xs text-secondary mb-0">Projects</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <span class="badge badge-sm bg-gradient-success">Online</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">19/09/17</span>
+              </td>
+              <td class="align-middle">
+                <a
+                  href="javascript:;"
+                  class="text-secondary font-weight-bold text-xs"
+                  data-toggle="tooltip"
+                  data-original-title="Edit user"
+                >Edit</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div>
+                    <img
+                      src="../../assets/img/team-3.jpg"
+                      class="avatar avatar-sm me-3"
+                      alt="user4"
+                    />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">Michael Levi</h6>
+                    <p class="text-xs text-secondary mb-0">michael@creative-tim.com</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">Programator</p>
+                <p class="text-xs text-secondary mb-0">Developer</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <span class="badge badge-sm bg-gradient-success">Online</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
+              </td>
+              <td class="align-middle">
+                <a
+                  href="javascript:;"
+                  class="text-secondary font-weight-bold text-xs"
+                  data-toggle="tooltip"
+                  data-original-title="Edit user"
+                >Edit</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div>
+                    <img
+                      src="../../assets/img/team-2.jpg"
+                      class="avatar avatar-sm me-3"
+                      alt="user5"
+                    />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">Richard Gran</h6>
+                    <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">Manager</p>
+                <p class="text-xs text-secondary mb-0">Executive</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
+              </td>
+              <td class="align-middle">
+                <a
+                  href="javascript:;"
+                  class="text-secondary font-weight-bold text-xs"
+                  data-toggle="tooltip"
+                  data-original-title="Edit user"
+                >Edit</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div>
+                    <img
+                      src="../../assets/img/team-4.jpg"
+                      class="avatar avatar-sm me-3"
+                      alt="user6"
+                    />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">Miriam Eric</h6>
+                    <p class="text-xs text-secondary mb-0">miriam@creative-tim.com</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">Programtor</p>
+                <p class="text-xs text-secondary mb-0">Developer</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">14/09/20</span>
+              </td>
+              <td class="align-middle">
+                <a
+                  href="javascript:;"
+                  class="text-secondary font-weight-bold text-xs"
+                  data-toggle="tooltip"
+                  data-original-title="Edit user"
+                >Edit</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
-.completed {
-  margin-bottom: 1rem;
-}
-.button-action {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-.button-submit {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  background: #2dce89;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-weight: 500;
-  transition: transform 0.2s ease;
-  font-weight: bold;
-}
-
-.button-submit:hover {
-  transform: translateY(-5px);
-}
-
-.button-cancel {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  background: #cccccc;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-weight: 500;
-  font-weight: bold;
-  transition: transform 0.2s ease;
-}
-
-.button-cancel:hover {
-  transform: translateY(-5px);
-}
-</style>
+<script>
+export default {
+  name: "authors-table",
+};
+</script>
