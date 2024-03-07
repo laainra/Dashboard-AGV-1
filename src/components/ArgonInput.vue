@@ -13,7 +13,6 @@
         :value="value"
         :placeholder="placeholder"
         :isRequired="isRequired"
-        v-model="internalValue" 
       />
       <span v-if="iconDir === 'right'" class="input-group-text">
         <i :class="getIcon(icon)"></i>
@@ -42,16 +41,6 @@ export default {
     placeholder: String,
     type: String,
     isRequired: Boolean,
-  },
-  data() {
-    return {
-      internalValue: this.value // Menambahkan internalValue untuk v-model
-    };
-  },
-  watch: {
-    internalValue(newValue) {
-      this.$emit('input', newValue); // Emit event input saat nilai berubah
-    }
   },
   methods: {
     getClasses: (size, valid) => {

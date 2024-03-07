@@ -14,9 +14,9 @@
               href="https://www.creative-tim.com"
               class="font-weight-bold"
               target="_blank"
-              >Laila Ainur Rahma</a
+              >Creative Tim</a
             >
-            for a Front End Task Completion.
+            for a better web.
           </div>
         </div>
         <div class="col-lg-6">
@@ -28,7 +28,7 @@
                 href="https://www.creative-tim.com"
                 class="nav-link text-muted"
                 target="_blank"
-                >Lala</a
+                >Creative Tim</a
               >
             </li>
             <li class="nav-item">
