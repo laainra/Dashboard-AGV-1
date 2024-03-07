@@ -26,8 +26,8 @@ baseApi.interceptors.request.use(
 baseApi.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    switch (error.response.error) {
-      case 'jwt expired':
+    switch (error.response.status) {
+      case 401:
         delCookies('CERT')
         break
       default:
