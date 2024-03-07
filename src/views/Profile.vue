@@ -1,3 +1,4 @@
+<!-- Membuat ahlaman profile yang menampilkan data user yang sedang login dengan cara mengambil data dari cookie berupa anma dan username -->
 <template>
   <main>
     <div class="container-fluid">
@@ -17,7 +18,7 @@
             <div class="col-auto">
               <div class="avatar avatar-xl position-relative">
                 <img
-                  src="../assets/img/ahmad.jpg"
+                  src="../assets/img/team-1.jpg"
                   alt="profile_image"
                   class="shadow-sm w-100 border-radius-lg"
                 />
@@ -25,8 +26,8 @@
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
-                <h5 class="mb-1">Ahmad Mushawwir</h5>
-                <p class="mb-0 font-weight-bold text-sm">Software Engineer Intern</p>
+                <h5 class="mb-1">{{ name }}</h5>
+                <p class="mb-0 font-weight-bold text-sm">{{ username }}</p>
               </div>
             </div>
             <div
@@ -216,25 +217,25 @@
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
-                  <argon-input type="text" value="ahmad.mushawwir" />
+                  <input class="form-control" type="text" v-model="username" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Email address</label
                   >
-                  <argon-input type="email" value="mushawwirahmad45@gmail.com" />
+                  <argon-input type="email" value="jesse@example.com" />
                 </div>
                 <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
+                  <label for="example-text-input"  class="form-control-label"
                     >First name</label
                   >
-                  <input class="form-control" type="text" value="Ahmad" />
+                  <input class="form-control" type="text" v-model="name" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Last name</label
                   >
-                  <argon-input type="text" value="Mushawwir" />
+                  <input class="form-control" type="text" v-model="name" />
                 </div>
               </div>
               <hr class="horizontal dark" />
@@ -246,26 +247,26 @@
                   >
                   <argon-input
                     type="text"
-                    value="Sleman, D.I. Yogyakarta"
+                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                   />
                 </div>
                 <div class="col-md-4">
                   <label for="example-text-input" class="form-control-label"
                     >City</label
                   >
-                  <argon-input type="text" value="Yogyakarta" />
+                  <argon-input type="text" value="New York" />
                 </div>
                 <div class="col-md-4">
                   <label for="example-text-input" class="form-control-label"
                     >Country</label
                   >
-                  <argon-input type="text" value="Indonesia" />
+                  <argon-input type="text" value="United States" />
                 </div>
                 <div class="col-md-4">
                   <label for="example-text-input" class="form-control-label"
                     >Postal code</label
                   >
-                  <argon-input type="text" value="55581" />
+                  <argon-input type="text" value="437300" />
                 </div>
               </div>
               <hr class="horizontal dark" />
@@ -277,7 +278,7 @@
                   >
                   <argon-input
                     type="text"
-                    value="Never stop learning 🤓"
+                    value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source."
                   />
                 </div>
               </div>
@@ -298,6 +299,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import ProfileCard from "./components/ProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import Cookies from 'js-cookie';
 
 const body = document.getElementsByTagName("body")[0];
 
@@ -305,7 +307,9 @@ export default {
   name: "profile",
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      name: '',
+      username: ''
     };
   },
   components: { ProfileCard, ArgonInput, ArgonButton },
@@ -314,6 +318,8 @@ export default {
     this.$store.state.isAbsolute = true;
     setNavPills();
     setTooltip();
+    this.name = Cookies.get('name');
+    this.username = Cookies.get('username');
   },
   beforeMount() {
     this.$store.state.imageLayout = "profile-overview";

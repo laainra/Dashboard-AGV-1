@@ -4,7 +4,7 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-      <!-- <li class="nav-item">
+      <li class="nav-item">
         <sidenav-item
           url="/dashboard-default"
           :class="getRoute() === 'dashboard-default' ? 'active' : ''"
@@ -14,12 +14,12 @@
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li> -->
-      <li class="nav-item">
+      </li>
+      <!-- <li class="nav-item">
         <sidenav-item
           url="/tables"
           :class="getRoute() === 'tables' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'My ToDo'"
+          :navText="this.$store.state.isRTL ? 'الجداول' : 'Tables'"
         >
           <template v-slot:icon>
             <i
@@ -27,11 +27,46 @@
             ></i>
           </template>
         </sidenav-item>
+      </li> -->
+      <li class="nav-item">
+        <sidenav-item
+          url="/todo"
+          :class="getRoute() === 'todo' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'To Do Table'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
       </li>
 
-      <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6 py-2">
-        ACCOUNT PAGES
-      </h6>
+      <li class="nav-item">
+        <sidenav-item
+          url="/todo-form"
+          :class="getRoute() === 'todo-form' ? 'active' : ''"
+          navText="To Do Form"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+      <li class="mt-3 nav-item">
+        <h6
+          v-if="this.$store.state.isRTL"
+          class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
+          :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'"
+        >
+          صفحات المرافق
+        </h6>
+        <h6
+          v-else
+          class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
+          :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'"
+        >
+          ACCOUNT PAGES
+        </h6>
+      </li>
       <li class="nav-item">
         <sidenav-item
           url="/profile"
@@ -43,7 +78,7 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
+      <li v-if="!isLoggedIn" class="nav-item">
         <sidenav-item
           url="/signin"
           :class="getRoute() === 'signin' ? 'active' : ''"
@@ -54,7 +89,7 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
+      <li v-if="!isLoggedIn" class="nav-item">
         <sidenav-item
           url="/signup"
           :class="getRoute() === 'signup' ? 'active' : ''"
@@ -64,6 +99,17 @@
             <i class="ni ni-collection text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
+      </li>
+      <li v-if="isLoggedIn" class="nav-item">
+        <router-link
+          to="/"
+          class="nav-link"
+          @click="logout"
+        >
+          <i class="ni ni-user-run text-warning text-sm opacity-10"></i>
+          <span v-if="this.$store.state.isRTL">الخروج</span>
+          <span v-else>Logout</span>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -78,28 +124,37 @@
 <script>
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";
+import Cookies from 'js-cookie';
 
 export default {
   name: "SidenavList",
   props: {
-    cardBg: String,
+    cardBg: String
   },
   data() {
     return {
       title: "Argon Dashboard 2",
       controls: "dashboardsExamples",
       isActive: "active",
+      isLoggedIn: !!Cookies.get('user') // Check if user is logged in based on the presence of user in cookies
     };
   },
   components: {
     SidenavItem,
-    SidenavCard,
+    SidenavCard
   },
   methods: {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
-  },
+    logout() {
+      // Perform logout actions, e.g., removing user from cookies or resetting login status
+      Cookies.remove('user');
+      this.isLoggedIn = false;
+      // Redirect to home page or any other desired page
+      this.$router.push('/');
+    }
+  }
 };
 </script>

@@ -1,20 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 import Tables from "../views/Tables.vue";
-import Billing from "../views/Billing.vue";
-import VirtualReality from "../views/VirtualReality.vue";
-import RTL from "../views/Rtl.vue";
+import Todo from "../views/Todo.vue";
+import EditTodo from "../views/EditTodo.vue";
+import ToDoForm from "../views/ToDoForm.vue";
 import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
-import NotFoundView from "../views/NotFoundView.vue";
+import Cookies from "js-cookie";
 
+// rute-rute yang digunakan untuk mengakses halaman
 const routes = [
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'Match All',
-    component: NotFoundView,
-  },
   {
     path: "/",
     name: "/",
@@ -31,19 +27,20 @@ const routes = [
     component: Tables,
   },
   {
-    path: "/billing",
-    name: "Billing",
-    component: Billing,
+    path: "/todo",
+    name: "To Do List",
+    component: Todo,
   },
   {
-    path: "/virtual-reality",
-    name: "Virtual Reality",
-    component: VirtualReality,
+    path: "/edit-todo/:id", 
+    name: "Edit Todo",
+    component: EditTodo,
+    props: true, 
   },
   {
-    path: "/rtl-page",
-    name: "RTL",
-    component: RTL,
+    path: "/todo-form",
+    name: " To Do Form",
+    component: ToDoForm,
   },
   {
     path: "/profile",
@@ -60,13 +57,27 @@ const routes = [
     name: "Signup",
     component: Signup,
   },
-  
 ];
 
+// membuat router 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   linkActiveClass: "active",
+});
+
+// Membuat authorizaztion untuk halaman public dan signed user only yang tokennya disimpan di cookies
+router.beforeEach((to, from, next) => {
+  const publicPages = ["/signin", "/signup", "/dashboard-default"];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = Cookies.get("user"); 
+
+  // jika mengakses halaman yang butuh authorization maka akan redirect ke halaman sign in
+  if (authRequired && !loggedIn) {
+    next("/signin");
+  } else {
+    next();
+  }
 });
 
 export default router;
