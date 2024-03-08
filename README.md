@@ -94,19 +94,4 @@ At present, we officially aim to support the last two versions of the following 
 
 <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/firefox.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/edge.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/safari.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/opera.png" width="64" height="64">
 
-## Resources
-
-- [Live Preview](https://front-end-to-do-list-nine.vercel.app)
-
-## Useful Links
-
-- [Vercel App](https://front-end-to-do-list-nine.vercel.app) from Creative Tim
-
-
-##### Social Media
-
-Instagram: <https://instagram.com/laainra>
-=======
-# FrontEnd-ToDoList
-Source code for front-end task completion from Stechoq's Front End Mentor
 >>>>>>> d99b3e1cdd668be5393be2f61720ce3f52a5c3bb
