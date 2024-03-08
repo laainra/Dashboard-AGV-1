@@ -1,22 +1,6 @@
 
 
-# TO DO LIST WITH VUE JS AND EXPRESS JS 
-### Laila Ainur Rahma (Software Engineer Intern)
-
-
-**HELPFUL LINKS**
-- Demo Video [Video Demo To Do List](https://drive.google.com/file/d/1031wABpQ2o1rx6A3Y5FaoJ4-Zv2l5Xzj/view?usp=sharing)
-- View [Github Repository](https://github.com/laainra/FrontEnd-ToDoList)
-
-## Table of Contents
-
-- [Versions](#versions)
-- [Demo](#demo)
-- [File Structure](#file-structure)
-- [Browser Support](#browser-support)
-- [Resources](#resources)
-
-- [Useful Links](#useful-links)
+# Dashboard AGV Lidar with KaraKuri
 
 ## Versions
 

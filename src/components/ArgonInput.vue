@@ -34,6 +34,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isPassword: {
+      type: Boolean,
+      default: false,
+    },
     icon: String,
     iconDir: String,
     name: String,
@@ -45,7 +49,7 @@ export default {
   },
   data() {
     return {
-      name: "",
+      username: "",
       email: "",
       password: "",
       // Menambahkan internalValue untuk v-model

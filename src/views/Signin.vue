@@ -46,18 +46,18 @@ onBeforeUnmount(() => {
               <div class="card card-plain">
                 <div class="pb-0 card-header text-start">
                   <h4 class="font-weight-bolder">Sign In</h4>
-                  <p class="mb-0">Enter your email and password to sign in</p>
+                  <p class="mb-0">Enter your username and password to sign in</p>
                 </div>
                 <div class="card-body">
                   <form role="form">
                     <div class="mb-3">
                       <argon-input
-                        id="email"
-                        type="email"
-                        placeholder="Email"
-                        name="email"
+                        id="username"
+                        type="username"
+                        placeholder="Username"
+                        name="username"
                         size="lg"
-                        v-model="email"
+                        v-model="username"
                       />
                     </div>
                     <div class="mb-3">
@@ -129,6 +129,6 @@ onBeforeUnmount(() => {
 <style scoped>
 .image {
   background-size: cover;
-  background-image: url('../assets/img/bg-signin.jpg');
+  background-image: url("../assets/img/bg-signin.jpg");
 }
 </style>

@@ -25,16 +25,9 @@
         id="iconSidenav"
       ></i>
       <router-link class="m-0 navbar-brand" to="/">
-        <!-- <img
-          :src="
-            this.$store.state.darkMode ||
-            this.$store.state.sidebarType === 'bg-default'
-              ? logoWhite
-              : logo
-          "
-          class="navbar-brand-img h-100"
-          alt="main_logo"
-        /> -->
+        <img
+          src="../../../public/SANSIcon.png"
+        />
         <span class="ms-2 font-weight-bold me-2">SANS Dashboard</span>
       </router-link>
     </div>

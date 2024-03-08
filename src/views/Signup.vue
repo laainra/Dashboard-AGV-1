@@ -140,7 +140,7 @@
             </div> -->
             <div class="card-body">
               <form role="form">
-                <argon-input type="text" placeholder="Name" aria-label="Name" v-model="name"/>
+                <argon-input type="text" placeholder="Username" aria-label="Name" v-model="name"/>
                 <argon-input
                   type="email"
                   placeholder="Email"
@@ -150,6 +150,12 @@
                 <argon-input
                   type="password"
                   placeholder="Password"
+                  aria-label="Password"
+                  v-model="password"
+                />
+                <argon-input
+                  type="password"
+                  placeholder="Confirm Password"
                   aria-label="Password"
                   v-model="password"
                 />
@@ -172,7 +178,7 @@
                     >Sign up</argon-button
                   >
                 </div>
-                <p class="text-sm mt-3 mb-0">
+                <p class="text-center text-sm mt-3 mb-0">
                   Already have an account?
                   <router-link
                     href="javascript:;"
