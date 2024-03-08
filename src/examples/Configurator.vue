@@ -12,7 +12,7 @@
           class=""
           :class="this.$store.state.isRTL ? 'float-end' : 'float-start'"
         >
-          <h5 class="mt-3 mb-0">Argon Configurator</h5>
+          <h5 class="mt-3 mb-0">Dashboard Configurator</h5>
           <p>See our dashboard options.</p>
         </div>
         <div
@@ -135,7 +135,7 @@
             />
           </div>
         </div>
-        <a
+        <!-- <a
           class="btn bg-gradient-dark w-100"
           href="https://www.creative-tim.com/product/vue-argon-dashboard"
           >Free Download</a
@@ -144,8 +144,8 @@
           class="btn btn-outline-dark w-100"
           href="https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/"
           >View documentation</a
-        >
-        <div class="text-center w-100">
+        > -->
+        <!-- <div class="text-center w-100">
           <a
             class="github-button"
             href="https://github.com/creativetimofficial/vue-argon-dashboard"
@@ -170,7 +170,7 @@
           >
             <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

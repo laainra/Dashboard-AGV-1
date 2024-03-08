@@ -2,11 +2,11 @@
   <div class="card">
     <div class="pb-0 card-header mb-0">
       <h6>{{ title }}</h6>
-      <p class="text-sm">
+      <!-- <p class="text-sm">
         <i class="fa fa-arrow-up text-success"></i>
         <span class="font-weight-bold">{{detail1}}</span>
         {{detail2}}
-      </p>
+      </p> -->
     </div>
     <div class="p-3 card-body">
       <div class="chart">
@@ -25,16 +25,16 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Sales overview",
+      default: "Lama Penggunaan",
     },
-    detail1: {
-      type: String,
-      default: "4% more",
-    },
-    detail2: {
-      type: String,
-      default: "in 2021",
-    },
+    // detail1: {
+    //   type: String,
+    //   default: "4% more",
+    // },
+    // detail2: {
+    //   type: String,
+    //   default: "in 2021",
+    // },
   },
 
   mounted() {
@@ -48,7 +48,7 @@ export default {
     new Chart(ctx1, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Mon", "Sun", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
         datasets: [
           {
             label: "Mobile apps",

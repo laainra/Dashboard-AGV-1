@@ -32,7 +32,7 @@
         <sidenav-item
           url="/todo"
           :class="getRoute() === 'todo' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'To Do Table'"
+          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'XXXXXXX'"
         >
           <template v-slot:icon>
             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
@@ -44,7 +44,7 @@
         <sidenav-item
           url="/todo-form"
           :class="getRoute() === 'todo-form' ? 'active' : ''"
-          navText="To Do Form"
+          navText="XXXXXXX"
         >
           <template v-slot:icon>
             <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
@@ -123,7 +123,6 @@
 </template>
 <script>
 import SidenavItem from "./SidenavItem.vue";
-import SidenavCard from "./SidenavCard.vue";
 import Cookies from 'js-cookie';
 
 export default {
@@ -140,8 +139,7 @@ export default {
     };
   },
   components: {
-    SidenavItem,
-    SidenavCard
+    SidenavItem
   },
   methods: {
     getRoute() {

@@ -14,12 +14,12 @@
               href="https://www.creative-tim.com"
               class="font-weight-bold"
               target="_blank"
-              >Laila Ainur Rahma</a
+              >SANS TEAM</a
             >
-            for a Front End Task Completion.
+            for a MSIB BATCH 6 Intern Project
           </div>
         </div>
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-6">
           <ul
             class="nav nav-footer justify-content-center justify-content-lg-end"
           >
@@ -56,7 +56,7 @@
               >
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
   </footer>

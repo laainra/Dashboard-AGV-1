@@ -9,7 +9,7 @@
         class="navbar-brand font-weight-bolder ms-lg-0 ms-3"
         :class="darkMode ? 'text-black' : 'text-white'"
         to="/"
-        >To Do for Frontend</router-link
+        >SANS</router-link
       >
       <button
         class="shadow-none navbar-toggler ms-2"
@@ -73,7 +73,7 @@
             </router-link>
           </li>
         </ul>
-        <ul class="navbar-nav d-lg-block d-none">
+        <!-- <ul class="navbar-nav d-lg-block d-none">
           <li class="nav-item">
             <a
               href="https://www.creative-tim.com/product/vue-argon-dashboard"
@@ -82,7 +82,7 @@
               >Free download</a
             >
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </nav>

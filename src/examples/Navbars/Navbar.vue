@@ -88,29 +88,7 @@
               <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
             </a>
           </li>
-          <li
-            class="nav-item dropdown d-flex align-items-center"
-            :class="this.$store.state.isRTL ? 'ps-2' : 'pe-2'"
-          >
-            <a
-              href="#"
-              class="p-0 nav-link text-white"
-              :class="[showMenu ? 'show' : '']"
-              id="dropdownMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              @click="showMenu = !showMenu"
-            >
-              <i class="cursor-pointer fa fa-bell"></i>
-            </a>
-            <ul
-              class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4"
-              :class="showMenu ? 'show' : ''"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <!-- Dropdown menu items -->
-            </ul>
-          </li>
+
         </ul>
       </div>
     </div>

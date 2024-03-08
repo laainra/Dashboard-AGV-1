@@ -242,7 +242,7 @@ export default {
     new Chart(ctx, {
       type: "bar",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Mon", "Sun", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
         datasets: [
           {
             label: "Sales",
