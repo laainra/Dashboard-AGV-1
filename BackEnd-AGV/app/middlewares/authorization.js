@@ -3,14 +3,16 @@ const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 
-verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+const authJwt = (req, res, next) => {
+  let token = req.headers.authorization;
 
-  if (!token) {
+  if (!token || !token.startsWith("Bearer ")) {
     return res.status(403).send({
       message: "Unauthorized, No token provided!"
     });
   }
+
+  token = token.slice(7); 
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
@@ -20,7 +22,6 @@ verifyToken = (req, res, next) => {
     }
     req.userId = decoded.id;
 
-    
     User.findByPk(decoded.id)
       .then(user => {
         if (!user) {
@@ -37,30 +38,4 @@ verifyToken = (req, res, next) => {
   });
 };
 
-
-isAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "admin") {
-          next();
-          return;
-        }
-      }
-
-      res.status(403).send({
-        message: "Require Admin Role!"
-      });
-      return;
-    });
-  });
-};
-
-
-
-
-const authJwt = {
-  verifyToken: verifyToken,
-  isAdmin: isAdmin,
-};
 module.exports = authJwt;

@@ -25,7 +25,7 @@ class AuthService {
       }
     );
 
-   // Membuat interceptor respons digunakan untuk menangani respon dari server, di mana jika status kode respon adalah 401 (Unauthorized), maka user akan di-logout dari sistem.
+  //  Membuat interceptor respons digunakan untuk menangani respon dari server, di mana jika status kode respon adalah 401 (Unauthorized), maka user akan di-logout dari sistem.
     axios.interceptors.response.use(
       response => {
         return response;

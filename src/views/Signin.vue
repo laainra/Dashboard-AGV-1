@@ -3,7 +3,6 @@ import { onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonSwitch from "@/components/ArgonSwitch.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
 
@@ -22,7 +21,10 @@ onBeforeUnmount(() => {
   store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
+
+
 </script>
+
 <template>
   <div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
@@ -113,10 +115,6 @@ onBeforeUnmount(() => {
                 >
                   "Stechoq Kara Kuri Autonomous Navigation System (SANS)"
                 </h3>
-                <!-- <p class="text-white position-relative">
-                  The more effortless the writing looks, the more effort the
-                  writer actually put into the process.
-                </p> -->
               </div>
             </div>
           </div>
