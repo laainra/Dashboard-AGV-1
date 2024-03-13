@@ -1,61 +1,37 @@
-import AuthService from '../services/auth.service';
+// import { defineStore } from "pinia";
+// import AuthService from '../services/auth.service';
 
-const user = JSON.parse(localStorage.getItem('user'));
-const initialState = user
-  ? { status: { loggedIn: true }, user }
-  : { status: { loggedIn: false }, user: null };
-
-export const auth = {
-  namespaced: true,
-  state: initialState,
-  actions: {
-    login({ commit }, user) {
-      return AuthService.login(user).then(
-        user => {
-          commit('loginSuccess', user);
-          return Promise.resolve(user);
-        },
-        error => {
-          commit('loginFailure');
-          return Promise.reject(error);
-        }
-      );
-    },
-    logout({ commit }) {
-      AuthService.logout();
-      commit('logout');
-    },
-    register({ commit }, user) {
-      return AuthService.register(user).then(
-        response => {
-          commit('registerSuccess');
-          return Promise.resolve(response.data);
-        },
-        error => {
-          commit('registerFailure');
-          return Promise.reject(error);
-        }
-      );
-    }
-  },
-  mutations: {
-    loginSuccess(state, user) {
-      state.status.loggedIn = true;
-      state.user = user;
-    },
-    loginFailure(state) {
-      state.status.loggedIn = false;
-      state.user = null;
-    },
-    logout(state) {
-      state.status.loggedIn = false;
-      state.user = null;
-    },
-    registerSuccess(state) {
-      state.status.loggedIn = false;
-    },
-    registerFailure(state) {
-      state.status.loggedIn = false;
-    }
-  }
-};
+// export const useAuthStore = defineStore({
+//   id: "auth",
+//   state: () => ({
+//     status: { loggedIn: false },
+//     user: null
+//   }),
+//   actions: {
+//     async login(user) {
+//       try {
+//         const loggedInUser = await AuthService.login(user);
+//         this.status.loggedIn = true;
+//         this.user = loggedInUser;
+//         return loggedInUser;
+//       } catch (error) {
+//         this.status.loggedIn = false;
+//         this.user = null;
+//         throw error;
+//       }
+//     },
+//     logout() {
+//       AuthService.logout();
+//       this.status.loggedIn = false;
+//       this.user = null;
+//     },
+//     async register(user) {
+//       try {
+//         await AuthService.register(user);
+//         return "Registration successful";
+//       } catch (error) {
+//         throw error;
+//       }
+//     }
+//   }
+// });

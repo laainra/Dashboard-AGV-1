@@ -1,42 +1,38 @@
 import { defineStore } from "pinia";
-import * as s$auth from "@/services/auth";
-import { login } from "@/services/auth";
-import { setCk, delCk, certDetail } from "@/utils/cookies";
+import AuthService from "../services/auth.service"; // Import class AuthService dari service auth
+import Cookies from 'js-cookie';
 
-import d from "dayjs";
-
-const useAuthStore = defineStore({
+export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
-    id: undefined,
-    name: undefined,
-    username: undefined,
+    status: { loggedIn: false },
   }),
-  getters: {
-    userInfo: (state) => ({
-      id: state.id,
-      name: state.name,
-      username: state.username,
-    }),
-    isLoggedIn: (state) => !!state.id,
-  },
   actions: {
-    async a$login(payload) {
+    async a$login(body) {
       try {
-        const { data } = await login(payload);
-        setCk("CERT", data.token, { datetime: d(data.expiresAt) });
-        this.a$setUserInfo();
+        const { data } = await AuthService.login(body); // Panggil metode login dari AuthService
+        // Simpan token ke dalam cookie
+        Cookies.set('jwt-token', data.accessToken, { expires: new Date(data.expiresAt) });
+        // Setelah menyimpan token, Anda dapat melakukan hal lain yang diperlukan, seperti menetapkan status login ke true, dst.
 
-        if (this.userInfo.role == "superadmin") {
-          return "Login Superadmin Berhasil!";
-        }
-
-        return "Login Berhasil!";
-      } catch ({ error, message }) {
-        throw (error || message) ?? "Login Gagal!";
+        return true;
+      } catch (error) {
+        this.status.loggedIn = false;
+        throw error;
+      }
+    },
+    async a$register(user) {
+      try {
+        await AuthService.register(user); // Panggil metode register dari AuthService
+        return "Registration successful";
+      } catch (error) {
+        throw error;
       }
     },
   },
+  getters: {
+    g$user: ({ id, username }) => ({ id, username }),
+    // determine if user is logged in
+    isLoggedIn: ({ id }) => !!id,
+  },
 });
-
-export default useAuthStore;

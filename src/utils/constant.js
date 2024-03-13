@@ -1,6 +1,4 @@
-const host = "http://localhost:9000";
-
-const baseApiUrl = `${host}/`;
+const baseApiUrl = import.meta.env.VITE_BASE_URL;
 
 const subApiUrl = {
   // Base
@@ -9,4 +7,4 @@ const subApiUrl = {
   // Sub Sub URL
 };
 
-export { host, baseApiUrl, subApiUrl };
+export { baseApiUrl, subApiUrl };

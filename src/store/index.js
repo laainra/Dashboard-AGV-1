@@ -1,5 +1,4 @@
 import { createStore } from "vuex";
-import { auth } from "./auth.module";
 
 export default createStore({
   state: {
@@ -52,7 +51,7 @@ export default createStore({
       commit("sidebarType", payload);
     }
   },modules: {
-    auth,
+    // auth,
   },
   getters: {}
 });

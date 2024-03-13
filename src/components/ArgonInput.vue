@@ -1,77 +1,48 @@
-<template>
-  <div class="form-group">
-    <div :class="hasIcon(icon)">
-      <span v-if="iconDir === 'left'" class="input-group-text">
-        <i :class="getIcon(icon)"></i>
-      </span>
-      <input
-        :type="type"
-        class="form-control"
-        :class="getClasses(size, valid)"
-        :name="name"
-        :id="id"
-        :value="value"
-        :placeholder="placeholder"
-        :isRequired="isRequired"
-        v-model="internalValue"
-      />
-      <span v-if="iconDir === 'right'" class="input-group-text">
-        <i :class="getIcon(icon)"></i>
-      </span>
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  name: "argon-input",
-  props: {
-    size: {
-      type: String,
-      default: "default",
-    },
-    valid: {
-      type: Boolean,
-      default: false,
-    },
-    isPassword: {
-      type: Boolean,
-      default: false,
-    },
-    icon: String,
-    iconDir: String,
-    name: String,
-    id: String,
-    value: String,
-    placeholder: String,
+<script setup>
+defineProps({
+  id: {
     type: String,
-    isRequired: Boolean,
+    default: 'id'
   },
-  data() {
-    return {
-      username: "",
-      email: "",
-      password: "",
-      // Menambahkan internalValue untuk v-model
-    };
+  name: {
+    type: String,
+    default: 'name'
   },
-  watch: {
-    internalValue(newValue) {
-      this.$emit("input", newValue); // Emit event input saat nilai berubah
-    },
+  placeholder: {
+    type: String,
+    default: 'Placeholder'
   },
-  methods: {
-    getClasses: (size, valid) => {
-      let sizeValue, isValidValue;
+  modelValue: {
+    type: String,
+    default: ''
+  },
+  required: {
+    type: Boolean,
+    default: false
+  },
+  type: {
+    type: String, // Tambahkan properti type
+    default: 'text' // Atur nilai default sesuai kebutuhan
+  }
+})
 
-      sizeValue = size ? `form-control-${size}` : null;
-
-      isValidValue = valid ? `${valid}` : "invalid";
-
-      return `${sizeValue} ${isValidValue}`;
-    },
-    getIcon: (icon) => (icon ? icon : null),
-    hasIcon: (icon) => (icon ? "input-group" : null),
-  },
-};
+defineEmits(['update:modelValue'])
 </script>
+
+<template>
+<div class="form-group">
+  <!-- Binding (:) from defineProps then the data will be use in Parent Component -->
+  <!-- After componenet send the new property, then the child component will binding directly -->
+  <input
+    class="form-control"
+    :id="id"
+    :type="type"
+    :name="name"
+    :placeholder="placeholder"
+    :value="modelValue"
+    :required="required"
+    @input="(e) => $emit('update:modelValue', e.target.value)"
+  />
+</div>
+
+</template>

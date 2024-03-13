@@ -2,7 +2,11 @@
   <div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
       <div class="col-12">
-        <Navbar :isBlur="blur" :darkMode="true" :isBtn="btnClass" />
+        <navbar
+          isBlur="blur  border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow"
+          v-bind:darkMode="true"
+          isBtn="bg-gradient-success"
+        />
       </div>
     </div>
   </div>
@@ -22,18 +26,16 @@
                   </p>
                 </div>
                 <div class="card-body">
-                  <form
-                    role="form"
-                    @submit.prevent="handleLogin"
-                    v-if="!isLoggedIn"
-                    method="post"
-                  >
+                  <form role="form">
                     <div class="mb-3">
                       <ArgonInput
-                        v-model="input.username"
+                        id="username"
+                        type="username"
                         placeholder="Username"
-                        required
-                      ></ArgonInput>
+                        name="username"
+                        size="lg"
+                        v-model="input.username"
+                      />
                     </div>
                     <div class="mb-3">
                       <ArgonInput
@@ -45,7 +47,7 @@
                         size="lg"
                         v-model="input.password"
                         :isPassword="true"
-                      ></ArgonInput>
+                      />
                     </div>
                     <div class="text-center">
                       <ArgonButton
@@ -54,6 +56,7 @@
                         color="success"
                         fullWidth
                         size="lg"
+                        @click="handleLogin"
                       >
                         Sign in
                       </ArgonButton>
@@ -95,53 +98,28 @@
 </template>
 
 <script>
-import Navbar from "@/examples/PageLayout/Navbar.vue";
+import Navbar from "../examples/Navbars/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import { useAuthStore } from "../store/auth";
-import { mapActions, mapState } from "pinia";
+import { useAuthStore } from "../store/auth"; 
+import { mapActions } from "pinia";// Import fungsi login dari service auth
+
 const body = document.getElementsByTagName("body")[0];
 
+const initialInput = {
+  username: "",
+  password: "",
+};
+
 export default {
+  data: () => ({
+    input: { ...initialInput },
+  }),
   name: "signin",
   components: {
     Navbar,
     ArgonInput,
     ArgonButton,
-  },
-  data() {
-    return {
-      input: {
-        username: "",
-        password: "",
-      },
-      blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
-      btnClass: "bg-gradient-success",
-    };
-  },
-  computed: {
-    ...mapState(useAuthStore, ["isLoggedIn"]),
-  },
-  methods: {
-    ...mapActions(useAuthStore, ["a$login"]),
-
-    async handleLogin() {
-      try {
-        await this.a$login({
-          username: this.input.username,
-          password: this.input.password,
-        });
-        console.log("Login Success:");
-        this.resetForm();
-      } catch (error) {
-        console.error("Login Error:", error);
-      }
-    },
-
-    resetForm() {
-      this.input.username = "";
-      this.input.password = "";
-    },
   },
   created() {
     this.$store.state.hideConfigButton = true;
@@ -157,6 +135,21 @@ export default {
     this.$store.state.showFooter = true;
     body.classList.add("bg-gray-100");
   },
+  methods: {
+    ...mapActions(useAuthStore, ["login"]),
+     
+    async handleLogin() {
+      try {
+        const user = await login({ username: this.username, password: this.password });
+        console.log("Login Success:", user);
+        // Setelah login berhasil, lakukan navigasi ke halaman lain jika diperlukan
+      } catch (error) {
+        console.error("Login Error:", error);
+        // Tangani pesan error jika diperlukan
+      }
+    }
+  },
+
 };
 </script>
 

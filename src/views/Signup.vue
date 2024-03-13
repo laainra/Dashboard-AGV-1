@@ -2,7 +2,7 @@
   <div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
       <div class="col-12">
-        <navbar isBtn="bg-gradient-light" />
+        <navbar :isBlur="blur" isBtn="bg-gradient-light" :darkMode="true" />
       </div>
     </div>
   </div>
@@ -140,7 +140,12 @@
             </div> -->
             <div class="card-body">
               <form role="form">
-                <argon-input type="text" placeholder="Username" aria-label="Name" v-model="name"/>
+                <argon-input
+                  type="text"
+                  placeholder="Username"
+                  aria-label="Name"
+                  v-model="name"
+                />
                 <argon-input
                   type="email"
                   placeholder="Email"
@@ -206,6 +211,11 @@ import ArgonButton from "@/components/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
 
 export default {
+  data() {
+    return {
+      blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
+    };
+  },
   name: "signin",
   components: {
     Navbar,

@@ -1,7 +1,6 @@
-import { subApiUrl } from "@/utils/constant";
+import axios from 'axios';
+import { baseApiUrl } from "@/utils/constant";
 
-const { auth, api } = subApiUrl;
-
-const login = (req) => baseApi.post(`${api}/${auth}/signin`, req);
+const login = (req) => axios.post(`${baseApiUrl}/auth/signin`, req);
 
 export { login };
