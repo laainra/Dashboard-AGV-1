@@ -66,18 +66,18 @@ const router = createRouter({
   linkActiveClass: "active",
 });
 
-// Membuat authorizaztion untuk halaman public dan signed user only yang tokennya disimpan di cookies
-router.beforeEach((to, from, next) => {
-  const publicPages = ["/signin", "/signup", "/dashboard-default"];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = Cookies.get("user"); 
+// // Membuat authorizaztion untuk halaman public dan signed user only yang tokennya disimpan di cookies
+// router.beforeEach((to, from, next) => {
+//   const publicPages = ["/signin", "/signup", "/dashboard-default"];
+//   const authRequired = !publicPages.includes(to.path);
+//   const loggedIn = Cookies.get("user"); 
 
-  // jika mengakses halaman yang butuh authorization maka akan redirect ke halaman sign in
-  if (authRequired && !loggedIn) {
-    next("/signin");
-  } else {
-    next();
-  }
-});
+//   // jika mengakses halaman yang butuh authorization maka akan redirect ke halaman sign in
+//   if (authRequired && !loggedIn) {
+//     next("/signin");
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

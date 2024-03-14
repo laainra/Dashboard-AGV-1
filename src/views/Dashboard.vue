@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-12">
+          <div class="col-lg-3 col-md-6 col-6">
             <card
               :title="stats.money.title"
               :value="stats.money.value"
@@ -61,7 +61,7 @@
           </div>
         </div>
         <div class="row mt-4">
-          <div class="col-lg-7 mb-lg-0 mb-4">
+          <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex justify-content-between">
@@ -107,9 +107,9 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-5">
+          <!-- <div class="col-lg-5">
             <categories-card />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
