@@ -20,7 +20,8 @@
                 <img
                   src="../assets/img/team-1.jpg"
                   alt="profile_image"
-                  class="shadow-sm w-100 border-radius-lg"
+                  class="shadow-sm w-200 h-auto border-radius-lg"
+                  style="max-width: 200px;"
                 />
               </div>
             </div>
@@ -237,13 +238,32 @@
                   >
                   <argon-input type="email" value="jesse@example.com" :disable="!isDisabled"/>
                 </div>
-                <div class="input-group">
-                  <argon-input :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="password" />
-                  <button class="btn btn-outline-secondary" type="button" @click="togglePasswordVisibility">
-                    <i class="fas" :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
-                  </button>
+             
+                <div class="col-md-6 position-relative">
+                  <label for="example-text-input" class="form-control-label"
+                    >Password</label
+                  >
+                  <div class="input-group ">
+                    <argon-input class="col-11"  :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="password" id="password" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
+                    <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                      <i class="fas" :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                    </button>
+                  </div>
                 </div>
-                <argon-button color="success" size="sm" class="ms-auto" @click="toggleEditMode">
+                
+                <div class="col-md-6 position-relative">
+                  <label for="example-text-input" class="form-control-label"
+                    >Confirm Password</label
+                  >
+                  <div class="input-group ">
+                    <argon-input class="col-11" :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="confirmPassword" id="confirmPassword" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
+                    <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordConfirmVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                      <i class="fas" :class="confirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                    </button>
+                  </div>
+                  <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p>
+                </div>
+                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;" @click="saveChanges" >
                     {{ isDisabled ? 'Save' : 'Edit' }}
                   </argon-button>
               </div>
@@ -290,13 +310,29 @@ export default {
       name: '',
       username: '',
       password: '',
-      passwordVisible: false
+      confirmPassword: '',
+      passwordVisible: false,
+      confirmPasswordVisible: false,
     };
   },
   methods: {
     togglePasswordVisibility() {
       this.passwordVisible = !this.passwordVisible;
-    }
+    },
+    togglePasswordConfirmVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    },
+    saveChanges() {
+        if (this.password === this.confirmPassword) {
+            this.toggleEditMode();
+        } else {
+           
+            console.log('Passwords do not match. Cannot save changes.');
+        }
+    },
+    toggleEditMode(disabled = true) {
+      this.isDisabled = !disabled;
+  }
   },
 
   components: { ProfileCard, ArgonInput, ArgonButton },
