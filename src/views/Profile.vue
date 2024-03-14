@@ -236,10 +236,16 @@
                     >Email address</label
                   >
                   <argon-input type="email" value="jesse@example.com" :disable="!isDisabled"/>
-                  <argon-button color="success" size="sm" class="ms-auto" @click="toggleEditMode">
+                </div>
+                <div class="col-md-6">
+                  <label for="example-text-input" class="form-control-label"
+                    >Password</label
+                  >
+                  <argon-input type="password" :disable="!isDisabled"/>
+                </div>
+                <argon-button color="success" size="sm" class="ms-auto" @click="toggleEditMode">
                     {{ isDisabled ? 'Save' : 'Edit' }}
                   </argon-button>
-                </div>
               </div>
             </div>
           </div>
