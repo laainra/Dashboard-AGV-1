@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = 'https://real-ruby-eagle-shoe.cyclic.app';
+const API_URL = 'https://e9a2-202-152-145-45.ngrok-free.app ';
 
 class AuthService {
   constructor() {
@@ -38,7 +38,7 @@ class AuthService {
 
   login(user) {
     return axios
-      .post(API_URL + 'signin', {
+      .post(API_URL + '/api/auth/signin', {
         username: user.username,
         password: user.password
       })
