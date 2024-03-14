@@ -33,12 +33,12 @@
             <div
               class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0"
             >
-              <div class="nav-wrapper position-relative end-0">
+              <!-- <div class="nav-wrapper position-relative end-0">
                 <ul
                   class="p-1 bg-transparent nav nav-pills nav-fill"
                   role="tablist"
-                >
-                  <li class="nav-item">
+                > -->
+                  <!-- <li class="nav-item">
                     <a
                       class="px-0 py-1 mb-0 nav-link active"
                       data-bs-toggle="tab"
@@ -190,9 +190,9 @@
                       </svg>
                       <span class="ms-1">Settings</span>
                     </a>
-                  </li>
-                </ul>
-              </div>
+                  </li> -->
+                <!-- </ul>
+              </div> -->
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@
     </div>
     <div class="py-4 container-fluid">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
@@ -237,11 +237,11 @@
                   >
                   <argon-input type="email" value="jesse@example.com" :disable="!isDisabled"/>
                 </div>
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Password</label
-                  >
-                  <argon-input type="password" :disable="!isDisabled"/>
+                <div class="input-group">
+                  <argon-input :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="password" />
+                  <button class="btn btn-outline-secondary" type="button" @click="togglePasswordVisibility">
+                    <i class="fas" :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                  </button>
                 </div>
                 <argon-button color="success" size="sm" class="ms-auto" @click="toggleEditMode">
                     {{ isDisabled ? 'Save' : 'Edit' }}
@@ -250,9 +250,9 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <profile-card />
-        </div>
+        </div> -->
       </div>
     </div>
   </main>
@@ -288,9 +288,17 @@ export default {
     return {
       showMenu: false,
       name: '',
-      username: ''
+      username: '',
+      password: '',
+      passwordVisible: false
     };
   },
+  methods: {
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    }
+  },
+
   components: { ProfileCard, ArgonInput, ArgonButton },
 
   mounted() {
