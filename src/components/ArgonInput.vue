@@ -44,5 +44,4 @@ defineEmits(['update:modelValue'])
     @input="(e) => $emit('update:modelValue', e.target.value)"
   />
 </div>
-
 </template>
