@@ -5,6 +5,7 @@ import { mapState, mapActions } from "pinia";
 // import component
 import BaseInput from "../components/BaseInput.vue";
 import BaseTable from "../components/BaseTable.vue";
+import ArgonButton from "../../components/ArgonButton.vue";
 
 const initialInput = {
   title: "",
@@ -41,6 +42,7 @@ export default {
   components: {
     BaseInput,
     BaseTable,
+    ArgonButton,
   },
   // computed: {
   //   ...mapState(useListStore, ["getList", "getDetail"]),
@@ -129,10 +131,8 @@ export default {
         <br />
 
         <div class="button-action">
-          <button type="reset" class="button-cancel">Cancel</button>
-          <button type="submit" class="button-submit">
-            {{ editing !== false ? "Edit" : "Add" }}
-          </button>
+          <argon-button type="reset" class="text-center button-cancel"  color="danger" variant="gradient" fullWidth size="lg">Cancel</argon-button>
+          <argon-button type="submit" class="text-center button-submit" color="success" variant="gradient" fullWidth size="lg">{{ editing !== false ? "Edit" : "Add" }}</argon-button>
         </div>
       </form>
 
@@ -153,47 +153,12 @@ export default {
 
 <style scoped lang="scss">
 .completed {
-  margin-bottom: 1rem;
+  margin-bottom: 1.4rem;
 }
 .button-action {
   display: flex;
   flex-direction: row;
   gap: 1rem;
   margin-bottom: 1rem;
-}
-.button-submit {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  background: #2dce89;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-weight: 500;
-  transition: transform 0.2s ease;
-  font-weight: bold;
-}
-
-.button-submit:hover {
-  transform: translateY(-5px);
-}
-
-.button-cancel {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  background: #cccccc;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-weight: 500;
-  font-weight: bold;
-  transition: transform 0.2s ease;
-}
-
-.button-cancel:hover {
-  transform: translateY(-5px);
 }
 </style>

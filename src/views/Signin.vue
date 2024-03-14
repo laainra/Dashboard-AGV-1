@@ -131,6 +131,7 @@ export default {
           username: this.input.username,
           password: this.input.password,
         });
+        router.push({ name: "dashboard-default" });
         console.log("Login Success:");
         this.resetForm();
       } catch (error) {

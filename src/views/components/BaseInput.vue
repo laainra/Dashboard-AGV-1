@@ -53,7 +53,7 @@ defineEmits(['update:modelValue'])
   outline: none;
   margin-bottom: 1rem;
   border: none;
-  border-bottom: 1px solid #20c997;
+  border-bottom: 1px solid #177BDB;
   background-color: transparent;
   width: 100%;
 }
