@@ -20,7 +20,8 @@
                 <img
                   src="../assets/img/team-1.jpg"
                   alt="profile_image"
-                  class="shadow-sm w-100 border-radius-lg"
+                  class="shadow-sm w-200 h-auto border-radius-lg"
+                  style="max-width: 200px;"
                 />
               </div>
             </div>
@@ -33,12 +34,12 @@
             <div
               class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0"
             >
-              <div class="nav-wrapper position-relative end-0">
+              <!-- <div class="nav-wrapper position-relative end-0">
                 <ul
                   class="p-1 bg-transparent nav nav-pills nav-fill"
                   role="tablist"
-                >
-                  <li class="nav-item">
+                > -->
+                  <!-- <li class="nav-item">
                     <a
                       class="px-0 py-1 mb-0 nav-link active"
                       data-bs-toggle="tab"
@@ -190,9 +191,9 @@
                       </svg>
                       <span class="ms-1">Settings</span>
                     </a>
-                  </li>
-                </ul>
-              </div>
+                  </li> -->
+                <!-- </ul>
+              </div> -->
             </div>
           </div>
         </div>
@@ -200,94 +201,67 @@
     </div>
     <div class="py-4 container-fluid">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
-                <p class="mb-0">Edit Profile</p>
-                <argon-button color="success" size="sm" class="ms-auto"
+                <!-- <p class="mb-0">Edit Profile</p> -->
+                <!-- <argon-button color="success" size="sm" class="ms-auto"
                   >Settings</argon-button
-                >
+                > -->
               </div>
             </div>
             <div class="card-body">
               <p class="text-uppercase text-sm">User Information</p>
               <div class="row">
+                 <div class="col-md-6">
+                  <label for="example-text-input"  class="form-control-label" 
+                    >Name</label
+                  >
+                  <argon-input type="text" v-model="name" :disable="!isDisabled"/>
+                </div>
+              
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
-                  <input class="form-control" type="text" v-model="username" />
+                  <argon-input type="text" v-model="username" :disable="!isDisabled"/>
                 </div>
-                <div class="col-md-6">
+             
+                <div class="col-md-6 position-relative">
                   <label for="example-text-input" class="form-control-label"
-                    >Email address</label
+                    >Password</label
                   >
-                  <argon-input type="email" value="jesse@example.com" />
+                  <div class="input-group ">
+                    <argon-input class="col-11"  :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="password" id="password" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
+                    <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                      <i class="fas" :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                    </button>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="example-text-input"  class="form-control-label"
-                    >First name</label
-                  >
-                  <input class="form-control" type="text" v-model="name" />
-                </div>
-                <div class="col-md-6">
+                
+                <div class="col-md-6 position-relative">
                   <label for="example-text-input" class="form-control-label"
-                    >Last name</label
+                    >Confirm Password</label
                   >
-                  <input class="form-control" type="text" v-model="name" />
+                  <div class="input-group ">
+                    <argon-input class="col-11" :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="confirmPassword" id="confirmPassword" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
+                    <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordConfirmVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                      <i class="fas" :class="confirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                    </button>
+                  </div>
+                  <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p>
                 </div>
-              </div>
-              <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">Contact Information</p>
-              <div class="row">
-                <div class="col-md-12">
-                  <label for="example-text-input" class="form-control-label"
-                    >Address</label
-                  >
-                  <argon-input
-                    type="text"
-                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                  />
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >City</label
-                  >
-                  <argon-input type="text" value="New York" />
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >Country</label
-                  >
-                  <argon-input type="text" value="United States" />
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >Postal code</label
-                  >
-                  <argon-input type="text" value="437300" />
-                </div>
-              </div>
-              <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">About me</p>
-              <div class="row">
-                <div class="col-md-12">
-                  <label for="example-text-input" class="form-control-label"
-                    >About me</label
-                  >
-                  <argon-input
-                    type="text"
-                    value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source."
-                  />
-                </div>
+                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;" @click="saveChanges" >
+                    {{ isDisabled ? 'Save' : 'Edit' }}
+                  </argon-button>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <profile-card />
-        </div>
+        </div> -->
       </div>
     </div>
   </main>
@@ -302,16 +276,54 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import Cookies from 'js-cookie';
 
 const body = document.getElementsByTagName("body")[0];
-
+import { ref } from 'vue';
 export default {
+  setup() {
+    const inputValue = ref('');
+    const isDisabled = ref(false);
+
+    const toggleEditMode = () => {
+      isDisabled.value = !isDisabled.value;
+    };
+
+    return {
+      inputValue,
+      isDisabled,
+      toggleEditMode
+    };
+  },
   name: "profile",
   data() {
     return {
       showMenu: false,
       name: '',
-      username: ''
+      username: '',
+      password: '',
+      confirmPassword: '',
+      passwordVisible: false,
+      confirmPasswordVisible: false,
     };
   },
+  methods: {
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    },
+    togglePasswordConfirmVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    },
+    saveChanges() {
+      if (this.password === this.confirmPassword) {
+          this.toggleEditMode();
+      } else {
+          
+          console.log('Passwords do not match. Cannot save changes.');
+      }
+    },
+    toggleEditMode(disabled = true) {
+      this.isDisabled = !disabled;
+    }
+  },
+
   components: { ProfileCard, ArgonInput, ArgonButton },
 
   mounted() {
@@ -320,6 +332,7 @@ export default {
     setTooltip();
     this.name = Cookies.get('name');
     this.username = Cookies.get('username');
+    this.password = Cookies.get('password');
   },
   beforeMount() {
     this.$store.state.imageLayout = "profile-overview";

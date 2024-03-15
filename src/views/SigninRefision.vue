@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
       <div class="col-12">
@@ -56,7 +56,7 @@
                         color="success"
                         fullWidth
                         size="lg"
-                        @click="handleLogin"
+                        @click="handleLogin()"
                       >
                         Sign in
                       </ArgonButton>
@@ -142,6 +142,7 @@ export default {
       try {
         const user = await login({ username: this.username, password: this.password });
         console.log("Login Success:", user);
+        this.$router.push('/profile')
         // Setelah login berhasil, lakukan navigasi ke halaman lain jika diperlukan
       } catch (error) {
         console.error("Login Error:", error);
@@ -158,4 +159,4 @@ export default {
   background-size: cover;
   background-image: url("../assets/img/bg-signin.jpg");
 }
-</style>
+</style> -->

@@ -1,8 +1,8 @@
 // Membuat service yang berisi method untuk authentication
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
-const API_URL = 'https://e9a2-202-152-145-45.ngrok-free.app';
+//const API_URL = import.meta.env.VITE_BASE_URL;
+ const API_URL = 'https://tidy-terribly-boa.ngrok-free.app';
 
 class AuthService {
   constructor() {
@@ -67,7 +67,7 @@ class AuthService {
 
   register(user) {
     return axios
-      .post(API_URL + 'signup', {
+      .post(API_URL + '/api/auth/signup', {
         name: user.name,
         username: user.username,
         password: user.password
