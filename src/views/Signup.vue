@@ -213,10 +213,14 @@ const body = document.getElementsByTagName("body")[0];
 export default {
   data() {
     return {
+      user: {
+        username: "",
+        password: "",
+      },
       blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
     };
   },
-  name: "signin",
+  name: "signup",
   components: {
     Navbar,
     AppFooter,
