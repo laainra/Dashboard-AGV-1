@@ -42,7 +42,7 @@
               Dashboard
             </router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link class="nav-link me-2" to="/profile">
               <i
                 class="fa fa-user opacity-6 me-1"
@@ -51,7 +51,7 @@
               ></i>
               Profile
             </router-link>
-          </li>
+          </li> -->
           <li class="nav-item">
             <router-link class="nav-link me-2" to="/signup">
               <i

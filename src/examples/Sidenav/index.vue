@@ -24,7 +24,7 @@
         aria-hidden="true"
         id="iconSidenav"
       ></i>
-      <router-link class="m-0 navbar-brand" to="/">
+      <router-link class="m-0 navbar-brand" to="/dashboard-default">
         <img
           src="../../../public/SANSIcon.png"
         />

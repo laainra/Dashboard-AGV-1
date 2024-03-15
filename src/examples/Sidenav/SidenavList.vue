@@ -67,7 +67,7 @@
           ACCOUNT PAGES
         </h6>
       </li>
-      <li class="nav-item">
+      <li  v-if="isLoggedIn" class="nav-item">
         <sidenav-item
           url="/profile"
           :class="getRoute() === 'profile' ? 'active' : ''"
@@ -147,11 +147,13 @@ export default {
       return routeArr[1];
     },
     logout() {
+
       // Perform logout actions, e.g., removing user from cookies or resetting login status
       Cookies.remove('user');
       this.isLoggedIn = false;
       // Redirect to home page or any other desired page
       this.$router.push('/');
+     
     }
   }
 };

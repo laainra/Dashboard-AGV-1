@@ -146,12 +146,12 @@
                   aria-label="Name"
                   v-model="name"
                 />
-                <argon-input
+                <!-- <argon-input
                   type="email"
                   placeholder="Email"
                   aria-label="Email"
                   v-model="email"
-                />
+                /> -->
                 <argon-input
                   type="password"
                   placeholder="Password"

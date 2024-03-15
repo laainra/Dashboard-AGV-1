@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = 'https://a1b7-202-152-145-45.ngrok-free.app';
+const API_URL = 'https://tidy-terribly-boa.ngrok-free.app';
 
 class AuthService {
   constructor() {

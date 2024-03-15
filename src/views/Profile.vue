@@ -33,12 +33,12 @@
             <div
               class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0"
             >
-              <div class="nav-wrapper position-relative end-0">
+              <!-- <div class="nav-wrapper position-relative end-0">
                 <ul
                   class="p-1 bg-transparent nav nav-pills nav-fill"
                   role="tablist"
-                >
-                  <li class="nav-item">
+                > -->
+                  <!-- <li class="nav-item">
                     <a
                       class="px-0 py-1 mb-0 nav-link active"
                       data-bs-toggle="tab"
@@ -190,9 +190,9 @@
                       </svg>
                       <span class="ms-1">Settings</span>
                     </a>
-                  </li>
-                </ul>
-              </div>
+                  </li> -->
+                <!-- </ul>
+              </div> -->
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@
     </div>
     <div class="py-4 container-fluid">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
@@ -213,81 +213,46 @@
             <div class="card-body">
               <p class="text-uppercase text-sm">User Information</p>
               <div class="row">
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Username</label
-                  >
-                  <input class="form-control" type="text" v-model="username" />
-                </div>
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Email address</label
-                  >
-                  <argon-input type="email" value="jesse@example.com" />
-                </div>
-                <div class="col-md-6">
-                  <label for="example-text-input"  class="form-control-label"
+                 <div class="col-md-6">
+                  <label for="example-text-input"  class="form-control-label" 
                     >First name</label
                   >
-                  <input class="form-control" type="text" v-model="name" />
+                  <argon-input type="text" v-model="name" :disable="!isDisabled"/>
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Last name</label
                   >
-                  <input class="form-control" type="text" v-model="name" />
+                  <argon-input type="text" v-model="name" :disable="!isDisabled"/>
                 </div>
-              </div>
-              <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">Contact Information</p>
-              <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
-                    >Address</label
+                    >Username</label
                   >
-                  <argon-input
-                    type="text"
-                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                  />
+                  <argon-input type="text" v-model="username" :disable="!isDisabled"/>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
-                    >City</label
+                    >Email address</label
                   >
-                  <argon-input type="text" value="New York" />
+                  <argon-input type="email" value="jesse@example.com" :disable="!isDisabled"/>
                 </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >Country</label
-                  >
-                  <argon-input type="text" value="United States" />
+                <div class="input-group">
+                  <argon-input :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="password" />
+                  <button class="btn btn-outline-secondary" type="button" @click="togglePasswordVisibility">
+                    <i class="fas" :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                  </button>
                 </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label"
-                    >Postal code</label
-                  >
-                  <argon-input type="text" value="437300" />
-                </div>
-              </div>
-              <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">About me</p>
-              <div class="row">
-                <div class="col-md-12">
-                  <label for="example-text-input" class="form-control-label"
-                    >About me</label
-                  >
-                  <argon-input
-                    type="text"
-                    value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source."
-                  />
-                </div>
+                <argon-button color="success" size="sm" class="ms-auto" @click="toggleEditMode">
+                    {{ isDisabled ? 'Save' : 'Edit' }}
+                  </argon-button>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <profile-card />
-        </div>
+        </div> -->
       </div>
     </div>
   </main>
@@ -302,16 +267,38 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import Cookies from 'js-cookie';
 
 const body = document.getElementsByTagName("body")[0];
-
+import { ref } from 'vue';
 export default {
+  setup() {
+    const inputValue = ref('');
+    const isDisabled = ref(false);
+
+    const toggleEditMode = () => {
+      isDisabled.value = !isDisabled.value;
+    };
+
+    return {
+      inputValue,
+      isDisabled,
+      toggleEditMode
+    };
+  },
   name: "profile",
   data() {
     return {
       showMenu: false,
       name: '',
-      username: ''
+      username: '',
+      password: '',
+      passwordVisible: false
     };
   },
+  methods: {
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    }
+  },
+
   components: { ProfileCard, ArgonInput, ArgonButton },
 
   mounted() {

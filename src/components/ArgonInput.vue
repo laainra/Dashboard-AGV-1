@@ -23,6 +23,10 @@ defineProps({
   type: {
     type: String, // Tambahkan properti type
     default: 'text' // Atur nilai default sesuai kebutuhan
+  },
+  disable: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -42,6 +46,7 @@ defineEmits(['update:modelValue'])
     :value="modelValue"
     :required="required"
     @input="(e) => $emit('update:modelValue', e.target.value)"
+    :disabled="disable"
   />
 </div>
 
