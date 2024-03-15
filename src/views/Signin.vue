@@ -133,6 +133,7 @@ export default {
         });
         console.log("Login Success:");
         this.resetForm();
+        this.$router.push("/profile");
       } catch (error) {
         console.error("Login Error:", error);
       }

@@ -205,10 +205,10 @@
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
-                <p class="mb-0">Edit Profile</p>
-                <argon-button color="success" size="sm" class="ms-auto"
+                <!-- <p class="mb-0">Edit Profile</p> -->
+                <!-- <argon-button color="success" size="sm" class="ms-auto"
                   >Settings</argon-button
-                >
+                > -->
               </div>
             </div>
             <div class="card-body">
@@ -216,27 +216,16 @@
               <div class="row">
                  <div class="col-md-6">
                   <label for="example-text-input"  class="form-control-label" 
-                    >First name</label
+                    >Name</label
                   >
                   <argon-input type="text" v-model="name" :disable="!isDisabled"/>
                 </div>
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Last name</label
-                  >
-                  <argon-input type="text" v-model="name" :disable="!isDisabled"/>
-                </div>
+              
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
                   <argon-input type="text" v-model="username" :disable="!isDisabled"/>
-                </div>
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label"
-                    >Email address</label
-                  >
-                  <argon-input type="email" value="jesse@example.com" :disable="!isDisabled"/>
                 </div>
              
                 <div class="col-md-6 position-relative">
@@ -323,16 +312,16 @@ export default {
       this.passwordVisible = !this.passwordVisible;
     },
     saveChanges() {
-        if (this.password === this.confirmPassword) {
-            this.toggleEditMode();
-        } else {
-           
-            console.log('Passwords do not match. Cannot save changes.');
-        }
+      if (this.password === this.confirmPassword) {
+          this.toggleEditMode();
+      } else {
+          
+          console.log('Passwords do not match. Cannot save changes.');
+      }
     },
     toggleEditMode(disabled = true) {
       this.isDisabled = !disabled;
-  }
+    }
   },
 
   components: { ProfileCard, ArgonInput, ArgonButton },
@@ -343,6 +332,7 @@ export default {
     setTooltip();
     this.name = Cookies.get('name');
     this.username = Cookies.get('username');
+    this.password = Cookies.get('password');
   },
   beforeMount() {
     this.$store.state.imageLayout = "profile-overview";

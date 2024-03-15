@@ -139,31 +139,34 @@
               </div>
             </div> -->
             <div class="card-body">
-              <form role="form">
+              <form role="form"
+              @submit.prevent="handleRegister"
+              method="post"
+              >
+                <argon-input
+                  type="text"
+                  placeholder="Name"
+                  aria-label="Name"
+                  v-model="input.name"
+                />
                 <argon-input
                   type="text"
                   placeholder="Username"
-                  aria-label="Name"
-                  v-model="name"
-                />
-                <argon-input
-                  type="email"
-                  placeholder="Email"
-                  aria-label="Email"
-                  v-model="email"
+                  aria-label="Username"
+                  v-model="input.username"
                 />
                 <argon-input
                   type="password"
                   placeholder="Password"
                   aria-label="Password"
-                  v-model="password"
+                  v-model="input.password"
                 />
-                <argon-input
+                <!-- <argon-input
                   type="password"
                   placeholder="Confirm Password"
                   aria-label="Password"
                   v-model="password"
-                />
+                /> -->
                 <!-- <argon-checkbox checked>
                   <label class="form-check-label" for="flexCheckDefault">
                     I agree the
@@ -208,14 +211,11 @@ import AppFooter from "@/examples/PageLayout/Footer.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { useAuthStore } from "../store/auth";
+import { mapActions} from "pinia";
 const body = document.getElementsByTagName("body")[0];
 
 export default {
-  data() {
-    return {
-      blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
-    };
-  },
   name: "signin",
   components: {
     Navbar,
@@ -223,6 +223,40 @@ export default {
     ArgonInput,
     ArgonCheckbox,
     ArgonButton,
+  },
+  data() {
+  return {
+      input: {
+        name: "",
+        username: "",
+        password: "",
+      },
+      blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
+      btnClass: "bg-gradient-success",
+    };
+  },
+  methods: {
+    ...mapActions(useAuthStore, ["a$register"]),
+
+    async handleRegister() {
+      try {
+        await this.a$register({
+          name: this.input.name,
+          username: this.input.username,
+          password: this.input.password,
+        });
+        console.log("Register Success:");
+        this.resetForm();
+      } catch (error) {
+        console.error("Register Error:", error);
+      }
+    },
+
+    resetForm() {
+      this.input.name = "";
+      this.input.username = "";
+      this.input.password = "";
+    },
   },
   created() {
     this.$store.state.hideConfigButton = true;
