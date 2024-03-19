@@ -218,14 +218,14 @@
                   <label for="example-text-input"  class="form-control-label" 
                     >Name</label
                   >
-                  <argon-input type="text" v-model="name" :disable="!isDisabled"/>
+                  <argon-input type="text" v-model="name" :disabled="isDisabled"/>
                 </div>
               
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
-                  <argon-input type="text" v-model="username" :disable="!isDisabled"/>
+                  <argon-input type="text" v-model="username" :disable="isDisabled"/>
                 </div>
              
                 <div class="col-md-6 position-relative">
@@ -233,7 +233,7 @@
                     >Password</label
                   >
                   <div class="input-group ">
-                    <argon-input class="col-11"  :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="password" id="password" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
+                    <argon-input class="col-11"  :type="passwordVisible ? 'text' : 'password'" :disable="isDisabled" v-model="password" id="password" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
                     <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
                       <i class="fas" :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
                     </button>
@@ -245,14 +245,14 @@
                     >Confirm Password</label
                   >
                   <div class="input-group ">
-                    <argon-input class="col-11" :type="passwordVisible ? 'text' : 'password'" :disable="!isDisabled" v-model="confirmPassword" id="confirmPassword" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
+                    <argon-input class="col-11" :type="passwordVisible ? 'text' : 'password'" :disable="isDisabled" v-model="confirmPassword" id="confirmPassword" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
                     <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordConfirmVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
                       <i class="fas" :class="confirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
                     </button>
                   </div>
                   <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p>
                 </div>
-                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;" @click="saveChanges" >
+                <argon-button color="success" size="sm" class="col-md-12" @click="saveChanges" >
                     {{ isDisabled ? 'Save' : 'Edit' }}
                   </argon-button>
               </div>

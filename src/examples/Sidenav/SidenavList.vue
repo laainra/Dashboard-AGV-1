@@ -28,7 +28,7 @@
           </template>
         </sidenav-item>
       </li> -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <sidenav-item
           url="/todo"
           :class="getRoute() === 'todo' ? 'active' : ''"
@@ -50,7 +50,7 @@
             <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li>
+      </li> -->
       <li class="mt-3 nav-item">
         <h6
           v-if="this.$store.state.isRTL"
@@ -67,7 +67,7 @@
           ACCOUNT PAGES
         </h6>
       </li>
-      <li class="nav-item">
+      <li  v-if="isLoggedIn" class="nav-item">
         <sidenav-item
           url="/profile"
           :class="getRoute() === 'profile' ? 'active' : ''"
@@ -124,6 +124,7 @@
 <script>
 import SidenavItem from "./SidenavItem.vue";
 import Cookies from 'js-cookie';
+import { useToast } from "vue-toastification";
 
 export default {
   name: "SidenavList",

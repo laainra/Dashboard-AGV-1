@@ -11,7 +11,7 @@
             <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
               <i class="ni ni-camera-compact text-dark opacity-10"></i>
             </div>
-            <h5 class="text-white mb-1">Selamat Datang pada Dasbor AGV</h5>
+            <h5 class="text-white mb-1">Selamat Datang di Dashboard AGV</h5>
             <p>Pantau AGVmu dengan mudah di mana saja dan kapan saja </p>
           </div>
         </div>

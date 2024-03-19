@@ -5,11 +5,11 @@
         <authors-table />
       </div>
     </div>
-    <div class="mt-4 row">
+    <!-- <div class="mt-4 row">
       <div class="col-12">
         <projects-table />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

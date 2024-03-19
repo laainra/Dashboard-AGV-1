@@ -8,6 +8,9 @@ import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 import ArgonDashboard from "./argon-dashboard";
 import { createRouter, createWebHistory } from 'vue-router';
+import Toast from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
 
 const appInstance = createApp(App);
 appInstance.use(createPinia());
@@ -15,3 +18,4 @@ appInstance.use(store);
 appInstance.use(router);
 appInstance.use(ArgonDashboard);
 appInstance.mount("#app");
+appInstance.use(Toast, { timeout: 1500 });

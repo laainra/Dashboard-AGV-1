@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-12">
+          <div class="col-lg-3 col-md-6 col-6">
             <card
               :title="stats.money.title"
               :value="stats.money.value"
@@ -65,7 +65,8 @@
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex justify-content-between">
-                  <h6 class="mb-2">Sales by Country</h6>
+                  <h6 class="mb-2">Data Station AGV Lidar</h6>
+                  <router-link to="/tables" class="text-end">See details</router-link>
                 </div>
               </div>
               <div class="table-responsive">

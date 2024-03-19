@@ -24,13 +24,12 @@
                 <div class="card-body">
                   <form
                     role="form"
-                    @submit.prevent="handleLogin"
-                    v-if="!isLoggedIn"
+                    @submit.prevent="login"
                     method="post"
                   >
                     <div class="mb-3">
                       <ArgonInput
-                        v-model="input.username"
+                        v-model="user.username"
                         placeholder="Username"
                         required
                       ></ArgonInput>
@@ -43,7 +42,7 @@
                         addon-left-icon="fas fa-lock"
                         name="password"
                         size="lg"
-                        v-model="input.password"
+                        v-model="user.password"
                         :isPassword="true"
                       ></ArgonInput>
                     </div>
@@ -54,8 +53,9 @@
                         color="success"
                         fullWidth
                         size="lg"
+                        type="submit"
                       >
-                        Sign in
+                      {{ loading ? 'Signing in...' : 'Sign in' }}
                       </ArgonButton>
                     </div>
                   </form>
@@ -98,8 +98,9 @@
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import { useAuthStore } from "../store/auth";
-import { mapActions, mapState } from "pinia";
+import AuthService from '../services/auth.service';
+import { useToast } from "vue-toastification";
+
 const body = document.getElementsByTagName("body")[0];
 
 export default {
@@ -111,38 +112,32 @@ export default {
   },
   data() {
     return {
-      input: {
+      user: {
         username: "",
         password: "",
       },
+      loading: false,
       blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
       btnClass: "bg-gradient-success",
     };
   },
-  computed: {
-    ...mapState(useAuthStore, ["isLoggedIn"]),
-  },
   methods: {
-    ...mapActions(useAuthStore, ["a$login"]),
+   // method login yang memanggil methode login dari AuthService kemudian jika berhasil akan redirect ke halaman todo
+   async login() {
+    this.loading = true;
+    const toast = useToast(); // Use useToast to get the toast instance
+    try {
+        await AuthService.login(this.user);
+        this.$router.push("/dashboard-default");
+        // Show success notification using the toast instance
+        toast.success('Login successful!');
+    } catch (error) {
+        this.loading = false;
+        // Show error notification using the toast instance
+        toast.error('Login failed. Please try again.');
+    }
+},
 
-    async handleLogin() {
-      try {
-        await this.a$login({
-          username: this.input.username,
-          password: this.input.password,
-        });
-        console.log("Login Success:");
-        this.resetForm();
-        this.$router.push("/profile");
-      } catch (error) {
-        console.error("Login Error:", error);
-      }
-    },
-
-    resetForm() {
-      this.input.username = "";
-      this.input.password = "";
-    },
   },
   created() {
     this.$store.state.hideConfigButton = true;

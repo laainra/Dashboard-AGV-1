@@ -213,6 +213,7 @@ import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { useAuthStore } from "../store/auth";
 import { mapActions} from "pinia";
+import { useToast } from "vue-toastification";
 const body = document.getElementsByTagName("body")[0];
 
 export default {
@@ -231,6 +232,7 @@ export default {
         username: "",
         password: "",
       },
+      loading: false,
       blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
       btnClass: "bg-gradient-success",
     };
@@ -239,16 +241,20 @@ export default {
     ...mapActions(useAuthStore, ["a$register"]),
 
     async handleRegister() {
+      this.loading = true;
+    const toast = useToast();
       try {
         await this.a$register({
           name: this.input.name,
           username: this.input.username,
           password: this.input.password,
         });
-        console.log("Register Success:");
+        this.$router.push("/signin");
+        toast.success("Register Success");
         this.resetForm();
       } catch (error) {
-        console.error("Register Error:", error);
+        this.loading = false;
+        toast.error("Register Error:", error);
       }
     },
 
