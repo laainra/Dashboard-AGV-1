@@ -32,6 +32,7 @@
                         v-model="user.username"
                         placeholder="Username"
                         required
+                        autocomplete="username"
                       ></ArgonInput>
                     </div>
                     <div class="mb-3">
@@ -44,6 +45,7 @@
                         size="lg"
                         v-model="user.password"
                         :isPassword="true"
+                        autocomplete="password"
                       ></ArgonInput>
                     </div>
                     <div class="text-center">
