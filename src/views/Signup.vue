@@ -139,10 +139,7 @@
               </div>
             </div> -->
             <div class="card-body">
-              <form role="form"
-              @submit.prevent="handleRegister"
-              method="post"
-              >
+              <form role="form" @submit.prevent="handleRegister" method="post">
                 <argon-input
                   type="text"
                   placeholder="Name"
@@ -211,13 +208,13 @@ import AppFooter from "@/examples/PageLayout/Footer.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import { useAuthStore } from "../store/auth";
-import { mapActions} from "pinia";
+import useAuthStore from "../store/auth.js";
+import { mapActions } from "pinia";
 import { useToast } from "vue-toastification";
 const body = document.getElementsByTagName("body")[0];
 
 export default {
-  name: "signin",
+  name: "signup",
   components: {
     Navbar,
     AppFooter,
@@ -226,7 +223,7 @@ export default {
     ArgonButton,
   },
   data() {
-  return {
+    return {
       input: {
         name: "",
         username: "",
@@ -242,7 +239,7 @@ export default {
 
     async handleRegister() {
       this.loading = true;
-    const toast = useToast();
+      const toast = useToast();
       try {
         await this.a$register({
           name: this.input.name,

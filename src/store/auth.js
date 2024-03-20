@@ -1,20 +1,24 @@
-import { defineStore } from "pinia";
+import { defineStore } from "pinia"; // tambahkan mapActions
 import AuthService from "../services/auth.service"; // Import class AuthService dari service auth
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
-export const useAuthStore = defineStore({
+const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     status: { loggedIn: false },
   }),
   actions: {
+    // gunakan mapActions untuk mengakses a$login
     async a$login(body) {
       try {
-        const { data } = await AuthService.login(body); // Panggil metode login dari AuthService
+        // panggil metode login dari AuthService
+        // simpan langsung ke dalam data
+        const data = await AuthService.login(body); 
         // Simpan token ke dalam cookie
-        Cookies.set('jwt-token', data.accessToken, { expires: new Date(data.expiresAt) });
-        // Setelah menyimpan token, Anda dapat melakukan hal lain yang diperlukan, seperti menetapkan status login ke true, dst.
-
+        console.log(data);
+        Cookies.set("jwt-token", data.accessToken, {
+          expires: new Date(data.expiresAt),
+        });
         return true;
       } catch (error) {
         this.status.loggedIn = false;
@@ -23,7 +27,8 @@ export const useAuthStore = defineStore({
     },
     async a$register(user) {
       try {
-        await AuthService.register(user); // Panggil metode register dari AuthService
+        // Panggil metode register dari AuthService
+        await AuthService.register(user); 
         return "Registration successful";
       } catch (error) {
         throw error;
@@ -36,3 +41,5 @@ export const useAuthStore = defineStore({
     isLoggedIn: ({ id }) => !!id,
   },
 });
+
+export default useAuthStore;

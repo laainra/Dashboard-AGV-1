@@ -22,16 +22,13 @@
                   </p>
                 </div>
                 <div class="card-body">
-                  <form
-                    role="form"
-                    @submit.prevent="login"
-                    method="post"
-                  >
+                  <form role="form" @submit.prevent="login" method="post">
                     <div class="mb-3">
                       <ArgonInput
                         v-model="user.username"
                         placeholder="Username"
                         required
+                        autocomplete="username"
                       ></ArgonInput>
                     </div>
                     <div class="mb-3">
@@ -44,6 +41,7 @@
                         size="lg"
                         v-model="user.password"
                         :isPassword="true"
+                        autocomplete="password"
                       ></ArgonInput>
                     </div>
                     <div class="text-center">
@@ -55,7 +53,7 @@
                         size="lg"
                         type="submit"
                       >
-                      {{ loading ? 'Signing in...' : 'Sign in' }}
+                        {{ loading ? "Signing in..." : "Sign in" }}
                       </ArgonButton>
                     </div>
                   </form>
@@ -98,8 +96,9 @@
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import AuthService from '../services/auth.service';
 import { useToast } from "vue-toastification";
+import { mapActions } from "pinia"; // tambahkan impor mapActions dari pinia
+import useAuthStore from "../store/auth.js";
 
 const body = document.getElementsByTagName("body")[0];
 
@@ -122,22 +121,29 @@ export default {
     };
   },
   methods: {
-   // method login yang memanggil methode login dari AuthService kemudian jika berhasil akan redirect ke halaman todo
-   async login() {
-    this.loading = true;
-    const toast = useToast(); // Use useToast to get the toast instance
-    try {
-        await AuthService.login(this.user);
-        this.$router.push("/dashboard-default");
-        // Show success notification using the toast instance
-        toast.success('Login successful!');
-    } catch (error) {
+    ...mapActions(useAuthStore, ["a$login"]),
+    async login() {
+      this.loading = true;
+      const toast = useToast();
+      try {
+        // Panggil metode login dengan data pengguna
+        const isLoggedIn = await this.a$login(this.user);
+        console.log("cek")
+        if (isLoggedIn) {
+          // Redirect setelah login berhasil
+          this.$router.push("/dashboard-default");
+          // Tampilkan notifikasi berhasil
+          toast.success("Login berhasil!");
+        } else {
+          throw new Error("Token akses tidak ditemukan dalam respons");
+        }
+      } catch (error) {
+        // Tangani kesalahan dengan menampilkan pesan kesalahan
         this.loading = false;
-        // Show error notification using the toast instance
-        toast.error('Login failed. Please try again.');
-    }
-},
-
+        console.log(error);
+        toast.error("Login gagal. Silakan coba lagi.");
+      }
+    },
   },
   created() {
     this.$store.state.hideConfigButton = true;
