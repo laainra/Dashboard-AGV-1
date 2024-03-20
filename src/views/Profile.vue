@@ -218,7 +218,7 @@
                   <label for="example-text-input"  class="form-control-label" 
                     >Name</label
                   >
-                  <argon-input type="text" v-model="name" :disabled="isDisabled"/>
+                  <argon-input type="text" v-model="name" :disable="isDisabled"/>
                 </div>
               
                 <div class="col-md-6">
@@ -245,15 +245,15 @@
                     >Confirm Password</label
                   >
                   <div class="input-group ">
-                    <argon-input class="col-11" :type="passwordVisible ? 'text' : 'password'" :disable="isDisabled" v-model="confirmPassword" id="confirmPassword" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
+                    <argon-input class="col-11" :type="confirmPasswordVisible ? 'text' : 'password'" :disable="isDisabled" v-model="confirmPassword" id="confirmPassword" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
                     <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordConfirmVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
                       <i class="fas" :class="confirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
                     </button>
                   </div>
-                  <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p>
+                  <!-- <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p> -->
                 </div>
-                <argon-button color="success" size="sm" class="col-md-12" @click="saveChanges" >
-                    {{ isDisabled ? 'Save' : 'Edit' }}
+                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;"  @click="saveChanges" >
+                    {{ isDisabled ? 'Edit' :  'Save'}}
                   </argon-button>
               </div>
             </div>
@@ -274,8 +274,12 @@ import ProfileCard from "./components/ProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import Cookies from 'js-cookie';
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 const body = document.getElementsByTagName("body")[0];
+const $toast = useToast();
+
 import { ref } from 'vue';
 export default {
   setup() {
@@ -309,14 +313,16 @@ export default {
       this.passwordVisible = !this.passwordVisible;
     },
     togglePasswordConfirmVisibility() {
-      this.passwordVisible = !this.passwordVisible;
+      this.confirmPasswordVisible = !this.confirmPasswordVisible;
     },
     saveChanges() {
       if (this.password === this.confirmPassword) {
           this.toggleEditMode();
+            if(this.isDisabled){
+            $toast.success('Update password Success!');
+          }
       } else {
-          
-          console.log('Passwords do not match. Cannot save changes.');
+        $toast.error( 'Passwords do not match. Cannot save changes.');
       }
     },
     toggleEditMode(disabled = true) {

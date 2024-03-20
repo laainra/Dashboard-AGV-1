@@ -11,6 +11,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
+import ToastPlugin from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 const appInstance = createApp(App);
 appInstance.use(createPinia());
@@ -19,3 +21,4 @@ appInstance.use(router);
 appInstance.use(ArgonDashboard);
 appInstance.mount("#app");
 appInstance.use(Toast, { timeout: 1500 });
+appInstance.use(ToastPlugin);
