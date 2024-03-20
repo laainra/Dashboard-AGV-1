@@ -80,6 +80,25 @@ class AuthService {
         throw error;
       });
   }
+
+  updateProfile(user) {
+    return axios
+      .post(API_URL + "/user", user)
+      .then((response) => {
+        if (response.data?.accessToken) {
+          Cookies.set("user", response.data);
+          Cookies.set("username", response.data.username);
+          Cookies.set("name", response.data.name);
+          Cookies.set("password", response.data.password);
+          Cookies.set("jwt-token", response.data.accessToken);
+        }
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Update Profile Error:", error);
+        throw error;
+      });
+  }
 }
 
 export default new AuthService();

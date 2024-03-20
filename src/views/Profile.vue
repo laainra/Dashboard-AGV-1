@@ -211,6 +211,7 @@
                 > -->
               </div>
             </div>
+            <!-- <form @submit.prevent="updateProfile"> -->
             <div class="card-body">
               <p class="text-uppercase text-sm">User Information</p>
               <div class="row">
@@ -252,11 +253,12 @@
                   </div>
                   <!-- <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p> -->
                 </div>
-                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;"  @click="saveChanges" >
-                    {{ isDisabled ? 'Edit' :  'Save'}}
+                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;"  @click="saveChanges" type="submit">
+                    {{ !isDisabled ? 'Save' : 'Edit'}}
                   </argon-button>
               </div>
             </div>
+          <!-- </form> -->
           </div>
         </div>
         <!-- <div class="col-md-4">
@@ -276,6 +278,8 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import Cookies from 'js-cookie';
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import { mapActions } from "pinia";
+import useAuthStore from "../store/auth.js";
 
 const body = document.getElementsByTagName("body")[0];
 const $toast = useToast();
@@ -300,6 +304,7 @@ export default {
   data() {
     return {
       showMenu: false,
+      user:'',
       name: '',
       username: '',
       password: '',
@@ -315,18 +320,33 @@ export default {
     togglePasswordConfirmVisibility() {
       this.confirmPasswordVisible = !this.confirmPasswordVisible;
     },
+    ...mapActions(useAuthStore, ["a$updateProfile"]),
+    async updateProfile() {
+      try {
+        await this.a$updateProfile({
+          name: this.input.name,
+          username: this.input.username,
+          password: this.input.password,
+        });
+        alert("Profile updated successfully");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  
     saveChanges() {
       if (this.password === this.confirmPassword) {
           this.toggleEditMode();
-            if(this.isDisabled){
+          this.updateProfile();
+          if(this.isDisabled){
             $toast.success('Update password Success!');
           }
       } else {
         $toast.error( 'Passwords do not match. Cannot save changes.');
       }
     },
-    toggleEditMode(disabled = true) {
-      this.isDisabled = !disabled;
+    toggleEditMode(disable = false) {
+      this.isDisabled = !disable;
     }
   },
 

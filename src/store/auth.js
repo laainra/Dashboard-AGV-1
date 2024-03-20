@@ -34,6 +34,16 @@ const useAuthStore = defineStore({
         throw error;
       }
     },
+
+    async a$updateProfile(user) {
+      try {
+        const data = await AuthService.updateProfile(user); 
+        console.log(data);
+        return true;
+      } catch (error) {
+        throw error;
+      }
+    },
   },
   getters: {
     g$user: ({ id, username }) => ({ id, username }),
