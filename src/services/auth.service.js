@@ -2,7 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 //const API_URL = import.meta.env.VITE_BASE_URL;
-const API_URL = "https://tidy-terribly-boa.ngrok-free.app";
+const API_URL = "https://sans-api-service.onrender.com/api";
 
 class AuthService {
   constructor() {
@@ -38,7 +38,7 @@ class AuthService {
 
   login(user) {
     return axios
-      .post(API_URL + "/api/auth/signin", {
+      .post(API_URL + "/auth/signin", {
         username: user.username,
         password: user.password,
       })
@@ -66,7 +66,7 @@ class AuthService {
 
   register(user) {
     return axios
-      .post(API_URL + "/api/auth/signup", {
+      .post(API_URL + "/auth/signup", {
         name: user.name,
         username: user.username,
         password: user.password,
@@ -83,15 +83,12 @@ class AuthService {
 
   updateProfile(user) {
     return axios
-      .post(API_URL + "/user", user)
+      .post(API_URL + "/user", {
+        name: user.name,
+        username: user.username,
+        password: user.password,
+      })
       .then((response) => {
-        if (response.data?.accessToken) {
-          Cookies.set("user", response.data);
-          Cookies.set("username", response.data.username);
-          Cookies.set("name", response.data.name);
-          Cookies.set("password", response.data.password);
-          Cookies.set("jwt-token", response.data.accessToken);
-        }
         return response.data;
       })
       .catch((error) => {

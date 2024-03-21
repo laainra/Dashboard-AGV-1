@@ -39,7 +39,7 @@ const useAuthStore = defineStore({
       try {
         const data = await AuthService.updateProfile(user); 
         console.log(data);
-        return true;
+        return "Update profile successful";
       } catch (error) {
         throw error;
       }

@@ -253,8 +253,8 @@
                   </div>
                   <!-- <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p> -->
                 </div>
-                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;"  @click="saveChanges" type="submit">
-                    {{ !isDisabled ? 'Save' : 'Edit'}}
+                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;"  @click="saveChanges">
+                    {{ isDisabled ? 'Edit' : 'Save'}}
                   </argon-button>
               </div>
             </div>
@@ -288,7 +288,7 @@ import { ref } from 'vue';
 export default {
   setup() {
     const inputValue = ref('');
-    const isDisabled = ref(false);
+    const isDisabled = ref(true);
 
     const toggleEditMode = () => {
       isDisabled.value = !isDisabled.value;
@@ -304,10 +304,11 @@ export default {
   data() {
     return {
       showMenu: false,
-      user:'',
-      name: '',
-      username: '',
-      password: '',
+
+        name: "",
+        username: "",
+        password: "",
+     
       confirmPassword: '',
       passwordVisible: false,
       confirmPasswordVisible: false,
@@ -324,30 +325,28 @@ export default {
     async updateProfile() {
       try {
         await this.a$updateProfile({
-          name: this.input.name,
-          username: this.input.username,
-          password: this.input.password,
+          name: this.name,
+          username: this.username,
+          password: this.password,
         });
-        alert("Profile updated successfully");
+        Cookies.set('name', this.name);
+        Cookies.set('username', this.username);
+        Cookies.set('password', this.password);
+        $toast.success('Update profile Success!');
       } catch (error) {
-        console.error(error);
+        console.log(error);
+        $toast.error( 'Failed to update profile');
       }
     },
   
     saveChanges() {
-      if (this.password === this.confirmPassword) {
-          this.toggleEditMode();
+      if(this.isDisabled){
+          this.toggleEditMode()
+      } else if (this.password === this.confirmPassword ) {
           this.updateProfile();
-          if(this.isDisabled){
-            $toast.success('Update password Success!');
-          }
-      } else {
-        $toast.error( 'Passwords do not match. Cannot save changes.');
+          this.isDisabled=true;
       }
     },
-    toggleEditMode(disable = false) {
-      this.isDisabled = !disable;
-    }
   },
 
   components: { ProfileCard, ArgonInput, ArgonButton },
@@ -359,6 +358,7 @@ export default {
     this.name = Cookies.get('name');
     this.username = Cookies.get('username');
     this.password = Cookies.get('password');
+    this.confirmPassword = this.password;
   },
   beforeMount() {
     this.$store.state.imageLayout = "profile-overview";
