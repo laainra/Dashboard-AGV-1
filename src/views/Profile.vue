@@ -342,9 +342,13 @@ export default {
     saveChanges() {
       if(this.isDisabled){
           this.toggleEditMode()
-      } else if (this.password === this.confirmPassword ) {
+      } else {
+        if (this.password === this.confirmPassword ) {
           this.updateProfile();
           this.isDisabled=true;
+        }else{
+          $toast.error( 'The password does not match');
+        }
       }
     },
   },
