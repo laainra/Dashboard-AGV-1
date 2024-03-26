@@ -20,9 +20,9 @@
           class="pe-md-4 d-flex align-items-center"
           :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
-
-            <argon-button @click="switchToDashboard">Switch</argon-button>
-
+        <li class="nav-item">
+            <argon-button v-if="currentRouteName === 'DashboardAgvLidar' || currentRouteName === 'DashboardAgvLineFollower'" @click="switchToDashboard">{{ switchButtonText }}</argon-button>
+        </li>
           <!-- <div class="input-group">
             <span class="input-group-text text-body">
               <i class="fas fa-search" aria-hidden="true"></i>
@@ -143,6 +143,9 @@ export default {
   computed: {
     currentRouteName() {
       return this.$route.name;
+    },
+    switchButtonText() {
+      return this.currentRouteName === "DashboardAgvLineFollower" ? "Switch to AGV Lidar" : "Switch to AGV Line Follower";
     },
   },
 };
