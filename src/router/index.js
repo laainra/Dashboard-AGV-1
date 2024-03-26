@@ -9,6 +9,9 @@ import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 import Cookies from "js-cookie";
+import AGV from "../views/AGV/AGV.vue";
+import AGVForm from "../views/AGV/AGVForm.vue";
+import EditAGV from "../views/AGV/EditAGV.vue";
 
 // rute-rute yang digunakan untuk mengakses halaman
 const routes = [
@@ -27,6 +30,26 @@ const routes = [
     name: "DashboardAgvLineFollower",
     component: DashboardSwitch,
   },
+
+  //AGV Route
+  {
+    path: "/add-agv-form",
+    name: "Add AGV",
+    component: AGVForm,
+  },
+  {
+    path: "/edit-agv/:id", 
+    name: "Edit AGV",
+    component: EditAGV,
+    props: true, 
+  },
+  {
+    path: "/agv-form",
+    name: "AGV Form",
+    component: AGV,
+  },
+
+
   {
     path: "/tables",
     name: "Tables",

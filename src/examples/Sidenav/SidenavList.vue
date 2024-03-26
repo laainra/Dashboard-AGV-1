@@ -17,6 +17,27 @@
         </sidenav-item>
       </li>
 
+      
+       <li  v-if="isLoggedIn" class="nav-item">
+        <sidenav-item
+          url="/agv-form"
+          :class="getRoute() === 'agv-form' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'AGV'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+        <sidenav-item
+          url="/station-form"
+          :class="getRoute() === 'station-form' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Station'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
       <!-- <li class="nav-item">
         <sidenav-item
           url="/tables"
@@ -79,6 +100,7 @@
             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
+        
       </li>
       <li v-if="!isLoggedIn" class="nav-item">
         <sidenav-item
