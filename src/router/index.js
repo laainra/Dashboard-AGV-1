@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
+import DashboardDefault from "../views/DashboardDefault.vue";
+import DashboardSwitch from "../views/DashboardSwitch.vue";
 import Tables from "../views/Tables.vue";
 import Todo from "../views/Todo.vue";
 import EditTodo from "../views/EditTodo.vue";
@@ -17,9 +18,14 @@ const routes = [
     redirect: "/signin",
   },
   {
-    path: "/dashboard-default",
-    name: "Dashboard",
-    component: Dashboard,
+    path: "/dashboard-agv-lidar",
+    name: "DashboardAgvLidar",
+    component: DashboardDefault,
+  },
+  {
+    path: "/dashboard-agv-line-follower",
+    name: "DashboardAgvLineFollower",
+    component: DashboardSwitch,
   },
   {
     path: "/tables",
@@ -68,7 +74,7 @@ const router = createRouter({
 
 // Membuat authorizaztion untuk halaman public dan signed user only yang tokennya disimpan di cookies
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/signin", "/signup", "/dashboard-default"];
+  const publicPages = ["/signin", "/signup", "/dashboard-agv-lidar", "/dashboard-agv-line-follower"];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = Cookies.get("user"); 
 

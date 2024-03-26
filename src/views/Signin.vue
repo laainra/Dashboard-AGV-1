@@ -131,7 +131,7 @@ export default {
         console.log("cek")
         if (isLoggedIn) {
           // Redirect setelah login berhasil
-          this.$router.push("/dashboard-default");
+          this.$router.push("/dashboard-agv-lidar");
           // Tampilkan notifikasi berhasil
           toast.success("Login berhasil!");
         } else {

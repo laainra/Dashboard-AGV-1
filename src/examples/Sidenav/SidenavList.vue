@@ -4,10 +4,11 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
+      <li class="nav-item"></li>
       <li class="nav-item">
         <sidenav-item
-          url="/dashboard-default"
-          :class="getRoute() === 'dashboard-default' ? 'active' : ''"
+          :url="isDashboardAgvLidar ? '/dashboard-agv-lidar' : '/dashboard-agv-line-follower'"
+          :class="{ 'active': isDashboardAgvLidar ? $route.path === '/dashboard-agv-lidar' : $route.path === '/dashboard-agv-line-follower' }"
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'"
         >
           <template v-slot:icon>
@@ -15,6 +16,7 @@
           </template>
         </sidenav-item>
       </li>
+
       <!-- <li class="nav-item">
         <sidenav-item
           url="/tables"
@@ -67,7 +69,7 @@
           ACCOUNT PAGES
         </h6>
       </li>
-      <li  v-if="isLoggedIn" class="nav-item">
+      <li v-if="isLoggedIn" class="nav-item">
         <sidenav-item
           url="/profile"
           :class="getRoute() === 'profile' ? 'active' : ''"
@@ -101,11 +103,7 @@
         </sidenav-item>
       </li>
       <li v-if="isLoggedIn" class="nav-item">
-        <router-link
-          to="/"
-          class="nav-link"
-          @click="logout"
-        >
+        <router-link to="/" class="nav-link" @click="logout">
           <i class="ni ni-user-run text-warning text-sm opacity-10"></i>
           <span v-if="this.$store.state.isRTL">الخروج</span>
           <span v-else>Logout</span>
@@ -123,24 +121,30 @@
 </template>
 <script>
 import SidenavItem from "./SidenavItem.vue";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { useToast } from "vue-toastification";
 
 export default {
   name: "SidenavList",
   props: {
-    cardBg: String
+    cardBg: String,
   },
   data() {
     return {
       title: "Argon Dashboard 2",
       controls: "dashboardsExamples",
       isActive: "active",
-      isLoggedIn: !!Cookies.get('user') // Check if user is logged in based on the presence of user in cookies
+      isLoggedIn: !!Cookies.get("user"), // Check if user is logged in based on the presence of user in cookies
     };
   },
+  computed: {
+    isDashboardAgvLidar() {
+      // Check if the current route is /dashboard-agv-lidar
+      return this.$route.path === '/dashboard-agv-lidar';
+    },
+  },
   components: {
-    SidenavItem
+    SidenavItem,
   },
   methods: {
     getRoute() {
@@ -149,11 +153,11 @@ export default {
     },
     logout() {
       // Perform logout actions, e.g., removing user from cookies or resetting login status
-      Cookies.remove('user');
+      Cookies.remove("user");
       this.isLoggedIn = false;
       // Redirect to home page or any other desired page
-      this.$router.push('/');
-    }
-  }
+      this.$router.push("/");
+    },
+  },
 };
 </script>

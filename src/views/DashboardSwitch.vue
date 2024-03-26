@@ -66,7 +66,9 @@
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex justify-content-between">
                   <h6 class="mb-2">Data Station AGV Lidar</h6>
-                  <router-link to="/tables" class="text-end">See details</router-link>
+                  <router-link to="/tables" class="text-end"
+                    >See details</router-link
+                  >
                 </div>
               </div>
               <div class="table-responsive">
@@ -79,7 +81,9 @@
                             <img :src="sale.flag" alt="Country flag" />
                           </div>
                           <div class="ms-4">
-                            <p class="mb-0 text-xs font-weight-bold">Country:</p>
+                            <p class="mb-0 text-xs font-weight-bold">
+                              Country:
+                            </p>
                             <h6 class="mb-0 text-sm">{{ sale.country }}</h6>
                           </div>
                         </div>
@@ -109,8 +113,8 @@
             </div>
           </div>
           <!-- <div class="col-lg-5">
-            <categories-card />
-          </div> -->
+              <categories-card />
+            </div> -->
         </div>
       </div>
     </div>
@@ -128,7 +132,7 @@ import GB from "@/assets/img/icons/flags/GB.png";
 import BR from "@/assets/img/icons/flags/BR.png";
 
 export default {
-  name: "dashboard-default",
+  name: "dashboard-agv-line-follower",
   data() {
     return {
       stats: {
@@ -206,3 +210,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.rotate-card {
+  transition: transform 0.5s ease;
+}
+.rotate-card.rotate {
+  transform: rotateY(180deg);
+}
+</style>

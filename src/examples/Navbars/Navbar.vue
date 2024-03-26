@@ -8,7 +8,7 @@
     id="navbarBlur"
     data-scroll="true"
   >
-    <div class="px-3 py-1 container-fluid">
+    <div class="px-3 py-1 d-flex align-items-center navbar-collapse">
       <breadcrumbs :currentPage="currentRouteName" textWhite="text-white" />
 
       <div
@@ -17,10 +17,13 @@
         id="navbar"
       >
         <div
-          class="pe-md-3 d-flex align-items-center"
+          class="pe-md-4 d-flex align-items-center"
           :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
-          <div class="input-group">
+
+            <argon-button @click="switchToDashboard">Switch</argon-button>
+
+          <!-- <div class="input-group">
             <span class="input-group-text text-body">
               <i class="fas fa-search" aria-hidden="true"></i>
             </span>
@@ -31,8 +34,9 @@
                 this.$store.state.isRTL ? 'أكتب هنا...' : 'Type here...'
               "
             />
-          </div>
+          </div> -->
         </div>
+
         <ul class="navbar-nav justify-content-end">
           <!-- Conditionally render the profile icon if user is logged in -->
           <li v-if="isLoggedIn" class="nav-item d-flex align-items-center">
@@ -88,7 +92,6 @@
               <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
             </a>
           </li>
-
         </ul>
       </div>
     </div>
@@ -98,14 +101,16 @@
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
 import { mapMutations, mapActions } from "vuex";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
+import ArgonButton from "../../components/ArgonButton.vue";
 
 export default {
   name: "navbar",
   data() {
     return {
       showMenu: false,
-      isLoggedIn: !!Cookies.get('user') // Check if user is logged in based on the presence of user in cookies
+      isLoggedIn: !!Cookies.get("user"), // Check if user is logged in based on the presence of user in cookies
+      isAGVLineFollower: false,
     };
   },
   props: ["minNav", "textWhite"],
@@ -119,15 +124,26 @@ export default {
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
       this.navbarMinimize();
-    }
+    },
+
+    switchToDashboard() {
+      if (this.isAGVLineFollower) {
+        this.$router.push({ name: "DashboardAgvLidar" });
+        this.isAGVLineFollower = false;
+      } else {
+        this.$router.push({ name: "DashboardAgvLineFollower" });
+        this.isAGVLineFollower = true;
+      }
+    },
   },
   components: {
-    Breadcrumbs
+    Breadcrumbs,
+    ArgonButton,
   },
   computed: {
     currentRouteName() {
       return this.$route.name;
-    }
-  }
+    },
+  },
 };
 </script>
