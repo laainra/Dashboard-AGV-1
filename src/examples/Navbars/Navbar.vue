@@ -21,7 +21,10 @@
           :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
         <li class="nav-item">
-            <argon-button v-if="currentRouteName === 'DashboardAgvLidar' || currentRouteName === 'DashboardAgvLineFollower'" @click="switchToDashboard">{{ switchButtonText }}</argon-button>
+            <argon-button v-if="currentRouteName === 'DashboardAgvLidar' || currentRouteName === 'DashboardAgvLineFollower'" @click="switchToDashboard">
+              {{ switchButtonText }}
+              <i class="ni ni-bold-right text-primary text-lg opacity-10 larger-icon" style="font-size: 50px; align-self: center;"></i>
+            </argon-button>
         </li>
           <!-- <div class="input-group">
             <span class="input-group-text text-body">

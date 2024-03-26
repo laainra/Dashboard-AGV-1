@@ -25,7 +25,7 @@
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'AGV'"
         >
           <template v-slot:icon>
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            <i class="ni ni-delivery-fast text-primary text-sm opacity-10"></i>
           </template>
         </sidenav-item>
         <sidenav-item
@@ -34,7 +34,7 @@
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Station'"
         >
           <template v-slot:icon>
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            <i class="ni ni-app text-primary text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
