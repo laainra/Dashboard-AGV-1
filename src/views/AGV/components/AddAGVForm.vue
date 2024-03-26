@@ -3,12 +3,12 @@
       <form @submit.prevent="addAGV">
         <div class="card-body">
           <div class="form-group">
-            <label for="code" class="form-control-label">Title</label>
+            <label for="code" class="form-control-label">Code</label>
             <input
               type="text"
-              id="title"
+              id="code"
               class="form-control"
-              v-model="title"
+              v-model="code"
               required
             />
           </div>
@@ -33,9 +33,12 @@
   </template>
   
   <script>
-import AGVService from "@/services/agv.service";// import module AGV service yang berisi method API CRUD untuk AGV
-  import Cookies from "js-cookie"; // import cookies untuk mengakses cookies di browser
-  
+  import useAgvStore from "@/store/agv";// import module AGV service yang berisi method API CRUD untuk AGV// import module Auth service yang berisi method API CRUD untuk Auth
+  import { mapActions } from "pinia";// import mapActions untuk mengakses method dari store
+  import {useToast} from 'vue-toast-notification';
+  import 'vue-toast-notification/dist/theme-sugar.css';
+
+  const $toast = useToast();
   export default {
     // membuat function data untuk manipulasi data dalam komponen
     data() {
@@ -47,26 +50,20 @@ import AGVService from "@/services/agv.service";// import module AGV service yan
     },
     methods: {
       // membut method untuk mengambil data dari form kemudian disimpan di database melalui API dari AGV service
+      ...mapActions(useAgvStore, ["g$addAGV"]),
       async addAGV() {
         try {
-          // const userData = Cookies.get("user.username");
-  
-          let newAGV = {
+          await this.g$addAGV({
             code: this.code,
             description: this.description,
-            // status: this.status === "completed" ? true : false,
-            // username: userData,
-          };
-  
-          console.log(newAGV);
-  
-          const createdAGV = await AGVService.createAGV(newAGV);
-  
+          });
+          $toast.success('Add AGV Success!', { duration: 10000 });
           this.resetForm();
           window.location.reload();
+          
         } catch (error) {
-          console.error("Error submitting AGV:", error.message);
-     
+          console.log(error);
+          $toast.error( 'Failed to add AGV');
         }
       },
       resetForm() {

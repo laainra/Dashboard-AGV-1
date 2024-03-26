@@ -1,6 +1,6 @@
 import axios from 'axios'; // import axios untuk membuat request HTTP
 
-const API_URL = 'https://sans-api-service.onrender.com/api/agv'; // dekalarasi variabel API URL untuk api agv
+const API_URL = 'https://sans-api-service.onrender.com/api'; // dekalarasi variabel API URL untuk api agv
 
 class AGVService {
   constructor() {
@@ -30,18 +30,18 @@ class AGVService {
   }
   // membuat method untuk membuat request api post untuk menambahkan agv ke database
   
-  async createAGV(agv) {
+  async addAGV(agv) {
     return axios
     .post(API_URL + "/agv", {
       code: agv.code,
       description: agv.description,
     })
     .then((response) => {
-      console.log("Create AGV Response:", response.data);
+      console.log("Add AGV Response:", response.data);
       return response.data;
     })
     .catch((error) => {
-      console.error("Create AGV Error:", error);
+      console.error("Add AGV Error:", error);
       throw error;
     });
   }
@@ -103,7 +103,7 @@ async getAGVById(id) {
       throw error;
     });
 }
-async readAGV() {
+async getAGVs() {
   return axios
     .get(API_URL + "/agv")
     .then((response) => {

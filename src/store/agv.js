@@ -1,31 +1,32 @@
 import { defineStore } from 'pinia';
 import AGVService from '../services/agv.service';
 
-export const useAgvStore = defineStore({
+const useAgvStore = defineStore({
   id: 'agv',
   state: () => ({
     agvs: [],
   }),
   actions: {
-    async createAGV(agvData) {
+    async g$addAGV(agvData) {
       try {
-        const newAgv = await AGVService.createAGV(agvData);
-        this.agvs.push(newAgv);
+        //const newAgv = 
+        await AGVService.addAGV(agvData);
+        //this.agvs.push(newAgv);
       } catch (error) {
-        console.error('Error creating AGV:', error.message);
+        console.error('Error adding AGV:', error.message);
         throw error;
       }
     },
-    async readAGV() {
+    async g$getAGVs() {
       try {
-        const agvs = await AGVService.readAGV();
+        const agvs = await AGVService.getAGVs();
         this.agvs = agvs.data; // Assuming the response contains a 'data' field with the AGV array
       } catch (error) {
         console.error('Error fetching AGV list:', error.message);
         throw error;
       }
     },
-    async editAGV({ id, updatedAGVData }) {
+    async g$editAGV({ id, updatedAGVData }) {
       try {
         //const updatedAgv = await AGVService.editAGV(id, updatedAGVData);
         await AGVService.editAGV(id, updatedAGVData);
@@ -39,7 +40,7 @@ export const useAgvStore = defineStore({
         throw error;
       }
     },
-    async deleteAGV(id) {
+    async g$deleteAGV(id) {
       try {
         await AGVService.deleteAGV(id);
         this.agvs = this.agvs.filter(agv => agv.id !== id);
@@ -48,7 +49,7 @@ export const useAgvStore = defineStore({
         throw error;
       }
     },
-    async getAGVById(id) {
+    async g$getAGVById(id) {
       try {
         return await AGVService.getAGVById(id);
       } catch (error) {
@@ -58,3 +59,5 @@ export const useAgvStore = defineStore({
     },
   },
 });
+
+export default useAgvStore;

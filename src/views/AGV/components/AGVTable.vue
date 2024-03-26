@@ -14,36 +14,36 @@
               <th
                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
               >
-                Title
+                Code
               </th>
               <th
                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
               >
                 Description
               </th>
-              <th
+              <!-- <th
                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
               >
                 Status
-              </th>
+              </th>-->
               <th
                 class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2"
               >
                 Actions
-              </th>
+              </th> 
             </tr>
           </thead>
           <tbody>
             <!-- Membuat looping untuk menampilkan data perbaris -->
             <tr v-for="(agv, index) in agvs" :key="agv.id">
               <td>{{ index + 1 }}</td>
-              <td class="text-sm">{{ agv.title }}</td>
+              <td class="text-sm">{{ agv.code }}</td>
               <td class="text-sm">{{ agv.description }}</td>
-              <td class="text-sm">
+              <!-- <td class="text-sm">
                 <span :class="getStatusClass(agv.status)">{{
                   getAgvStatus(agv.status)
                 }}</span>
-              </td>
+              </td> -->
               <td class="text-center">
                 <!-- button edit -->
                 <button
@@ -69,7 +69,8 @@
 </template>
 
 <script>
-import AGVService from "@/services/agv.service"; // import module agv service yang berisi method API CRUD untuk Agv
+import useAgvStore from "@/store/agv"; // import module agv service yang berisi method API CRUD untuk Agv
+import { mapActions } from "pinia";
 
 export default {
   // inisiasi data agvs denga array kosong
@@ -83,10 +84,12 @@ export default {
   },
   methods: {
     // membuat method untuk mengambil semua data agv dari database
+
+    ...mapActions(useAgvStore, ["g$getAGVs"]),
     async fetchAgvs() {
       try {
         // Memanggil method readAgv  dari AgvService 
-        const agvs = await AgvService.readAgv();
+        const agvs = await useAgvStore.g$getAGVs;
         // mengupdate data agv dengan data yang di fetch 
         this.agvs = agvs;
       } catch (error) {

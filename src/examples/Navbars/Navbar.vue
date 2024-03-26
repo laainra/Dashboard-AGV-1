@@ -50,20 +50,6 @@
               >
               <span v-else class="d-sm-inline d-none">Profile</span>
             </router-link>
-            <router-link
-              :to="{ name: 'AGV Form' }"
-              class="px-0 nav-link font-weight-bold text-white"
-              target="_blank"
-            >
-              <i
-                class="fa fa-user"
-                :class="this.$store.state.isRTL ? 'ms-sm-2' : 'me-sm-2'"
-              ></i>
-              <span v-if="this.$store.state.isRTL" class="d-sm-inline d-none"
-                >الملف الشخصي</span
-              >
-              <span v-else class="d-sm-inline d-none">AGV Form</span>
-            </router-link>
           </li>
           <!-- Conditionally render the sign-in link -->
           <li v-else class="nav-item d-flex align-items-center">
