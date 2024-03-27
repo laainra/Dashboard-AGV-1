@@ -59,7 +59,6 @@
           });
           $toast.success('Add AGV Success!', { duration: 10000 });
           this.resetForm();
-          window.location.reload();
           
         } catch (error) {
           console.log(error);

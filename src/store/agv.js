@@ -6,6 +6,11 @@ const useAgvStore = defineStore({
   state: () => ({
     agvs: [],
   }),
+  getters: {
+    getAGVs(state){
+        return state.agvs;
+      }
+  },
   actions: {
     async g$addAGV(agvData) {
       try {
@@ -33,7 +38,7 @@ const useAgvStore = defineStore({
         const index = this.agvs.findIndex(agv => agv.id === id);
         if (index !== -1) {
           //this.agvs[index] = updatedAgv;
-          this.agvs[index] = updatedAgvData;
+          this.agvs[index] = updatedAGVData;
         }
       } catch (error) {
         console.error('Error editing AGV:', error.message);
@@ -43,7 +48,10 @@ const useAgvStore = defineStore({
     async g$deleteAGV(id) {
       try {
         await AGVService.deleteAGV(id);
-        this.agvs = this.agvs.filter(agv => agv.id !== id);
+        const index = this.agvs.findIndex(agv => agv._id === id);
+        if (index !== -1) {
+          this.agvs.splice(index, 1); // Menghapus elemen dari array dengan mempertahankan urutan
+        }
       } catch (error) {
         console.error('Error deleting AGV:', error.message);
         throw error;
