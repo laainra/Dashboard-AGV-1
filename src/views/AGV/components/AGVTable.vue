@@ -35,6 +35,10 @@ import useAgvStore from "@/store/agv"; // import the store
 import { mapActions } from "pinia";
 // Import AgvService if you're using it in deleteAgv method
 // import AgvService from "@/services/AgvService";
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
 
 export default {
   // props: {
@@ -63,7 +67,7 @@ export default {
 
     async editAgv(id) {
       try {
-        this.$router.push({ name: 'Edit Agv', params: { id } });
+        await this.g$editAGV(id);
       } catch (error) {
         console.error("Error editing agv:", error.message);
       }
@@ -71,9 +75,14 @@ export default {
 
     async deleteAgv(id) {
       try {
+        const agvToDelete = this.agvs.find(agv => agv._id === id);
+        if (!agvToDelete) {
+          throw new Error(`AGV with ID ${id} not found.`);
+        }
+        const agvCode = agvToDelete.code;
         await this.g$deleteAGV(id);
-        console.error("Delete $AGV CODE Success");
-   
+        console.log(`AGV with Code ${agvCode} deleted.`);
+        $toast.success(`Delete AGV with Code ${agvCode} successfully`, { duration: 10000 });
       } catch (error) {
         console.error("Error deleting agv:", error.message);
       }

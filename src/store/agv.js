@@ -52,8 +52,9 @@ const useAgvStore = defineStore({
         if (index !== -1) {
           this.agvs.splice(index, 1); // Menghapus elemen dari array dengan mempertahankan urutan
         }
+        console.log(`AGV with ID ${id} deleted.`);
       } catch (error) {
-        console.error('Error deleting AGV:', error.message);
+        console.error(`Error deleting AGV with ID ${id}:`, error.message);
         throw error;
       }
     },

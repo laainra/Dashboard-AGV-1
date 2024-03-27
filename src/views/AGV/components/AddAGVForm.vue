@@ -53,16 +53,18 @@
       ...mapActions(useAgvStore, ["g$addAGV"]),
       async addAGV() {
         try {
+          const agvCode = this.code;
           await this.g$addAGV({
             code: this.code,
             description: this.description,
           });
-          $toast.success('Add AGV Success!', { duration: 10000 });
+        
+          $toast.success(`Add AGV with code ${agvCode} Success!`, { duration: 10000 });
           this.resetForm();
-          
+          window.location.reload();
         } catch (error) {
           console.log(error);
-          $toast.error( 'Failed to add AGV');
+          $toast.error( `Failed to add AGV` ,{duration: 10000});
         }
       },
       resetForm() {
