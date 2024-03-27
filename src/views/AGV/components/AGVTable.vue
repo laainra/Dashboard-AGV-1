@@ -16,10 +16,23 @@
             <tr v-for="(agv, index) in getAGVs" :key="agv._id">
               <td>{{ index + 1 }}</td>
               <td>{{ agv._id }}</td>
-              <td class="text-sm">{{ agv.code }}</td>
-              <td class="text-sm">{{ agv.description }}</td>
+              <!-- <td class="text-sm">{{ agv.code }}</td> -->
+              <td class="text-sm">
+                <template v-if="!agv.isEditing">{{ agv.code }}</template>
+                <input v-model="agv.newCode" v-else>
+              </td>
+              <td class="text-sm">
+                <template v-if="!agv.isEditing">{{ agv.description }}</template>
+                <input v-model="agv.newDescription" v-else>
+              </td>
               <td class="text-center">
-                <button class="btn btn-link text-secondary mb-0" @click="editAgv(agv._id)">Edit</button>
+                <template v-if="!agv.isEditing">
+                  <button class="btn btn-link text-secondary mb-0" @click="editAgv(agv)">Edit</button>
+                </template>
+                <template v-else>
+                  <button class="btn btn-link text-secondary mb-0" @click="saveAgv(agv)">Save</button>
+                  <button class="btn btn-link text-secondary mb-0" @click="cancelEdit(agv)">Cancel</button>
+                </template>
                 <button class="btn btn-link text-danger mb-0" @click="deleteAgv(agv._id)">Delete</button>
               </td>
             </tr>
@@ -56,6 +69,7 @@ export default {
   methods: {
     ...mapActions(useAgvStore, ["g$getAGVs", "g$deleteAGV", "g$editAGV"]),
 
+    
     // async fetchAgvs() {
     //   try {
     //     const agvs = await this.g$getAGVs();
@@ -64,13 +78,47 @@ export default {
     //     console.error("Error fetching agvs:", error.message);
     //   }
     // },
+    async editAgv(agv) {
+      agv.isEditing = true;
+      agv.newCode = agv.code;
+      agv.newDescription = agv.description;
 
-    async editAgv(id) {
+      console.log("Editing AGV:", agv);
+
+      // Verify that isEditing property is set to true
+      console.log("After editing, AGV:", agv);
+
+      // Ensure that the state is updated properly
+      console.log("Before setting state, AGVs:", useAgvStore().getAGVs);
+
+      // Update state with modified AGV
+      // useAgvStore().getAGVs = useAgvStore().g$getAGVs.map(item => {
+      //   if (item._id === agv._id) {
+      //     return { ...item, isEditing: true };
+      //   } else {
+      //     return item;
+      //   }
+      // });
+
+      // Verify that the state is updated properly
+      console.log("After setting state, AGVs:", useAgvStore().getAGVs);
+},
+
+    async saveAgv(agv) {
       try {
-        await this.g$editAGV(id);
+        await this.g$editAGV(agv._id, {
+          code: agv.newCode,
+          description: agv.newDescription
+        });
+        agv.isEditing = false;
+        $toast.success("AGV edited successfully", { duration: 10000 });
       } catch (error) {
         console.error("Error editing agv:", error.message);
       }
+    },
+
+    cancelEdit(agv) {
+      agv.isEditing = false;
     },
 
     async deleteAgv(id) {

@@ -34,7 +34,7 @@ const useAgvStore = defineStore({
     async g$editAGV({ id, updatedAGVData }) {
       try {
         //const updatedAgv = await AGVService.editAGV(id, updatedAGVData);
-        await AGVService.editAGV(id, updatedAGVData);
+        await AGVService.updateAGV(id, updatedAGVData);
         const index = this.agvs.findIndex(agv => agv.id === id);
         if (index !== -1) {
           //this.agvs[index] = updatedAgv;
