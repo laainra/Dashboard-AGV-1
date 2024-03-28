@@ -35,11 +35,16 @@ const useAgvStore = defineStore({
       try {
         //const updatedAgv = await AGVService.editAGV(id, updatedAGVData);
         await AGVService.updateAGV(id, updatedAGVData);
-        const index = this.agvs.findIndex(agv => agv.id === id);
+        const index = this.agvs.findIndex(agv => agv._id === id);
         if (index !== -1) {
-          //this.agvs[index] = updatedAgv;
           this.agvs[index] = updatedAGVData;
         }
+        // const index = this.agvs.findIndex(agv => agv._id === id);
+        // if (index !== -1) {
+        //   Object.assign(this.agvs[index], updatedAGVData);
+        //   // Set isEditing to false
+        //   this.agvs[index].isEditing = false;
+        // }
       } catch (error) {
         console.error('Error editing AGV:', error.message);
         throw error;

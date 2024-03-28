@@ -67,53 +67,29 @@ export default {
   // },
 
   methods: {
-    ...mapActions(useAgvStore, ["g$getAGVs", "g$deleteAGV", "g$editAGV"]),
+    ...mapActions(useAgvStore, ["g$getAGVs", "g$deleteAGV", "g$editAGV", "g$getAGVById"]),
 
-    
-    // async fetchAgvs() {
-    //   try {
-    //     const agvs = await this.g$getAGVs();
-    //     this.agvs = agvs;
-    //   } catch (error) {
-    //     console.error("Error fetching agvs:", error.message);
-    //   }
-    // },
     async editAgv(agv) {
-      agv.isEditing = true;
-      agv.newCode = agv.code;
-      agv.newDescription = agv.description;
-
-      console.log("Editing AGV:", agv);
-
-      // Verify that isEditing property is set to true
-      console.log("After editing, AGV:", agv);
-
-      // Ensure that the state is updated properly
-      console.log("Before setting state, AGVs:", useAgvStore().getAGVs);
-
-      // Update state with modified AGV
-      // useAgvStore().getAGVs = useAgvStore().g$getAGVs.map(item => {
-      //   if (item._id === agv._id) {
-      //     return { ...item, isEditing: true };
-      //   } else {
-      //     return item;
-      //   }
-      // });
-
-      // Verify that the state is updated properly
-      console.log("After setting state, AGVs:", useAgvStore().getAGVs);
+      try {
+        agv.newCode = agv.code;
+        agv.newDescription = agv.description;
+        // Fetch the AGV data by its ID
+        const agvData = await this.g$getAGVById(agv._id);
+        agv.isEditing = true;
+      } catch (error) {
+        console.error("Error fetching AGV:", error.message);
+      }
 },
 
     async saveAgv(agv) {
       try {
-        await this.g$editAGV(agv._id, {
-          code: agv.newCode,
-          description: agv.newDescription
-        });
+        // Call the editAGV action with the updated data
+        await this.g$editAGV({ id: agv._id, updatedAGVData: { code: agv.newCode, description: agv.newDescription } });
+        // Set isEditing to false after successfully saving
         agv.isEditing = false;
-        $toast.success("AGV edited successfully", { duration: 10000 });
+        $toast.success(`AGV ${agv.newCode} edited successfully`, { duration: 10000 });
       } catch (error) {
-        console.error("Error editing agv:", error.message);
+        console.error("Error editing AGV:", error.message);
       }
     },
 
