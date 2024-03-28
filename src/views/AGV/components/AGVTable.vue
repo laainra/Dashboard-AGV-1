@@ -33,7 +33,7 @@
                   <button class="btn btn-link text-secondary mb-0" @click="saveAgv(agv)">Save</button>
                   <button class="btn btn-link text-secondary mb-0" @click="cancelEdit(agv)">Cancel</button>
                 </template>
-                <button class="btn btn-link text-danger mb-0" @click="deleteAgv(agv._id)">Delete</button>
+                <button class="btn btn-link text-danger mb-0" @click="deleteAgv(agv)">Delete</button>
               </td>
             </tr>
           </tbody>
