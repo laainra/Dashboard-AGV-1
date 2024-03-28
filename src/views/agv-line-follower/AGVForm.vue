@@ -1,17 +1,17 @@
 <template>
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
         <div class="col-12">
           <h2>Add New AGV</h2>
         </div>
-        <AddAGVForm />
+        <!-- <AddAGVForm /> -->
       </div>
     </div>
   </template>
   
   <script>
-  import AGVTable from "../AGV/components/AGVTable.vue";
-  import AddAGVForm from "../AGV/components/AddAGVForm.vue";
+  import AGVTable from "../agv-lidar/components/AGVTable.vue";
+  import AddAGVForm from "../agv-lidar/components/AddAGVForm.vue";
   export default {
     name: "Add New AGV",
     components: {

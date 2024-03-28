@@ -9,9 +9,12 @@ import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 import Cookies from "js-cookie";
-import AGV from "../views/AGV/AGV.vue";
-import AGVForm from "../views/AGV/AGVForm.vue";
-import EditAGV from "../views/AGV/EditAGV.vue";
+import AGVLidar from "../views/agv-lidar/AGV.vue";
+import AGVLidarForm from "../views/agv-lidar/AGVForm.vue";
+import EditAGVLidar from "../views/agv-lidar/EditAGV.vue";
+import AGVLineFollower from "../views/agv-line-follower/AGV.vue";
+import AGVLineFollowerForm from "../views/agv-line-follower/AGVForm.vue";
+import EditAGVLineFollower from "../views/agv-line-follower/EditAGV.vue";
 
 // rute-rute yang digunakan untuk mengakses halaman
 const routes = [
@@ -22,31 +25,48 @@ const routes = [
   },
   {
     path: "/dashboard-agv-lidar",
-    name: "DashboardAgvLidar",
+    name: "Dashboard Agv Lidar",
     component: DashboardDefault,
   },
   {
     path: "/dashboard-agv-line-follower",
-    name: "DashboardAgvLineFollower",
+    name: "Dashboard Agv Line Follower",
     component: DashboardSwitch,
   },
 
-  //AGV Route
+  //AGV Lidar Route
   {
-    path: "/add-agv-form",
-    name: "Add AGV",
-    component: AGVForm,
+    path: "/add-agv-lidar-form",
+    name: "Add AGV Lidar",
+    component: AGVLidarForm,
   },
   {
-    path: "/edit-agv/:id", 
-    name: "Edit AGV",
-    component: EditAGV,
+    path: "/edit-agv-lidar/:id", 
+    name: "Edit AGV Lidar",
+    component: EditAGVLidar,
     props: true, 
   },
   {
-    path: "/agv-form",
-    name: "AGV Form",
-    component: AGV,
+    path: "/agv-lidar-form",
+    name: "AGV Lidar",
+    component: AGVLidar,
+  },
+  //AGV Line Follower Route
+  {
+    path: "/add-agv-line-follower-form",
+    name: "Add AGV Line Follower",
+    component: AGVLineFollowerForm,
+  },
+  {
+    path: "/edit-agv-line-follower/:id", 
+    name: "Edit AGV Line Follower",
+    component: EditAGVLineFollower,
+    props: true, 
+  },
+  {
+    path: "/agv-line-follower-form",
+    name: "AGV Line Follower Form",
+    component: AGVLineFollower,
   },
 
 

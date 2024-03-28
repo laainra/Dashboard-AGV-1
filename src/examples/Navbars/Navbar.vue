@@ -20,8 +20,14 @@
           class="pe-md-4 d-flex align-items-center"
           :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
-
-            <argon-button @click="switchToDashboard">Switch</argon-button>
+          <argon-button @click="switchToDashboard"
+            >{{
+              isAGVLineFollower
+                ? "Switch to AGV Lidar"
+                : "Switch to AGV Line Follower"
+            }}
+            <i class="fas fa-sync" style="margin-left: 5px;"></i>
+          </argon-button>
 
           <!-- <div class="input-group">
             <span class="input-group-text text-body">
@@ -128,10 +134,10 @@ export default {
 
     switchToDashboard() {
       if (this.isAGVLineFollower) {
-        this.$router.push({ name: "DashboardAgvLidar" });
+        this.$router.push({ name: "Dashboard Agv Lidar" });
         this.isAGVLineFollower = false;
       } else {
-        this.$router.push({ name: "DashboardAgvLineFollower" });
+        this.$router.push({ name: "Dashboard Agv Line Follower" });
         this.isAGVLineFollower = true;
       }
     },
