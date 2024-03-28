@@ -6,6 +6,11 @@ const useAgvStore = defineStore({
   state: () => ({
     agvs: [],
   }),
+  getters: {
+    getAGVs(state){
+        return state.agvs;
+      }
+  },
   actions: {
     async g$addAGV(agvData) {
       try {
@@ -29,12 +34,17 @@ const useAgvStore = defineStore({
     async g$editAGV({ id, updatedAGVData }) {
       try {
         //const updatedAgv = await AGVService.editAGV(id, updatedAGVData);
-        await AGVService.editAGV(id, updatedAGVData);
-        const index = this.agvs.findIndex(agv => agv.id === id);
+        await AGVService.updateAGV(id, updatedAGVData);
+        const index = this.agvs.findIndex(agv => agv._id === id);
         if (index !== -1) {
-          //this.agvs[index] = updatedAgv;
-          this.agvs[index] = updatedAgvData;
+          this.agvs[index] = updatedAGVData;
         }
+        // const index = this.agvs.findIndex(agv => agv._id === id);
+        // if (index !== -1) {
+        //   Object.assign(this.agvs[index], updatedAGVData);
+        //   // Set isEditing to false
+        //   this.agvs[index].isEditing = false;
+        // }
       } catch (error) {
         console.error('Error editing AGV:', error.message);
         throw error;
@@ -43,9 +53,13 @@ const useAgvStore = defineStore({
     async g$deleteAGV(id) {
       try {
         await AGVService.deleteAGV(id);
-        this.agvs = this.agvs.filter(agv => agv.id !== id);
+        const index = this.agvs.findIndex(agv => agv._id === id);
+        if (index !== -1) {
+          this.agvs.splice(index, 1); // Menghapus elemen dari array dengan mempertahankan urutan
+        }
+        console.log(`AGV with ID ${id} deleted.`);
       } catch (error) {
-        console.error('Error deleting AGV:', error.message);
+        console.error(`Error deleting AGV with ID ${id}:`, error.message);
         throw error;
       }
     },

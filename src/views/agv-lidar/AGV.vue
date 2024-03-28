@@ -15,6 +15,8 @@
 import AGVTable from "../agv-lidar/components/AGVTable.vue";
 import AddAGVForm from "./components/AddAGVForm.vue";
 import AGVService from "@/services/agv.service"; // Assuming you have a service for AGV
+import useAgvStore from "@/store/agv"; // import the store
+//import { mapState } from "pinia";
 
 export default {
   name: "AGV",
@@ -25,10 +27,16 @@ export default {
   },
   data() {
     return {
-      title: "",
+      code: "",
       description: "",
-      status: "", // Default status to empty string
+      //status: "", // Default status to empty string
     };
   },
+  // computed: {
+  //   ...mapState(useAgvStore, [g$getAGVs])
+  // }, 
+  // async mounted(){
+    
+  // }
 };
 </script>

@@ -28,7 +28,6 @@
             }}
             <i class="fas fa-sync" style="margin-left: 5px;"></i>
           </argon-button>
-
           <!-- <div class="input-group">
             <span class="input-group-text text-body">
               <i class="fas fa-search" aria-hidden="true"></i>
@@ -149,6 +148,9 @@ export default {
   computed: {
     currentRouteName() {
       return this.$route.name;
+    },
+    switchButtonText() {
+      return this.currentRouteName === "DashboardAgvLineFollower" ? "Switch to AGV Lidar" : "Switch to AGV Line Follower";
     },
   },
 };

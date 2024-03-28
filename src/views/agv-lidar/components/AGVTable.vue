@@ -1,4 +1,3 @@
-<!-- Membuat komponen table untuk menampilkan agv dari database -->
 <template>
   <div>
     <div class="container">
@@ -34,31 +33,27 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Membuat looping untuk menampilkan data perbaris -->
-            <tr v-for="(agv, index) in agvs" :key="agv.id">
+            <tr v-for="(agv, index) in getAGVs" :key="agv._id">
               <td>{{ index + 1 }}</td>
-              <td class="text-sm">{{ agv.code }}</td>
-              <td class="text-sm">{{ agv.description }}</td>
-              <!-- <td class="text-sm">
-                <span :class="getStatusClass(agv.status)">{{
-                  getAgvStatus(agv.status)
-                }}</span>
-              </td> -->
+              <td>{{ agv._id }}</td>
+              <!-- <td class="text-sm">{{ agv.code }}</td> -->
+              <td class="text-sm">
+                <template v-if="!agv.isEditing">{{ agv.code }}</template>
+                <input v-model="agv.newCode" v-else>
+              </td>
+              <td class="text-sm">
+                <template v-if="!agv.isEditing">{{ agv.description }}</template>
+                <input v-model="agv.newDescription" v-else>
+              </td>
               <td class="text-center">
-                <!-- button edit -->
-                <button
-                  class="btn btn-link text-secondary mb-0"
-                  @click="editAgv(agv.id)"
-                >
-                  Edit
-                </button>
-                 <!-- button hapus -->
-                <button
-                  class="btn btn-link text-danger mb-0"
-                  @click="deleteAgv(agv.id)"
-                >
-                  Delete
-                </button>
+                <template v-if="!agv.isEditing">
+                  <button class="btn btn-link text-secondary mb-0" @click="editAgv(agv)">Edit</button>
+                </template>
+                <template v-else>
+                  <button class="btn btn-link text-secondary mb-0" @click="saveAgv(agv)">Save</button>
+                  <button class="btn btn-link text-secondary mb-0" @click="cancelEdit(agv)">Cancel</button>
+                </template>
+                <button class="btn btn-link text-danger mb-0" @click="deleteAgv(agv)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -69,62 +64,92 @@
 </template>
 
 <script>
-import useAgvStore from "@/store/agv"; // import module agv service yang berisi method API CRUD untuk Agv
+import useAgvStore from "@/store/agv"; // import the store
 import { mapActions } from "pinia";
+// Import AgvService if you're using it in deleteAgv method
+// import AgvService from "@/services/AgvService";
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
 
 export default {
-  // inisiasi data agvs denga array kosong
-  data() {
-    return {
-      agvs: [],
-    };
-  },
-  created() {
-    this.fetchAgvs();
-  },
-  methods: {
-    // membuat method untuk mengambil semua data agv dari database
+  // props: {
+  //   data: {
+  //     type: Array,
+  //     default: () => [],
+  //   },
+  // },
+  // data() {
+  //   return {
+  //     agvs: [],
+  //   };
+  // },
 
-    ...mapActions(useAgvStore, ["g$getAGVs"]),
-    async fetchAgvs() {
+  methods: {
+    ...mapActions(useAgvStore, ["g$getAGVs", "g$deleteAGV", "g$editAGV", "g$getAGVById"]),
+
+    async editAgv(agv) {
       try {
-        // Memanggil method readAgv  dari AgvService 
-        const agvs = await useAgvStore.g$getAGVs;
-        // mengupdate data agv dengan data yang di fetch 
-        this.agvs = agvs;
+        agv.newCode = agv.code;
+        agv.newDescription = agv.description;
+        // Fetch the AGV data by its ID
+        const agvData = await this.g$getAGVById(agv._id);
+        agv.isEditing = true;
       } catch (error) {
-        console.error("Error fetching agvs:", error.message);
+        console.error("Error fetching AGV:", error.message);
+      }
+},
+
+    async saveAgv(agv) {
+      try {
+        // Call the editAGV action with the updated data
+        await this.g$editAGV({ id: agv._id, updatedAGVData: { code: agv.newCode, description: agv.newDescription } });
+        // Set isEditing to false after successfully saving
+        agv.isEditing = false;
+        $toast.success(`AGV ${agv.newCode} edited successfully`, { duration: 10000 });
+      } catch (error) {
+        console.error("Error editing AGV:", error.message);
       }
     },
-    // Method untuk edirect ke halaman edit agv dengan membawa id sbg parameter
-    async editAgv(id) {
-      try {
-        
-        this.$router.push({ name: 'Edit Agv', params: { id } });
-      } catch (error) {
-        console.error("Error editing agv:", error.message);
-      }
+
+    cancelEdit(agv) {
+      agv.isEditing = false;
     },
-    // method untuk menghapus agv
+
     async deleteAgv(id) {
       try {
-        // memanggil method deleteAgv method dari AgvService 
-        await AgvService.deleteAgv(id);
-        console.error("Delete Success");
-        // Refresh list setelah sukses mengahpus
-        this.fetchAgvs();
+        const agvToDelete = this.agvs.find(agv => agv._id === id);
+        if (!agvToDelete) {
+          throw new Error(`AGV with ID ${id} not found.`);
+        }
+        const agvCode = agvToDelete.code;
+        await this.g$deleteAGV(id);
+        console.log(`AGV with Code ${agvCode} deleted.`);
+        $toast.success(`Delete AGV with Code ${agvCode} successfully`, { duration: 10000 });
       } catch (error) {
         console.error("Error deleting agv:", error.message);
       }
     },
+
     getStatusClass(status) {
-      return status
-        ? "badge badge-sm bg-gradient-success"
-        : "badge badge-sm bg-gradient-primary";
+      return status ? "badge badge-sm bg-gradient-success" : "badge badge-sm bg-gradient-primary";
     },
+
     getAgvStatus(status) {
       return status ? "Completed" : "Incomplete";
     },
   },
+  computed: {
+    getAGVs(){
+      return useAgvStore().getAGVs;
+    },
+    agvs(){
+      return useAgvStore().agvs;
+    }
+  },
+  mounted() {
+    useAgvStore().g$getAGVs();
+  }
 };
 </script>
