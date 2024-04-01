@@ -124,6 +124,44 @@
       textSecondary="Please check our docs"
     />
   </div>
+  <!-- Other menu items -->
+  <!-- <li class="nav-item">
+        <sidenav-item
+          url="/tables"
+          :class="getRoute() === 'tables' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'الجداول' : 'Tables'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li> -->
+
+  <!-- <li class="nav-item">
+        <sidenav-item
+          url="/todo"
+          :class="getRoute() === 'todo' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'XXXXXXX'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+
+      <li class="nav-item">
+        <sidenav-item
+          url="/todo-form"
+          :class="getRoute() === 'todo-form' ? 'active' : ''"
+          navText="XXXXXXX"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li> -->
+
+  <!-- Sidenav footer -->
 </template>
 
 <script>
@@ -165,18 +203,18 @@ export default {
     },
     navigateToAGV() {
       // Menavigasi kembali ke dashboard yang sesuai berdasarkan informasi terbaru
-      if (this.currentDashboardType === 'agv-lidar') {
-        this.$router.push('/agv-lidar');
+      if (this.currentDashboardType === "agv-lidar") {
+        this.$router.push("/agv-lidar");
       } else {
-        this.$router.push('/agv-line-follower');
+        this.$router.push("/agv-line-follower");
       }
     },
     navigateToStation() {
       // Menavigasi kembali ke dashboard yang sesuai berdasarkan informasi terbaru
-      if (this.currentDashboardType === 'agv-lidar') {
-        this.$router.push('/station-agv-lidar');
+      if (this.currentDashboardType === "agv-lidar") {
+        this.$router.push("/station-agv-lidar");
       } else {
-        this.$router.push('/station-agv-line-follower');
+        this.$router.push("/station-agv-line-follower");
       }
     },
 
