@@ -9,9 +9,10 @@ import Profile from "../views/Profile.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 import Cookies from "js-cookie";
-import AGV from "../views/AGV/AGV.vue";
-import AGVForm from "../views/AGV/AGVForm.vue";
-import EditAGV from "../views/AGV/EditAGV.vue";
+import TableDataAgvLidar from "../views/TableDataAGVLidar.vue";
+import TableDataAgvLineFollower from "../views/TableDataAGVLineFollower.vue";
+import TableDataStationAgvLidar from '../views/TableDataStationAGVLidar.vue';
+import TableDataStationAgvLineFollower from '../views/TableDataStationAGVLineFollower.vue'
 
 // rute-rute yang digunakan untuk mengakses halaman
 const routes = [
@@ -22,34 +23,34 @@ const routes = [
   },
   {
     path: "/dashboard-agv-lidar",
-    name: "DashboardAgvLidar",
+    name: "Dashboard Agv Lidar",
     component: DashboardDefault,
   },
   {
     path: "/dashboard-agv-line-follower",
-    name: "DashboardAgvLineFollower",
+    name: "Dashboard Agv Line Follower",
     component: DashboardSwitch,
   },
-
-  //AGV Route
   {
-    path: "/add-agv-form",
-    name: "Add AGV",
-    component: AGVForm,
+    path: "/agv-lidar",
+    name: "AGV Lidar",
+    component: TableDataAgvLidar,
   },
   {
-    path: "/edit-agv/:id", 
-    name: "Edit AGV",
-    component: EditAGV,
-    props: true, 
+    path: "/agv-line-follower",
+    name: "AGV Line Follower",
+    component: TableDataAgvLineFollower,
   },
   {
-    path: "/agv-form",
-    name: "AGV Form",
-    component: AGV,
+    path: "/station-agv-lidar",
+    name: "Station AGV Lidar",
+    component: TableDataStationAgvLidar,
   },
-
-
+  {
+    path: "/station-agv-line-follower",
+    name: "Station AGV Line Follower",
+    component: TableDataStationAgvLineFollower,
+  },
   {
     path: "/tables",
     name: "Tables",

@@ -1,22 +1,16 @@
 <template>
-  <div class="py-4 container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <authors-table />
-      </div>
-    </div>
-  </div>
+   <DataTableAGVLineFollower/>
 </template>
 
 <script>
-import AuthorsTable from "./components/AuthorsTable.vue";
+import DataTableAGVLineFollower from "./agv-robot/agv-line-follower/DataTableAGVLineFollower.vue";
 import ProjectsTable from "./components/ProjectsTable.vue";
 
 export default {
-  name: "tables",
+  name: "DataTable",
   components: {
-    AuthorsTable,
-    ProjectsTable
+    DataTableAGVLineFollower,
+    ProjectsTable,
   },
   data() {
     return {

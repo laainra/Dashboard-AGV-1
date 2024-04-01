@@ -65,7 +65,7 @@
             <div class="card">
               <div class="p-3 pb-0 card-header">
                 <div class="d-flex justify-content-between">
-                  <h6 class="mb-2">Data Station AGV Lidar</h6>
+                  <h6 class="mb-2">Data Station AGV Line Follower</h6>
                   <router-link to="/tables" class="text-end"
                     >See details</router-link
                   >

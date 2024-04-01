@@ -21,7 +21,7 @@ export default {
     editing: false,
 
     table: {
-      columns: ["no", "station awal", "station akhir", "waktu awal", "waktu akhir"],
+      columns: ["station awal", "station akhir", "waktu awal", "waktu akhir"],
       actions: [
         {
           title: "Handle",

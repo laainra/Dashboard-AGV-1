@@ -2,20 +2,25 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-12">
-        <authors-table />
+        <StationAGVLineFollower/>
       </div>
     </div>
+    <!-- <div class="mt-4 row">
+      <div class="col-12">
+        <projects-table />
+      </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import AuthorsTable from "./components/AuthorsTable.vue";
+import StationAGVLineFollower from "./agv-robot/agv-line-follower/StationAGVLineFollower.vue";
 import ProjectsTable from "./components/ProjectsTable.vue";
 
 export default {
   name: "tables",
   components: {
-    AuthorsTable,
+    StationAGVLineFollower,
     ProjectsTable
   },
   data() {

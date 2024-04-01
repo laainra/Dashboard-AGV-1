@@ -4,12 +4,20 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-      <li class="nav-item"></li>
       <li class="nav-item">
         <sidenav-item
-          :url="isDashboardAgvLidar ? '/dashboard-agv-lidar' : '/dashboard-agv-line-follower'"
-          :class="{ 'active': isDashboardAgvLidar ? $route.path === '/dashboard-agv-lidar' : $route.path === '/dashboard-agv-line-follower' }"
+          :url="
+            isDashboardAgvLidar
+              ? '/dashboard-agv-lidar'
+              : '/dashboard-agv-line-follower'
+          "
+          :class="{
+            active: isDashboardAgvLidar
+              ? $route.path === '/dashboard-agv-lidar'
+              : $route.path === '/dashboard-agv-line-follower',
+          }"
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'"
+          @click.native="navigateToDashboard()"
         >
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
@@ -17,63 +25,40 @@
         </sidenav-item>
       </li>
 
-      
-       <li  v-if="isLoggedIn" class="nav-item">
+      <li v-if="isLoggedIn" class="nav-item">
         <sidenav-item
-          url="/agv-form"
-          :class="getRoute() === 'agv-form' ? 'active' : ''"
+          :url="isDashboardAgvLidar ? '/agv-lidar' : '/agv-line-follower'"
+          :class="{
+            active: isDashboardAgvLidar
+              ? $route.path === '/agv-lidar'
+              : $route.path === '/agv-line-follower',
+          }"
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'AGV'"
+          @click.native="navigateToAGV()"
         >
           <template v-slot:icon>
             <i class="ni ni-delivery-fast text-primary text-sm opacity-10"></i>
           </template>
         </sidenav-item>
         <sidenav-item
-          url="/station-form"
-          :class="getRoute() === 'station-form' ? 'active' : ''"
+          :url="
+            isDashboardAgvLidar
+              ? '/station-agv-lidar'
+              : '/station-agv-line-follower'
+          "
+          :class="{
+            active: isDashboardAgvLidar
+              ? $route.path === '/station-agv-lidar'
+              : $route.path === '/station-agv-line-follower',
+          }"
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Station'"
+          @click.native="navigateToStation()"
         >
           <template v-slot:icon>
             <i class="ni ni-app text-primary text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
-      <!-- <li class="nav-item">
-        <sidenav-item
-          url="/tables"
-          :class="getRoute() === 'tables' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Tables'"
-        >
-          <template v-slot:icon>
-            <i
-              class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
-            ></i>
-          </template>
-        </sidenav-item>
-      </li> -->
-      <!-- <li class="nav-item">
-        <sidenav-item
-          url="/todo"
-          :class="getRoute() === 'todo' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الفواتیر' : 'XXXXXXX'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-
-      <li class="nav-item">
-        <sidenav-item
-          url="/todo-form"
-          :class="getRoute() === 'todo-form' ? 'active' : ''"
-          navText="XXXXXXX"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li> -->
       <li class="mt-3 nav-item">
         <h6
           v-if="this.$store.state.isRTL"
@@ -100,7 +85,6 @@
             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-        
       </li>
       <li v-if="!isLoggedIn" class="nav-item">
         <sidenav-item
@@ -141,10 +125,10 @@
     />
   </div>
 </template>
+
 <script>
 import SidenavItem from "./SidenavItem.vue";
 import Cookies from "js-cookie";
-import { useToast } from "vue-toastification";
 
 export default {
   name: "SidenavList",
@@ -153,16 +137,14 @@ export default {
   },
   data() {
     return {
-      title: "Argon Dashboard 2",
-      controls: "dashboardsExamples",
-      isActive: "active",
-      isLoggedIn: !!Cookies.get("user"), // Check if user is logged in based on the presence of user in cookies
+      isLoggedIn: !!Cookies.get("user"),
+      // Menyimpan informasi tentang jenis dashboard yang sedang ditampilkan
+      currentDashboardType: "",
     };
   },
   computed: {
     isDashboardAgvLidar() {
-      // Check if the current route is /dashboard-agv-lidar
-      return this.$route.path === '/dashboard-agv-lidar';
+      return this.$route.path === "/dashboard-agv-lidar";
     },
   },
   components: {
@@ -173,12 +155,45 @@ export default {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
+    navigateToDashboard() {
+      // Menavigasi kembali ke dashboard yang sesuai berdasarkan informasi terbaru
+      if (this.currentDashboardType === "agv-lidar") {
+        this.$router.push("/dashboard-agv-lidar");
+      } else {
+        this.$router.push("/dashboard-agv-line-follower");
+      }
+    },
+    navigateToAGV() {
+      // Menavigasi kembali ke dashboard yang sesuai berdasarkan informasi terbaru
+      if (this.currentDashboardType === 'agv-lidar') {
+        this.$router.push('/agv-lidar');
+      } else {
+        this.$router.push('/agv-line-follower');
+      }
+    },
+    navigateToStation() {
+      // Menavigasi kembali ke dashboard yang sesuai berdasarkan informasi terbaru
+      if (this.currentDashboardType === 'agv-lidar') {
+        this.$router.push('/station-agv-lidar');
+      } else {
+        this.$router.push('/station-agv-line-follower');
+      }
+    },
+
     logout() {
-      // Perform logout actions, e.g., removing user from cookies or resetting login status
       Cookies.remove("user");
       this.isLoggedIn = false;
-      // Redirect to home page or any other desired page
       this.$router.push("/");
+    },
+  },
+  watch: {
+    // Memperbarui jenis dashboard saat rute berubah
+    $route(to, from) {
+      if (to.path === "/dashboard-agv-lidar") {
+        this.currentDashboardType = "agv-lidar";
+      } else if (to.path === "/dashboard-agv-line-follower") {
+        this.currentDashboardType = "agv-line-follower";
+      }
     },
   },
 };

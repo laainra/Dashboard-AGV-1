@@ -1,41 +1,46 @@
-import { defineStore } from 'pinia';
-import AGVService from '../services/agv.service';
+import { defineStore } from "pinia";
+import AGVService from "../services/agv.service";
 
 const useAgvStore = defineStore({
-  id: 'agv',
+  id: "agv",
   state: () => ({
     agvs: [],
   }),
   getters: {
-    getAGVs(state){
-        return state.agvs;
-      }
+    getAGVs(state) {
+      return state.agvs;
+    },
+    getDetail: ({ agvs }) => {
+      return (index) => agvs[index];
+    },
   },
   actions: {
     async g$addAGV(agvData) {
       try {
-        //const newAgv = 
         await AGVService.addAGV(agvData);
-        //this.agvs.push(newAgv);
+        await this.g$getAGVs();
       } catch (error) {
-        console.error('Error adding AGV:', error.message);
+        console.error("Error adding AGV:", error.message);
         throw error;
       }
     },
+
     async g$getAGVs() {
       try {
         const agvs = await AGVService.getAGVs();
-        this.agvs = agvs.data; // Assuming the response contains a 'data' field with the AGV array
+        this.agvs = agvs.data;
       } catch (error) {
-        console.error('Error fetching AGV list:', error.message);
+        console.error("Error fetching AGV list:", error.message);
         throw error;
       }
     },
+
     async g$editAGV({ id, updatedAGVData }) {
       try {
         //const updatedAgv = await AGVService.editAGV(id, updatedAGVData);
         await AGVService.updateAGV(id, updatedAGVData);
-        const index = this.agvs.findIndex(agv => agv._id === id);
+        // await this.g$getAGVs();
+        const index = this.agvs.findIndex((agv) => agv._id === id);
         if (index !== -1) {
           this.agvs[index] = updatedAGVData;
         }
@@ -46,14 +51,15 @@ const useAgvStore = defineStore({
         //   this.agvs[index].isEditing = false;
         // }
       } catch (error) {
-        console.error('Error editing AGV:', error.message);
+        console.error("Error editing AGV:", error.message);
         throw error;
       }
     },
+
     async g$deleteAGV(id) {
       try {
         await AGVService.deleteAGV(id);
-        const index = this.agvs.findIndex(agv => agv._id === id);
+        const index = this.agvs.findIndex((agv) => agv._id === id);
         if (index !== -1) {
           this.agvs.splice(index, 1); // Menghapus elemen dari array dengan mempertahankan urutan
         }
@@ -63,11 +69,12 @@ const useAgvStore = defineStore({
         throw error;
       }
     },
+
     async g$getAGVById(id) {
       try {
         return await AGVService.getAGVById(id);
       } catch (error) {
-        console.error('Error getting AGV by id:', error.message);
+        console.error("Error getting AGV by id:", error.message);
         throw error;
       }
     },
