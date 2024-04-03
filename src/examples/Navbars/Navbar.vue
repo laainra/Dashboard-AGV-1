@@ -20,14 +20,29 @@
           class="pe-md-4 d-flex align-items-center"
           :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
-          <argon-button @click="switchToDashboard"
-            >{{
-              isAGVLineFollower
-                ? "Switch to AGV Lidar"
-                : "Switch to AGV Line Follower"
-            }}
-            <i class="fas fa-sync" style="margin-left: 5px;"></i>
-          </argon-button>
+        <argon-button v-if="currentRouteName === 'Dashboard Agv Lidar' || currentRouteName === 'Dashboard Agv Line Follower'" 
+        @click="switchToDashboard"
+          >{{
+            switchButtonDashboardText
+          }}
+          <i class="fas fa-sync" style="margin-left: 5px;"></i>
+        </argon-button>
+
+        <argon-button v-if="currentRouteName === 'AGV Lidar' || currentRouteName === 'AGV Line Follower'" 
+           @click="switchToAGV"
+          >{{
+            switchButtonAGVText
+          }}
+          <i class="fas fa-sync" style="margin-left: 5px;"></i>
+        </argon-button>
+
+        <argon-button v-if="currentRouteName === 'Station AGV Lidar' || currentRouteName === 'Station AGV Line Follower'" 
+           @click="switchToStation"
+          >{{
+            switchButtonStationText
+          }}
+          <i class="fas fa-sync" style="margin-left: 5px;"></i>
+        </argon-button>
           <!-- <div class="input-group">
             <span class="input-group-text text-body">
               <i class="fas fa-search" aria-hidden="true"></i>
@@ -115,7 +130,9 @@ export default {
     return {
       showMenu: false,
       isLoggedIn: !!Cookies.get("user"), // Check if user is logged in based on the presence of user in cookies
-      isAGVLineFollower: false,
+      isDashboardAGVLineFollower: false,
+      isAGVLineFolower: false,
+      isStationLineFollower: false,
     };
   },
   props: ["minNav", "textWhite"],
@@ -132,12 +149,32 @@ export default {
     },
 
     switchToDashboard() {
-      if (this.isAGVLineFollower) {
+      if (this.isDashboardAGVLineFollower) {
         this.$router.push({ name: "Dashboard Agv Lidar" });
-        this.isAGVLineFollower = false;
+        this.isDashboardAGVLineFollower = false;
       } else {
         this.$router.push({ name: "Dashboard Agv Line Follower" });
+        this.isDashboardAGVLineFollower = true;
+      }
+    },
+
+    switchToAGV() {
+      if (this.isAGVLineFollower) {
+        this.$router.push({ name: "AGV Lidar" });
+        this.isAGVLineFollower = false;
+      } else {
+        this.$router.push({ name: "AGV Line Follower" });
         this.isAGVLineFollower = true;
+      }
+    },
+
+    switchToStation() {
+      if (this.isStationLineFollower) {
+        this.$router.push({ name: "Station AGV Lidar" });
+        this.isStationLineFollower = false;
+      } else {
+        this.$router.push({ name: "Station AGV Line Follower" });
+        this.isStationLineFollower = true;
       }
     },
   },
@@ -149,8 +186,14 @@ export default {
     currentRouteName() {
       return this.$route.name;
     },
-    switchButtonText() {
-      return this.currentRouteName === "DashboardAgvLineFollower" ? "Switch to AGV Lidar" : "Switch to AGV Line Follower";
+    switchButtonDashboardText() {
+      return this.currentRouteName === "Dashboard Agv Line Follower" ? "Switch to AGV Lidar Dashboard" : "Switch to AGV Line Follower Dashboard";
+    },
+    switchButtonAGVText() {
+      return this.currentRouteName === "AGV Line Follower" ? "Switch to AGV Lidar" : "Switch to AGV Line Follower";
+    },
+    switchButtonStationText() {
+      return this.currentRouteName === "Station AGV Line Follower" ? "Switch to AGV Lidar Station" : "Switch to AGV Line Follower Station";
     },
   },
 };

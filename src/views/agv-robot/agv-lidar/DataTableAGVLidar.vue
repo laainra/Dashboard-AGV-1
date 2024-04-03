@@ -127,9 +127,10 @@ export default {
 
     handleEditEvent(row) {
       try {
-        this.editing = row._id;
-        console.log(row._id);
-        this.input = { ...row };
+    
+      this.editing = row._id;
+      console.log(row._id);
+      this.input = { ...row };
       } catch (error) {
         console.error("Failed to prepare edit:", error);
       }
