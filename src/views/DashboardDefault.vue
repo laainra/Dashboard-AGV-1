@@ -1,6 +1,32 @@
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
+      <div
+        class="d-flex flex-column justify-content-center align-items-center gap-4"
+      >
+        <div class="card mb-4">
+          <div
+            id="map"
+            class="d-flex flex-column justify-content-center align-items-center sm:h-auto md:h-500"
+            :class="navigationModeClass"
+          >
+            <div class="p-3 w-100">
+              <button
+                class="btn-danger btn-lg w-100 btn-no-border"
+                v-if="connected === false"
+                @click="init"
+              >
+                Connect GUI To Robot
+              </button>
+            </div>
+            <img
+              v-if="!robotConnected"
+              src="src/assets/img/robot-with-pliers.png"
+              style="width: 30%"
+            />
+          </div>
+        </div>
+      </div>
       <div class="col-lg-12">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-6">
@@ -135,6 +161,7 @@ export default {
   name: "dashboard-agv-lidar",
   data() {
     return {
+      connected: false,
       stats: {
         money: {
           title: "Jumlah Station",
@@ -210,3 +237,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.button-no-border {
+  border: none;
+}
+</style>
