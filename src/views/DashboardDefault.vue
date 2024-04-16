@@ -195,40 +195,40 @@ export default {
       },
     };
   },
-  mounted() {
-    this.ros = new ROSLIB.Ros({
-      url: 'ws://' + window.location.hostname + ':9090',
-    });
+  //mounted() {
+  //   this.ros = new ROSLIB.Ros({
+  //     url: 'ws://' + window.location.hostname + ':9090',
+  //   });
 
-    this.ros.on('connection', () => {
-      this.connected = true;
-      console.log('Connection to ROSBridge established');
-    });
-    this.ros.on('error', (error) => {
-      console.log('Something went wrong when trying to connect');
-      console.log(error);
-    });
-    this.ros.on('close', () => {
-      this.connected = false;
-      console.log('Connection to ROSBridge was closed');
-    });
+  //   this.ros.on('connection', () => {
+  //     this.connected = true;
+  //     console.log('Connection to ROSBridge established');
+  //   });
+  //   this.ros.on('error', (error) => {
+  //     console.log('Something went wrong when trying to connect');
+  //     console.log(error);
+  //   });
+  //   this.ros.on('close', () => {
+  //     this.connected = false;
+  //     console.log('Connection to ROSBridge was closed');
+  //   });
 
-    this.mapViewer = new ROS2D.Viewer({
-      divID: 'map',
-      width: 400,
-      height: 400,
-    });
+  //   this.mapViewer = new ROS2D.Viewer({
+  //     divID: 'map',
+  //     width: 400,
+  //     height: 400,
+  //   });
 
-    this.mapGridClient = new ROS2D.OccupancyGridClient({
-      ros: this.ros,
-      rootObject: this.mapViewer.scene,
-      continuous: true,
-    });
+  //   this.mapGridClient = new ROS2D.OccupancyGridClient({
+  //     ros: this.ros,
+  //     rootObject: this.mapViewer.scene,
+  //     continuous: true,
+  //   });
 
-    this.mapGridClient.on('change', () => {
-      this.mapViewer.scaleToDimensions(this.mapGridClient.currentGrid.width, this.mapGridClient.currentGrid.height);
-    });
-  },
+  //   this.mapGridClient.on('change', () => {
+  //     this.mapViewer.scaleToDimensions(this.mapGridClient.currentGrid.width, this.mapGridClient.currentGrid.height);
+  //   });
+  // },
   components: {
     Card,
     GradientLineChart,
