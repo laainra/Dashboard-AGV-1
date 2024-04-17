@@ -129,18 +129,18 @@ class AGVService {
       });
   }
 
-  // async deleteAGV(id) {
-  //   return axios
-  //     .delete(API_URL + "/agv/" + id)
-  //     .then((response) => {
-  //       console.log("Delete AGV Response:", response.data);
-  //       return response.data;
-  //     })
-  //     .catch((error) => {
-  //       console.error("Delete AGV Error:", error);
-  //       throw error;
-  //     });
-  // }
+  async deleteAGV(id) {
+    return axios
+      .delete(API_URL + "/agv/" + id)
+      .then((response) => {
+        console.log("Delete AGV Response:", response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.error("Delete AGV Error:", error);
+        throw error;
+      });
+  }
 }
 
 export default new AGVService();
