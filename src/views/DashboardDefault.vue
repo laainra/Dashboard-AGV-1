@@ -7,10 +7,10 @@
         <div class="card mb-4">
           <div id="map" class="d-flex flex-column justify-content-center align-items-center
           sm:h-auto md:h-500" :class="navigationModeClass">
-            <div class="p-3 w-100">
+            <!-- <div class="p-3 w-100">
               <button class=" btn-danger btn-lg w-100" v-if="connected === false" @click="init">Connect GUI To
                 Robot</button>
-            </div>
+            </div> -->
             <img v-if="!robotConnected" src="src/assets/img/robot-with-pliers.png" style="width: 30%;" />
           </div>
         </div>
