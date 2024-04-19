@@ -2,8 +2,6 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="d-flex flex-column justify-content-center align-items-center gap-4">
-
-
         <div class="card mb-4">
           <div id="map" class="d-flex flex-column justify-content-center align-items-center
           sm:h-auto md:h-500" :class="navigationModeClass">
