@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-6">
+          <div class="col-lg col-md-6 col-6">
             <card
               :title="stats.money.title"
               :value="stats.money.value"
@@ -14,7 +14,7 @@
               directionReverse
             ></card>
           </div>
-          <div class="col-lg-3 col-md-6 col-12">
+          <div class="col-lg col-md-6 col-12">
             <card
               :title="stats.users.title"
               :value="stats.users.value"
@@ -25,7 +25,7 @@
               directionReverse
             ></card>
           </div>
-          <div class="col-lg-3 col-md-6 col-12">
+          <div class="col-lg col-md-6 col-12">
             <card
               :title="stats.clients.title"
               :value="stats.clients.value"
@@ -34,17 +34,6 @@
               :iconBackground="stats.clients.iconBackground"
               :percentageColor="stats.clients.percentageColor"
               :detail="stats.clients.detail"
-              directionReverse
-            ></card>
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <card
-              :title="stats.sales.title"
-              :value="stats.sales.value"
-              :percentage="stats.sales.percentage"
-              :iconClass="stats.sales.iconClass"
-              :iconBackground="stats.sales.iconBackground"
-              :detail="stats.sales.detail"
               directionReverse
             ></card>
           </div>
@@ -160,14 +149,6 @@ export default {
           percentageColor: "text-danger",
           iconBackground: "bg-gradient-danger",
           detail: "every navigation",
-        },
-        sales: {
-          title: "Lama Penggunaan",
-          value: "10 hours",
-          percentage: "",
-          iconClass: "ni ni-watch-time",
-          iconBackground: "bg-gradient-warning",
-          detail: "Since 07 March 2024",
         },
       },
       sales: {

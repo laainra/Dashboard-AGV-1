@@ -16,25 +16,20 @@
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-6 col-6">
+      <div class="col-lg col-md-6">
         <card :title="stats.money.title" :value="stats.money.value" :percentage="stats.money.percentage"
           :iconClass="stats.money.iconClass" :iconBackground="stats.money.iconBackground" :detail="stats.money.detail"
           directionReverse></card>
       </div>
-      <div class="col-lg-3 col-md-6 col-12">
+      <div class="col-lg col-md-6 col-12">
         <card :title="stats.users.title" :value="stats.users.value" :percentage="stats.users.percentage"
           :iconClass="stats.users.iconClass" :iconBackground="stats.users.iconBackground" :detail="stats.users.detail"
           directionReverse></card>
       </div>
-      <div class="col-lg-3 col-md-6 col-12">
+      <div class="col-lg col-md-6 col-12">
         <card :title="stats.clients.title" :value="stats.clients.value" :percentage="stats.clients.percentage"
           :iconClass="stats.clients.iconClass" :iconBackground="stats.clients.iconBackground"
           :percentageColor="stats.clients.percentageColor" :detail="stats.clients.detail" directionReverse></card>
-      </div>
-      <div class="col-lg-3 col-md-6 col-12">
-        <card :title="stats.sales.title" :value="stats.sales.value" :percentage="stats.sales.percentage"
-          :iconClass="stats.sales.iconClass" :iconBackground="stats.sales.iconBackground" :detail="stats.sales.detail"
-          directionReverse></card>
       </div>
     </div>
     <div class="row">
@@ -154,14 +149,14 @@ export default {
           iconBackground: "bg-gradient-danger",
           detail: "every navigation",
         },
-        sales: {
-          title: "Lama Penggunaan",
-          value: "10 hours",
-          percentage: "",
-          iconClass: "ni ni-watch-time",
-          iconBackground: "bg-gradient-warning",
-          detail: "Since 07 March 2024",
-        },
+        // sales: {
+        //   title: "Lama Penggunaan",
+        //   value: "10 hours",
+        //   percentage: "",
+        //   iconClass: "ni ni-watch-time",
+        //   iconBackground: "bg-gradient-warning",
+        //   detail: "Since 07 March 2024",
+        // },
       },
       sales: {
         us: {
