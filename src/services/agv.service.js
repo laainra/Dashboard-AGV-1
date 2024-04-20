@@ -104,17 +104,16 @@ class AGVService {
   //     });
   // }
   async getAGVs() {
-    return axios
-      .get(API_URL + "/agv")
-      .then((response) => {
-        console.log("Read AGV Response:", response.data);
-        return response.data;
-      })
-      .catch((error) => {
-        console.error("Read AGV Error:", error);
-        throw error;
-      });
+    try {
+      const response = await axios.get(API_URL + "/agv");
+      console.log("Read AGV Response:", response.data);
+      return response.data; // Mengembalikan array data langsung
+    } catch (error) {
+      console.error("Read AGV Error:", error);
+      throw error;
+    }
   }
+  
 
   async updateAGV(id, updatedAGVData) {
     return axios

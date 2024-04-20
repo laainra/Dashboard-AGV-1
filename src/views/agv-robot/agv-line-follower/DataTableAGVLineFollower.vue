@@ -29,6 +29,15 @@
           ></base-input>
           <br />
 
+          <base-input
+            v-model="input.ip"
+            name="IP Address"
+            class="input"
+            placeholder="add ip address"
+            required
+          ></base-input>
+          <br />
+
           <div class="button-action">
             <argon-button
               type="reset"
@@ -78,6 +87,7 @@ import { useToast } from "vue-toastification";
 const initialInput = {
   code: "",
   description: "",
+  ip: "",
 };
 
 export default {

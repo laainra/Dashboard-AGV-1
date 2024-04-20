@@ -1,25 +1,61 @@
 <template>
-  <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" :class="this.$store.state.isRTL ? 'top-0 position-sticky z-index-sticky' : ''" v-bind="$attrs" id="navbarBlur" data-scroll="true">
+  <nav
+    class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+    :class="
+      this.$store.state.isRTL ? 'top-0 position-sticky z-index-sticky' : ''
+    "
+    v-bind="$attrs"
+    id="navbarBlur"
+    data-scroll="true"
+  >
     <div class="py-2 d-flex align-items-center navbar-collapse">
       <breadcrumbs :currentPage="currentRouteName" textWhite="text-white" />
-      <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4" id="navbar">
-        <div class="pe-md-3" :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'">
-          <argon-button v-if="currentRouteName === 'Dashboard Agv Lidar' || currentRouteName === 'Dashboard Agv Line Follower'" @click="switchToDashboard">{{ switchButtonDashboardText }}
+      <div
+        class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
+        id="navbar"
+      >
+        <div
+          class="pe-md-3"
+          :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
+        >
+          <argon-button
+            v-if="
+              currentRouteName === 'Dashboard Agv Lidar' ||
+              currentRouteName === 'Dashboard Agv Line Follower'
+            "
+            @click="switchToDashboard"
+            >{{ switchButtonDashboardText }}
             <i class="fas fa-sync" style="margin-left: 5px"></i>
           </argon-button>
 
-          <argon-button v-if="currentRouteName === 'AGV Lidar' || currentRouteName === 'AGV Line Follower'" @click="switchToAGV">{{ switchButtonAGVText }}
+          <argon-button
+            v-if="
+              currentRouteName === 'AGV Lidar' ||
+              currentRouteName === 'AGV Line Follower'
+            "
+            @click="switchToAGV"
+            >{{ switchButtonAGVText }}
             <i class="fas fa-sync" style="margin-left: 5px"></i>
           </argon-button>
 
-          <argon-button v-if="currentRouteName === 'Station AGV Lidar' || currentRouteName === 'Station AGV Line Follower'" @click="switchToStation">{{ switchButtonStationText }}
+          <argon-button
+            v-if="
+              currentRouteName === 'Station AGV Lidar' ||
+              currentRouteName === 'Station AGV Line Follower'
+            "
+            @click="switchToStation"
+            >{{ switchButtonStationText }}
             <i class="fas fa-sync" style="margin-left: 5px"></i>
           </argon-button>
         </div>
         <ul class="navbar-nav justify-content-end">
           <!-- Conditionally render the profile icon if user is logged in -->
           <li v-if="isLoggedIn" class="nav-item d-flex align-items-center">
-            <argon-button class="btn-danger" target="_blank" @click="connectToRobot">
+            <argon-button
+              class="btn-danger"
+              target="_blank"
+              @click="connectToRobot"
+            >
               Connect
               <i class="fas fa-wifi" style="margin-left: 5px"></i>
             </argon-button>
@@ -28,86 +64,84 @@
       </div>
     </div>
   </nav>
-  
-    <!-- add modal -->
-    <ip-input v-model:show="modal" modal-classes="modal-lg">
-      <template #header>
-        <h3 class="modal-title"></h3>
-      </template>
-      <template #body>
-        <div v-if="loadingModal">
-          <i class="fa fa-spinner fa-spin"></i> Loading...
+
+  <!-- add modal -->
+  <ip-input v-model:show="modal.connectIP" modal-classes="modal-lg">
+    <template #header>
+      <p class="modal-title">Connect Your AGV Here</p>
+    </template>
+    <template #body>
+      <form :validation-schema="schema">
+        <div>
+          <h6>Available of AGV</h6>
+          <multi-select
+            v-model="input.code"
+            :options="g$ddListAGV"
+            label="name"
+            track-by="id"
+            placeholder="Select of AGV"
+            :show-labels="false"
+          />
         </div>
-        <div v-else>
-          <form v-if="modal.addIP" :validation-schema="schema">
-            <div class="row">
-              <!-- IP -->
-              <div class="col-6  col-md-12">
-                <field-form v-slot="{ field }" v-model="input.ip" type="text" name="ip">
-                  <base-input v-bind="field" placeholder="IP Robot" label="IP" required></base-input>
-                 
-                </field-form>
-              </div>
-            </div>
-          </form>
-        </div>
-      </template>
-      <template #footer>
-        <!-- <base-button type="secondary" @click="modal.addIP = false">
-          Tutup
-        </base-button> -->
-       
-        <button type="primary" @click="addIP()">
-          <span v-if="!loading">Connect the IP</span>
-          <span v-else>
-            <i class="fa fa-spinner fa-spin"></i> Connecting...
-          </span>
-        </button>
-      </template>
-    </ip-input>
+        <base-input v-model="input.ip" :disabled="disabled" />
+      </form>
+    </template>
+    <template #footer>
+      <argon-button class="success" @click="addIP()">
+        <span v-if="!loading">Connect the IP</span>
+        <span v-else>
+          <i class="fa fa-spinner fa-spin"></i> Connecting...
+        </span>
+      </argon-button>
+    </template>
+  </ip-input>
 </template>
 
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
-import { mapMutations, mapActions } from "vuex";
+import { mapActions, mapState } from "pinia";
+import d$dropdown from "@/store/dropdown";
 import Cookies from "js-cookie";
 import ArgonButton from "../../components/ArgonButton.vue";
-import IpInput from "../../views/components/IpInput.vue"
+import IpInput from "../../views/components/IpInput.vue";
+import MultiSelect from "vue-multiselect";
+import BaseInput from "../../views/components/BaseInput.vue";
+import "@/assets/css/vue-multiselect.min.css";
 
 export default {
   name: "navbar",
   data() {
     return {
       showMenu: false,
-      isLoggedIn: !!Cookies.get("user"), // Check if user is logged in based on the presence of user in cookies
+      isLoggedIn: !!Cookies.get("user"),
       isDashboardAGVLineFollower: false,
       isAGVLineFollower: false,
       isStationLineFollower: false,
-      modal: false
+      modal: {
+        connectIP: false,
+      },
+      input: {
+        code: [], // Ubah properti 'code' menjadi array
+        ip: "", // Tambahkan properti 'ip' untuk menyimpan nilai IP
+      },
+      availableAGV: [],
+      disabled: true, // Pindahkan properti 'disabled' ke luar dari data
     };
   },
   props: ["minNav", "textWhite"],
   created() {
-    this.minNav;
+    this.a$ddDataAGV(); // Panggil aksi untuk mengambil data AGV dari API saat komponen dibuat
   },
   methods: {
-    ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
-    ...mapActions(["toggleSidebarColor"]),
+    ...mapActions(d$dropdown, ["a$ddDataAGV"]),
     connectToRobot() {
-      this.modal = true; // Show the modal
-      console.log(this.modal);
-      // Check if Vue Router is available and navigate to the "Connect" page
-      if (this.$router) {
-        this.$router.push({ name: 'Connect' });
-      } else {
-        console.error('Vue Router is not available.');
-      }
+      console.log("iniiiii")
+      this.modal.connectIP = true;
     },
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
       this.navbarMinimize();
     },
-
     switchToDashboard() {
       if (this.isDashboardAGVLineFollower) {
         this.$router.push({ name: "Dashboard Agv Lidar" });
@@ -117,7 +151,6 @@ export default {
         this.isDashboardAGVLineFollower = true;
       }
     },
-
     switchToAGV() {
       if (this.isAGVLineFollower) {
         this.$router.push({ name: "AGV Lidar" });
@@ -127,7 +160,6 @@ export default {
         this.isAGVLineFollower = true;
       }
     },
-
     switchToStation() {
       if (this.isStationLineFollower) {
         this.$router.push({ name: "Station AGV Lidar" });
@@ -137,13 +169,20 @@ export default {
         this.isStationLineFollower = true;
       }
     },
+    addIP() {
+      // Tambahkan logika untuk menambahkan IP
+    },
   },
   components: {
     Breadcrumbs,
     ArgonButton,
-    IpInput
+    IpInput,
+    MultiSelect,
+    BaseInput,
   },
   computed: {
+    ...mapState(d$dropdown, ["g$ddListAGV"]),
+
     currentRouteName() {
       return this.$route.name;
     },
@@ -161,6 +200,23 @@ export default {
       return this.currentRouteName === "Station AGV Line Follower"
         ? "Switch to AGV Lidar Station"
         : "Switch to AGV Line Follower Station";
+    },
+  },
+  watch: {
+    'input.code': function(newVal, oldVal) {
+      // Saat input AGV berubah, periksa apakah ada AGV yang dipilih
+      if (newVal.length > 0) {
+        // Ambil AGV yang dipilih dari g$ddListAGV
+        const selectedAGV = this.g$ddListAGV.find(agv => agv.id === newVal[0]);
+        if (selectedAGV) {
+          // Jika AGV yang dipilih ditemukan, set nilai IP sesuai dengan nilai IP AGV tersebut
+          this.input.ip = selectedAGV.ip || "";
+          this.disabled = true; // Dinonaktifkan saat nilai IP diisi
+        }
+      } else {
+        this.input.ip = "";
+        this.disabled = false; // Aktifkan kembali saat tidak ada AGV yang dipilih
+      }
     },
   },
 };

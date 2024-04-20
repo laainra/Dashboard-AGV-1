@@ -26,10 +26,10 @@
             modalContentClasses,
           ]"
         >
-          <div v-if="$slots.header" class="modal-header border-bottom align-items-center" :class="[headerClasses]">
+          <div v-if="$slots.header" class="modal-header align-items-center" :class="[headerClasses]">
             <slot name="header"></slot>
             <slot name="close-button">
-              <button
+              <argon-button
                 v-if="showClose"
                 type="button"
                 class="close"
@@ -38,7 +38,7 @@
                 @click="closeModal"
               >
                 <span :aria-hidden="!show">×</span>
-              </button> 
+              </argon-button> 
             </slot>
           </div>
   
@@ -46,7 +46,7 @@
             <slot name="body"></slot>
           </div>
   
-          <div v-if="$slots.footer" class="modal-footer border-top" :class="footerClasses">
+          <div v-if="$slots.footer" class="modal-footer" :class="footerClasses">
             <slot name="footer"></slot>
           </div>
         </div>
