@@ -35,6 +35,7 @@ class AGVService {
       .post(API_URL + "/agv", {
         code: agv.code,
         description: agv.description,
+        ip: agv.ip,
       })
       .then((response) => {
         console.log("Add AGV Response:", response.data);
@@ -68,16 +69,16 @@ class AGVService {
   //     }
   //   }
   //   // membuat method untuk membuat request api delete untuk menghapus data agv dari database
-  //   async deleteAGV(id) {
-  //     try {
-  //       const response = await axios.delete(`${API_URL}${id}`);
-  //       console.log('AGV deleted:', response.data);
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error('Error deleting AGV:', error.message);
-  //       throw error;
-  //     }
-  //   }
+    // async deleteAGV(id) {
+    //   try {
+    //     const response = await axios.delete(`${API_URL}${id}`);
+    //     console.log('AGV deleted:', response.data);
+    //     return response.data;
+    //   } catch (error) {
+    //     console.error('Error deleting AGV:', error.message);
+    //     throw error;
+    //   }
+    // }
   //   // membuat method untuk membuat request api get untuk membaca data agv dari database berdasarkan id
   //   async getAGVById(id) {
   //     try {

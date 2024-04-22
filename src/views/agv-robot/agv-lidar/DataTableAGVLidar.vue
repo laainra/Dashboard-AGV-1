@@ -29,13 +29,13 @@
         <br />
 
         <base-input
-            v-model="input.ip"
-            name="IP Address"
-            class="input"
-            placeholder="add ip address"
-            required
-          ></base-input>
-          <br />
+          v-model="input.ip"
+          name="IP Address"
+          class="input"
+          placeholder="add ip address"
+          required
+        ></base-input>
+        <br />
 
         <div class="button-action">
           <argon-button
@@ -114,33 +114,33 @@ export default {
     ...mapActions(useAgvStore, ["g$addAGV", "g$editAGV", "g$deleteAGV"]),
 
     async addForm(event) {
-      try {
-        event.preventDefault();
-        if (this.editing) {
-          await this.g$editAGV({
-            id: this.input._id,
-            updatedAGVData: this.input,
-          });
-          const toast = useToast();
-          toast.success(`AGV ${this.input.code} updated successfully`);
-          this.editing = null;
-        } else {
-          await this.g$addAGV({ ...this.input });
-          const toast = useToast();
-          toast.success(`AGV ${this.input.code} added successfully`);
-        }
-        this.resetForm();
-      } catch (error) {
-        console.error("Failed to add/edit entry:", error);
-      }
-    },
+  try {
+    event.preventDefault();
+    if (this.editing) {
+      await this.g$editAGV({
+        id: this.input._id,
+        updatedAGVData: this.input,
+      });
+      const toast = useToast();
+      toast.success(`AGV ${this.input.code} updated successfully`);
+      this.editing = null;
+    } else {
+      await this.g$addAGV({ ...this.input }); // Mengirimkan semua data this.input, termasuk ip
+      const toast = useToast();
+      toast.success(`AGV ${this.input.code} added successfully`);
+    }
+    this.resetForm();
+  } catch (error) {
+    console.error("Failed to add/edit entry:", error);
+  }
+},
+
 
     handleEditEvent(row) {
       try {
-    
-      this.editing = row._id;
-      console.log(row._id);
-      this.input = { ...row };
+        this.editing = row._id;
+        console.log(row._id);
+        this.input = { ...row };
       } catch (error) {
         console.error("Failed to prepare edit:", error);
       }
