@@ -72,7 +72,7 @@
     </template>
     <template #body>
       <form :validation-schema="schema">
-        <div>
+        <div class="mb-3">
           <h6>Available of AGV</h6>
           <multi-select
             v-model="input.code"
@@ -83,8 +83,9 @@
             :show-labels="false"
           />
         </div>
-        <base-input v-model="input.ip" :disabled="disabled" />
+        <!-- <base-input name="IP Address" v-model="input.ip" :disabled="disabled" /> -->
       </form>
+      <p>Isi data AGV terlebih dahulu untuk menampilkan list AGV</p>
     </template>
     <template #footer>
       <argon-button class="success" @click="addIP()">
@@ -135,7 +136,7 @@ export default {
   methods: {
     ...mapActions(d$dropdown, ["a$ddDataAGV"]),
     connectToRobot() {
-      console.log("iniiiii")
+      console.log("iniiiii");
       this.modal.connectIP = true;
     },
     toggleSidebar() {
@@ -172,6 +173,22 @@ export default {
     addIP() {
       // Tambahkan logika untuk menambahkan IP
     },
+    watch: {
+  "input.code": function(newVal, oldVal) {
+    if (newVal.length > 0) {
+      // Cari data AGV yang sesuai dengan kode AGV yang dipilih
+      const selectedAGV = this.g$ddListAGV.find(agv => agv.code === newVal[0]);
+      if (selectedAGV) {
+        // Jika AGV yang dipilih ditemukan, set nilai IP sesuai dengan nilai IP AGV tersebut
+        this.input.ip = selectedAGV.ip || "";
+      }
+    } else {
+      // Jika tidak ada AGV yang dipilih, reset nilai IP
+      this.input.ip = "";
+    }
+  }
+},
+
   },
   components: {
     Breadcrumbs,
@@ -203,11 +220,13 @@ export default {
     },
   },
   watch: {
-    'input.code': function(newVal, oldVal) {
+    "input.code": function (newVal, oldVal) {
       // Saat input AGV berubah, periksa apakah ada AGV yang dipilih
       if (newVal.length > 0) {
         // Ambil AGV yang dipilih dari g$ddListAGV
-        const selectedAGV = this.g$ddListAGV.find(agv => agv.id === newVal[0]);
+        const selectedAGV = this.g$ddListAGV.find(
+          (agv) => agv.id === newVal[0]
+        );
         if (selectedAGV) {
           // Jika AGV yang dipilih ditemukan, set nilai IP sesuai dengan nilai IP AGV tersebut
           this.input.ip = selectedAGV.ip || "";
