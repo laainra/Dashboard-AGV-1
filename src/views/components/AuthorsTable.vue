@@ -21,7 +21,7 @@ export default {
     editing: false,
     taskData: [],
     table: {
-      columns: ["agv", "station_from", "station_to", "timestart", "time_end"],
+      columns: ["agv", "station_from", "station_to", "time_start", "time_end"],
       actions: [
         {
           title: "Handle",
@@ -38,46 +38,54 @@ export default {
       ],
     },
   }),
- 
-  created() {
-    const socket = new WebSocket("wss://sans-api-service.onrender.com/ws/task/line");
 
-    socket.onmessage = function(event) {
+  created() {
+    const socket = new WebSocket(
+      "wss://sans-api-service.onrender.com/ws/task/line"
+    );
+
+    // Simpan referensi 'this'
+    const self = this;
+
+    // Ambil data dari WebSocket
+    socket.onmessage = function (event) {
       const data = JSON.parse(event.data);
       try {
-      
-       // Log received data
-      this.taskData = data; // Use spread operator to push each item into the array
-    } catch (error) {
-      console.error("Failed to parse incoming WebSocket message:", error);
-    }
-    console.log("Received data from WebSocket:", data);
+        // Ubah struktur data
+        const modifiedData = data.map((item) => {
+          return {
+            agv: item.agv.code,
+            station_from: item.station_from.code,
+            station_to: item.station_to.code,
+            time_end: item.time_end,
+            time_start: item.time_start,
+          };
+        });
 
-    console.log(this.taskData, "taskData")
-    //   if (this.taskData) {
-    //     this.taskData.push(...data); 
-    //   console.log(data, "data")
-    // } else {
-    //   this.taskData = [data];
-    // }
-    }
+        // Simpan data yang sudah diubah
+        self.taskData = modifiedData;
+      } catch (error) {
+        console.error("Failed to parse incoming WebSocket message:", error);
+      }
+      console.log("Received data from WebSocket:", data);
+    };
 
-    socket.onopen = function(event) {
-      console.log(event)
-      console.log("Successfully connected to the echo websocket server...")
-    }
+    socket.onopen = function (event) {
+      console.log(event);
+      console.log("Successfully connected to the echo websocket server...");
+    };
 
-    socket.onclose = function(event) {
+    socket.onclose = function (event) {
       if (event.wasClean) {
-        alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+        alert(
+          `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+        );
       } else {
-        // e.g. server process killed or network down
-        // event.code is usually 1006 in this case
-        alert('[close] Connection died');
+        alert("[close] Connection died");
       }
     };
 
-    socket.onerror = function(error) {
+    socket.onerror = function (error) {
       alert(`[error]`);
     };
   },
@@ -150,7 +158,6 @@ export default {
         @submit.prevent="($event) => addForm($event)"
         method="post"
         @reset="() => resetForm()"
-
       >
         <base-input
           v-model="input.title"
@@ -170,21 +177,53 @@ export default {
         ></base-input>
         <br />
 
-        
-
         <input v-model="input.completed" class="completed" type="checkbox" />
         Completed
         <br />
 
         <div class="button-action">
-          <argon-button type="reset" class="text-center button-cancel"  color="danger" variant="gradient" fullWidth size="lg">Cancel</argon-button>
-          <argon-button type="submit" class="text-center button-submit" color="success" variant="gradient" fullWidth size="lg">{{ editing !== false ? "Edit" : "Add" }}</argon-button>
+          <argon-button
+            type="reset"
+            class="text-center button-cancel"
+            color="danger"
+            variant="gradient"
+            fullWidth
+            size="lg"
+            >Cancel</argon-button
+          >
+          <argon-button
+            type="submit"
+            class="text-center button-submit"
+            color="success"
+            variant="gradient"
+            fullWidth
+            size="lg"
+            >{{ editing !== false ? "Edit" : "Add" }}</argon-button
+          >
         </div>
       </form>
 
+      <!-- <div class="card">
+        <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
+          <div class="container">
+            <div v-for="(task, index) in taskData" :key="index">
+              <h1>
+                {{ task.agv.code }}
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="container">
+        
+        <p v-for="(task, index) in taskData" :key="index">
+          AGV Code: {{ task.agv.code }}, Station From: {{ task.station_from.code }}, Time Start: {{ task.time_start }}
+        </p>
+      </div> -->
+
       <div class="container table-responsive">
-        <!-- <p>{{ this.taskData }}</p> -->
-        <!-- <base-table
+        <base-table
           class="table"
           :data="taskData"
           :columns="table.columns"
@@ -192,7 +231,7 @@ export default {
           @handle-row="handleLogEvent"
           @edit-row="handleEditEvent"
           @remove-row="handleRemoveEvent"
-        /> -->
+        />
       </div>
     </div>
   </div>
