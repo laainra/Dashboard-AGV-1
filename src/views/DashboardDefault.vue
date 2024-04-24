@@ -10,7 +10,6 @@
                 Robot</button>
             </div> -->
             <img v-if="!robotConnected" src="src/assets/img/robot-with-pliers.png" style="width: 30%;" />
-            <h3>(Give me the websocket message value)</h3>
           </div>
         </div>
       </div>
