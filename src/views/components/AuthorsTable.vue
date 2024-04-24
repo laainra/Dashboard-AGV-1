@@ -38,36 +38,37 @@ export default {
       ],
     },
   }),
- 
+
   created() {
     const socket = new WebSocket("wss://sans-api-service.onrender.com/ws/task/line");
-
-    socket.onmessage = function(event) {
+    const self = this;
+    socket.onmessage = function (event) {
       const data = JSON.parse(event.data);
       try {
-      
-       // Log received data
-      this.taskData = data; // Use spread operator to push each item into the array
-    } catch (error) {
-      console.error("Failed to parse incoming WebSocket message:", error);
-    }
-    console.log("Received data from WebSocket:", data);
 
+        // Log received data
+        self.taskData = data; // Use spread operator to push each item into the array
+      } catch (error) {
+        console.error("Failed to parse incoming WebSocket message:", error);
+      }
+      console.log("Received data from WebSocket:", data);
+
+
+      //   if (this.taskData) {
+      //     this.taskData.push(...data); 
+      //   console.log(data, "data")
+      // } else {
+      //   this.taskData = [data];
+      // }
+    }
     console.log(this.taskData, "taskData")
-    //   if (this.taskData) {
-    //     this.taskData.push(...data); 
-    //   console.log(data, "data")
-    // } else {
-    //   this.taskData = [data];
-    // }
-    }
 
-    socket.onopen = function(event) {
+    socket.onopen = function (event) {
       console.log(event)
       console.log("Successfully connected to the echo websocket server...")
     }
 
-    socket.onclose = function(event) {
+    socket.onclose = function (event) {
       if (event.wasClean) {
         alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
       } else {
@@ -77,7 +78,7 @@ export default {
       }
     };
 
-    socket.onerror = function(error) {
+    socket.onerror = function (error) {
       alert(`[error]`);
     };
   },
@@ -145,46 +146,55 @@ export default {
     </div> -->
 
     <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
-      <form
-        class="card-header"
-        @submit.prevent="($event) => addForm($event)"
-        method="post"
-        @reset="() => resetForm()"
-
-      >
-        <base-input
-          v-model="input.title"
-          name="Title"
-          class="input"
-          placeholder="add new"
-          required
-        ></base-input>
+      <form class="card-header" @submit.prevent="($event) => addForm($event)" method="post" @reset="() => resetForm()">
+        <base-input v-model="input.title" name="Title" class="input" placeholder="add new" required></base-input>
         <br />
 
-        <base-input
-          v-model="input.description"
-          name="Description"
-          class="input"
-          placeholder="description"
-          required
-        ></base-input>
+        <base-input v-model="input.description" name="Description" class="input" placeholder="description"
+          required></base-input>
         <br />
 
-        
+
 
         <input v-model="input.completed" class="completed" type="checkbox" />
         Completed
         <br />
 
         <div class="button-action">
-          <argon-button type="reset" class="text-center button-cancel"  color="danger" variant="gradient" fullWidth size="lg">Cancel</argon-button>
-          <argon-button type="submit" class="text-center button-submit" color="success" variant="gradient" fullWidth size="lg">{{ editing !== false ? "Edit" : "Add" }}</argon-button>
+          <argon-button type="reset" class="text-center button-cancel" color="danger" variant="gradient" fullWidth
+            size="lg">Cancel</argon-button>
+          <argon-button type="submit" class="text-center button-submit" color="success" variant="gradient" fullWidth
+            size="lg">{{ editing !== false ? "Edit" : "Add" }}</argon-button>
         </div>
       </form>
 
-      <div class="container table-responsive">
-        <!-- <p>{{ this.taskData }}</p> -->
-        <!-- <base-table
+      <div>
+        <!-- <table class="table">
+          <thead>
+            <tr>
+              <th>AGV</th>
+              <th>Station From</th>
+              <th>Station To</th>
+              <th>Time Start</th>
+              <th>Time End</th>
+            </tr>
+          </thead>
+          <tbody> -->
+        <p v-for="(item, index) in taskData" :key="index">
+          <p>{{ item.agv.code }} </p>
+          <p>{{ item.station_from.code }}</p>
+          <p>{{ item.station_to.code }}</p>
+          <p>{{ item.time_start }}</p>
+          <p>{{ item.time_end }}</p>
+        </p>
+      </div>
+      <!-- </tbody>
+        </table> -->
+    </div>
+
+    <div class="container table-responsive">
+
+      <!-- <base-table
           class="table"
           :data="taskData"
           :columns="table.columns"
@@ -193,7 +203,6 @@ export default {
           @edit-row="handleEditEvent"
           @remove-row="handleRemoveEvent"
         /> -->
-      </div>
     </div>
   </div>
 </template>
@@ -202,6 +211,7 @@ export default {
 .completed {
   margin-bottom: 1.4rem;
 }
+
 .button-action {
   display: flex;
   flex-direction: row;
