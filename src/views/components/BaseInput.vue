@@ -19,6 +19,10 @@ defineProps({
   required: {
     type: Boolean,
     default: false
+  },
+  disabled: {
+    type: Boolean, // Tentukan tipe properti sebagai Boolean
+    default: false // Atur nilai default menjadi false
   }
 })
 
@@ -26,23 +30,21 @@ defineEmits(['update:modelValue'])
 </script>
 
 <template>
-
-    <label class="label" :for="name">{{ name }}</label>
- 
-    <input
-      class="input"
-      :id="id"
-      :type="type"
-      :name="name"
-      :placeholder="placeholder"
-      :value="modelValue"
-      :required="required"
-      @input="(e) => $emit('update:modelValue', e.target.value)"
-    />
-
+  <label class="label" :for="name">{{ name }}</label>
+  <input
+    class="input"
+    :id="id"
+    :type="type"
+    :name="name"
+    :placeholder="placeholder"
+    :value="modelValue"
+    :required="required"
+    :disabled="disabled"
+    @input="(e) => $emit('update:modelValue', e.target.value)"
+  />
 </template>
 
-<style scopped>
+<style scoped>
 .label {
   color: #000000;
   font-size: 14px;
@@ -57,9 +59,4 @@ defineEmits(['update:modelValue'])
   background-color: transparent;
   width: 100%;
 }
-/* 
-input[type="text"] {
-  background-color: transparent;
-} */
-
 </style>

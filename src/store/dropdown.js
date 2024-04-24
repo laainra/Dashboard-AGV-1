@@ -21,9 +21,10 @@ const u$dropdown = defineStore({
   },
   getters: {
     g$ddListAGV: (state) =>
-      state.dataAGV.map(({ _id, code }) => ({
+      state.dataAGV.map(({ _id, code, ip }) => ({
         id: _id,
         name: code,
+        ip: ip,
       })),
   },
 });
