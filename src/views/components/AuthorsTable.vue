@@ -51,14 +51,16 @@ export default {
     // Ambil data dari WebSocket
     socket.onmessage = function (event) {
       const data = JSON.parse(event.data);
+      
       try {
         // Ubah struktur data
         const modifiedData = data.map((item) => {
+          console.log(item,"Adawd");
           return {
             agv: item.agv.code,
             station_from: item.station_from.code,
-            station_to: item.station_to.code,
-            time_end: item.time_end,
+            station_to: item.station_to?.code ?? '',
+            time_end: item?.time_end ?? '',
             time_start: item.time_start,
           };
         });
