@@ -39,6 +39,7 @@ export default {
     },
   }),
 
+
   created() {
     const socket = new WebSocket(
       "wss://sans-api-service.onrender.com/ws/task/line"
@@ -168,13 +169,8 @@ export default {
         ></base-input>
         <br />
 
-        <base-input
-          v-model="input.description"
-          name="Description"
-          class="input"
-          placeholder="description"
-          required
-        ></base-input>
+        <base-input v-model="input.description" name="Description" class="input" placeholder="description"
+          required></base-input>
         <br />
 
         <input v-model="input.completed" class="completed" type="checkbox" />
@@ -241,6 +237,7 @@ export default {
 .completed {
   margin-bottom: 1.4rem;
 }
+
 .button-action {
   display: flex;
   flex-direction: row;
