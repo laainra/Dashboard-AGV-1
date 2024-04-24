@@ -100,6 +100,7 @@
 
 </template>
 <script>
+// (Give me code for getting the websocket value)
 import Card from "@/examples/Cards/Card.vue";
 import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 import Carousel from "./components/Carousel.vue";
@@ -120,6 +121,7 @@ export default {
       connected: false,
       mapViewer: null,
       mapGridClient: null,
+      msg: null,
       stats: {
 
         money: {
@@ -188,7 +190,32 @@ export default {
       },
     };
   },
-  //mounted() {
+  mounted() {
+    // this.ros.on('error', function (error) {
+    //   console.log(error);
+    // });
+
+    // // Find out exactly when we made a connection.
+    // this.ros.on('connection', function () {
+    //   console.log('Connection made!');
+    // });
+
+    // this.ros.on('close', function () {
+    //   console.log('Connection closed.');
+    // });
+
+    // this.ros.connect(this.props.rosbridgeAddress);
+
+    // let messageTopic = new ROSLIB.Topic({
+    //   ros: this.ros,
+    //   name: '/my_array',
+    //   messageType: 'std_msgs/String'
+    // });
+
+    // messageTopic.subscribe(message => {
+    //     console.log(message.data);
+    //     this.setState({ msg: message.data });
+    // });
   //   this.ros = new ROSLIB.Ros({
   //     url: 'ws://' + window.location.hostname + ':9090',
   //   });
@@ -221,7 +248,7 @@ export default {
   //   this.mapGridClient.on('change', () => {
   //     this.mapViewer.scaleToDimensions(this.mapGridClient.currentGrid.width, this.mapGridClient.currentGrid.height);
   //   });
-  // },
+ },
   components: {
     Card,
     GradientLineChart,

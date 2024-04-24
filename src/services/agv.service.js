@@ -11,6 +11,7 @@ class AGVService {
     // interceptor request
     axios.interceptors.request.use(
       (config) => {
+        config.headers['Access-Control-Allow-Origin'] = '*';
         return config;
       },
       (error) => {
