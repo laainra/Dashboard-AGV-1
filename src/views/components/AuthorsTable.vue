@@ -19,9 +19,9 @@ export default {
   data: () => ({
     input: { ...initialInput },
     editing: false,
-
+    taskData: [],
     table: {
-      columns: ["station awal", "station akhir", "waktu awal", "waktu akhir"],
+      columns: ["agv", "station_from", "station_to", "timestart", "time_end"],
       actions: [
         {
           title: "Handle",
@@ -38,7 +38,49 @@ export default {
       ],
     },
   }),
+ 
+  created() {
+    const socket = new WebSocket("wss://sans-api-service.onrender.com/ws/task/line");
 
+    socket.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      try {
+      
+       // Log received data
+      this.taskData = data; // Use spread operator to push each item into the array
+    } catch (error) {
+      console.error("Failed to parse incoming WebSocket message:", error);
+    }
+    console.log("Received data from WebSocket:", data);
+
+    console.log(this.taskData, "taskData")
+    //   if (this.taskData) {
+    //     this.taskData.push(...data); 
+    //   console.log(data, "data")
+    // } else {
+    //   this.taskData = [data];
+    // }
+    }
+
+    socket.onopen = function(event) {
+      console.log(event)
+      console.log("Successfully connected to the echo websocket server...")
+    }
+
+    socket.onclose = function(event) {
+      if (event.wasClean) {
+        alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+      } else {
+        // e.g. server process killed or network down
+        // event.code is usually 1006 in this case
+        alert('[close] Connection died');
+      }
+    };
+
+    socket.onerror = function(error) {
+      alert(`[error]`);
+    };
+  },
   components: {
     BaseInput,
     BaseTable,
@@ -101,12 +143,14 @@ export default {
     <!-- <div class="d-flex justify-between card-header pb-0">
       <h6>Login first, then input your ToDo List here 👇🏻</h6>
     </div> -->
+
     <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
       <form
         class="card-header"
         @submit.prevent="($event) => addForm($event)"
         method="post"
         @reset="() => resetForm()"
+
       >
         <base-input
           v-model="input.title"
@@ -126,6 +170,8 @@ export default {
         ></base-input>
         <br />
 
+        
+
         <input v-model="input.completed" class="completed" type="checkbox" />
         Completed
         <br />
@@ -137,15 +183,16 @@ export default {
       </form>
 
       <div class="container table-responsive">
-        <base-table
+        <!-- <p>{{ this.taskData }}</p> -->
+        <!-- <base-table
           class="table"
-          :data="getList"
+          :data="taskData"
           :columns="table.columns"
           :actions="table.actions"
           @handle-row="handleLogEvent"
           @edit-row="handleEditEvent"
           @remove-row="handleRemoveEvent"
-        />
+        /> -->
       </div>
     </div>
   </div>
