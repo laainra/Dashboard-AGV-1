@@ -66,7 +66,7 @@
   </nav>
 
   <!-- add modal -->
-  <ip-input v-model:show="modal.connectIP" modal-classes="modal-lg">
+  <ip-input v-model:show="modal.connectIP" modal-classes="modal-lg" @hidden="clearInputs">
     <template #header>
       <p class="modal-title">Connect Your AGV Here</p>
     </template>
@@ -79,11 +79,19 @@
             :options="g$ddListAGV"
             label="name"
             track-by="id"
-            placeholder="Select of AGV"
+            placeholder="Select AGV"
             :show-labels="false"
           />
         </div>
-        <!-- <base-input name="IP Address" v-model="input.ip" :disabled="disabled" /> -->
+        <base-input
+          v-model="input.ip"
+          label="ip"
+          name="IP Address"
+          track-by="id"
+          placeholder="Select IP"
+          :show-labels="false"
+          disabled
+        />
       </form>
       <p>Isi data AGV terlebih dahulu untuk menampilkan list AGV</p>
     </template>
@@ -135,9 +143,19 @@ export default {
   },
   methods: {
     ...mapActions(d$dropdown, ["a$ddDataAGV"]),
+    clearInputs() {
+      // Reset the input values when the modal is hidden
+      this.input.code = [];
+      this.input.ip = "";
+    },
     connectToRobot() {
-      console.log("iniiiii");
-      this.modal.connectIP = true;
+      try {
+        // Panggil aksi untuk mengambil data AGV dari API
+        this.a$ddDataAGV();
+        this.modal.connectIP = true;
+      } catch (error) {
+        console.error("Error fetching AGV data:", error.message);
+      }
     },
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
@@ -173,22 +191,6 @@ export default {
     addIP() {
       // Tambahkan logika untuk menambahkan IP
     },
-    watch: {
-  "input.code": function(newVal, oldVal) {
-    if (newVal.length > 0) {
-      // Cari data AGV yang sesuai dengan kode AGV yang dipilih
-      const selectedAGV = this.g$ddListAGV.find(agv => agv.code === newVal[0]);
-      if (selectedAGV) {
-        // Jika AGV yang dipilih ditemukan, set nilai IP sesuai dengan nilai IP AGV tersebut
-        this.input.ip = selectedAGV.ip || "";
-      }
-    } else {
-      // Jika tidak ada AGV yang dipilih, reset nilai IP
-      this.input.ip = "";
-    }
-  }
-},
-
   },
   components: {
     Breadcrumbs,
@@ -197,8 +199,31 @@ export default {
     MultiSelect,
     BaseInput,
   },
+  watch: {
+    "input.code": function (newVal) {
+      console.log("ini adalah hasil dari newval", newVal);
+      // Saat input AGV berubah, periksa apakah ada AGV yang dipilih
+      if (newVal.ip) {
+        // Ambil ID AGV yang dipilih
+        this.input.ip = newVal.ip;
+      } else {
+        this.input.ip = "";
+      }
+    },
+  },
   computed: {
     ...mapState(d$dropdown, ["g$ddListAGV"]),
+
+    selectedAGVIPs() {
+      if (this.input.code.length > 0) {
+        const selectedAGVId = this.input.code[0].id;
+        const selectedAGV = this.g$ddListAGV.find(
+          (agv) => agv.id === selectedAGVId
+        );
+        return selectedAGV ? [selectedAGV] : [];
+      }
+      return [];
+    },
 
     currentRouteName() {
       return this.$route.name;
@@ -217,25 +242,6 @@ export default {
       return this.currentRouteName === "Station AGV Line Follower"
         ? "Switch to AGV Lidar Station"
         : "Switch to AGV Line Follower Station";
-    },
-  },
-  watch: {
-    "input.code": function (newVal, oldVal) {
-      // Saat input AGV berubah, periksa apakah ada AGV yang dipilih
-      if (newVal.length > 0) {
-        // Ambil AGV yang dipilih dari g$ddListAGV
-        const selectedAGV = this.g$ddListAGV.find(
-          (agv) => agv.id === newVal[0]
-        );
-        if (selectedAGV) {
-          // Jika AGV yang dipilih ditemukan, set nilai IP sesuai dengan nilai IP AGV tersebut
-          this.input.ip = selectedAGV.ip || "";
-          this.disabled = true; // Dinonaktifkan saat nilai IP diisi
-        }
-      } else {
-        this.input.ip = "";
-        this.disabled = false; // Aktifkan kembali saat tidak ada AGV yang dipilih
-      }
     },
   },
 };
