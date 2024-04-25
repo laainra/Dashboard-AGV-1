@@ -76,6 +76,7 @@ import { useToast } from "vue-toastification";
 const initialInput = {
   code: "",
   status: "",
+  rfid: "",
 };
 
 export default {
@@ -85,7 +86,7 @@ export default {
       input: { ...initialInput },
       editing: null,
       table: {
-        columns: ["code", "status"],
+        columns: ["code", "status", "rfid"],
       },
     };
   },

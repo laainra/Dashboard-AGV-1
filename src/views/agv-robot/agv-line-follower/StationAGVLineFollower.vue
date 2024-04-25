@@ -28,6 +28,15 @@
         ></base-input>
         <br />
 
+        <base-input
+          v-model="input.rfid"
+          name="RFID"
+          class="input"
+          placeholder="add rfid"
+          required
+        ></base-input>
+        <br />
+
         <div class="button-action">
           <argon-button
             type="reset"
@@ -76,6 +85,7 @@ import { useToast } from "vue-toastification";
 const initialInput = {
   code: "",
   status: "",
+  rfid: "",
 };
 
 export default {
@@ -85,7 +95,7 @@ export default {
       input: { ...initialInput },
       editing: null,
       table: {
-        columns: ["code", "status"],
+        columns: ["code", "status", "rfid"],
       },
     };
   },
