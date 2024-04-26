@@ -28,11 +28,20 @@
         ></base-input>
         <br />
 
+        <!-- <base-input
+          v-model="input.type"
+          name="type"
+          class="input"
+          placeholder="add type"
+          required
+        ></base-input>
+        <br /> -->
+
         <base-input
           v-model="input.ip"
-          name="IP Address"
+          name="ip"
           class="input"
-          placeholder="add ip address"
+          placeholder="add ip"
           required
         ></base-input>
         <br />
@@ -85,6 +94,7 @@ import { useToast } from "vue-toastification";
 const initialInput = {
   code: "",
   description: "",
+  // type: "",
   ip: "",
 };
 
@@ -114,27 +124,26 @@ export default {
     ...mapActions(useAgvStore, ["g$addAGV", "g$editAGV", "g$deleteAGV"]),
 
     async addForm(event) {
-  try {
-    event.preventDefault();
-    if (this.editing) {
-      await this.g$editAGV({
-        id: this.input._id,
-        updatedAGVData: this.input,
-      });
-      const toast = useToast();
-      toast.success(`AGV ${this.input.code} updated successfully`);
-      this.editing = null;
-    } else {
-      await this.g$addAGV({ ...this.input }); // Mengirimkan semua data this.input, termasuk ip
-      const toast = useToast();
-      toast.success(`AGV ${this.input.code} added successfully`);
-    }
-    this.resetForm();
-  } catch (error) {
-    console.error("Failed to add/edit entry:", error);
-  }
-},
-
+      try {
+        event.preventDefault();
+        if (this.editing) {
+          await this.g$editAGV({
+            id: this.input._id,
+            updatedAGVData: this.input,
+          });
+          const toast = useToast();
+          toast.success(`AGV ${this.input.code} updated successfully`);
+          this.editing = null;
+        } else {
+          await this.g$addAGV({ ...this.input }); // Mengirimkan semua data this.input, termasuk ip
+          const toast = useToast();
+          toast.success(`AGV ${this.input.code} added successfully`);
+        }
+        this.resetForm();
+      } catch (error) {
+        console.error("Failed to add/edit entry:", error);
+      }
+    },
 
     handleEditEvent(row) {
       try {
