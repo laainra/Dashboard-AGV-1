@@ -28,6 +28,15 @@
         ></base-input>
         <br />
 
+        <base-input
+          v-model="input.rfid"
+          name="rfid"
+          class="input"
+          placeholder="add rfid"
+          required
+        ></base-input>
+        <br />
+
         <div class="button-action">
           <argon-button
             type="reset"

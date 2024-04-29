@@ -37,6 +37,15 @@
         ></base-input>
         <br />
 
+        <base-input
+        v-model="input.type"
+        name="Type"
+        class="input"
+        placeholder="add device type"
+        required
+      ></base-input>
+      <br />
+
         <div class="button-action">
           <argon-button
             type="reset"
@@ -86,6 +95,7 @@ const initialInput = {
   code: "",
   description: "",
   ip: "",
+  type:""
 };
 
 export default {
@@ -95,7 +105,7 @@ export default {
       input: { ...initialInput },
       editing: null,
       table: {
-        columns: ["code", "description", "ip"],
+        columns: ["code", "description", "ip","type"]
       },
     };
   },

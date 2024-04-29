@@ -39,7 +39,7 @@
 
         <base-input
           v-model="input.rfid"
-          name="RFID"
+          name="rfid"
           class="input"
           placeholder="add rfid"
           required

@@ -37,6 +37,15 @@
         ></base-input>
         <br />
 
+        <base-input
+          v-model="input.type"
+          name="type"
+          class="input"
+          placeholder="add device type"
+          required
+        ></base-input>
+        <br />
+
         <div class="button-action">
           <argon-button
             type="reset"
@@ -86,6 +95,7 @@ const initialInput = {
   code: "",
   description: "",
   ip: "",
+  type:""
 };
 
 export default {
@@ -95,7 +105,7 @@ export default {
       input: { ...initialInput },
       editing: null,
       table: {
-        columns: ["code", "description", "ip"],
+        columns: ["code", "description", "ip", "type"],
       },
     };
   },
@@ -114,27 +124,33 @@ export default {
     ...mapActions(useAgvStore, ["g$addAGV", "g$editAGV", "g$deleteAGV"]),
 
     async addForm(event) {
-  try {
-    event.preventDefault();
-    if (this.editing) {
-      await this.g$editAGV({
-        id: this.input._id,
-        updatedAGVData: this.input,
-      });
-      const toast = useToast();
-      toast.success(`AGV ${this.input.code} updated successfully`);
-      this.editing = null;
-    } else {
-      await this.g$addAGV({ ...this.input }); // Mengirimkan semua data this.input, termasuk ip
-      const toast = useToast();
-      toast.success(`AGV ${this.input.code} added successfully`);
-    }
-    this.resetForm();
-  } catch (error) {
-    console.error("Failed to add/edit entry:", error);
-  }
-},
-
+      try {
+        event.preventDefault();
+        if (this.editing) {
+          await this.g$editAGV({
+            id: this.input._id,
+            updatedAGVData: this.input,
+          });
+          const toast = useToast();
+          toast.success(`AGV ${this.input.code} updated successfully`);
+          this.editing = null;
+        } else {
+          const agvData = {
+            // Include type explicitly
+            code: this.input.code,
+            description: this.input.description,
+            ip: this.input.ip,
+            type: this.input.type,
+          };
+          await this.g$addAGV(agvData); // Mengirimkan semua data this.input, termasuk ip
+          const toast = useToast();
+          toast.success(`AGV ${this.input.code} added successfully`);
+        }
+        this.resetForm();
+      } catch (error) {
+        console.error("Failed to add/edit entry:", error);
+      }
+    },
 
     handleEditEvent(row) {
       try {
