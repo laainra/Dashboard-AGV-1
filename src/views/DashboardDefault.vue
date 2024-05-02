@@ -80,6 +80,59 @@
       </div>
     </div>
   </div>
+          <div class="p-3 pb-0 card-header">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-2">Data Station AGV Lidar</h6>
+              <router-link to="/history-lidar-task" class="text-end">See History</router-link>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center">
+              <tbody>
+                <tr v-for="(sale, index) in sales" :key="index">
+                  <td class="w-30">
+                    <div class="px-2 py-1 d-flex align-items-center">
+                      <div>
+                        <img :src="sale.flag" alt="Country flag" />
+                      </div>
+                      <div class="ms-4">
+                        <p class="mb-0 text-xs font-weight-bold">
+                          Country:
+                        </p>
+                        <h6 class="mb-0 text-sm">{{ sale.country }}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <p class="mb-0 text-xs font-weight-bold">Sales:</p>
+                      <h6 class="mb-0 text-sm">{{ sale.sales }}</h6>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <p class="mb-0 text-xs font-weight-bold">Value:</p>
+                      <h6 class="mb-0 text-sm">{{ sale.value }}</h6>
+                    </div>
+                  </td>
+                  <td class="text-sm align-middle">
+                    <div class="text-center col">
+                      <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
+                      <h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+     <div class="card">
+
+       <div class="card-body px-0 pt-3 pb-2 d-flex flex-column">
+         <div class="container table-responsive">
+           <authors-table/>
+         </div>
+       </div>
+     </div>
 </template>
 <script>
 // (Give me code for getting the websocket value)
