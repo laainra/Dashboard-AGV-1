@@ -1,6 +1,7 @@
 <script>
 import ArgonButton from "../../components/ArgonButton.vue";
 import BaseTableDashboard from "./BaseTableDashboard.vue";
+import moment from "moment";
 
 export default {
   name: "ListView",
@@ -29,13 +30,21 @@ export default {
 
       try {
         const modifiedData = data.map((item) => {
-          console.log(item, "Adawd");
+          // Parsing time_end dan time_start menggunakan moment
+          const timeEnd = item.time_end
+            ? moment(item.time_end).format("MMMM Do YYYY, h:mm:ss a")
+            : "";
+          const timeStart = moment(item.time_start).format(
+            "MMMM Do YYYY, h:mm:ss a"
+          );
+
           return {
             agv: item.agv.code,
             station_from: item.station_from.code,
             station_to: item.station_to?.code ?? "",
-            time_end: item?.time_end ?? "",
-            time_start: item.time_start,
+            // Mengubah time_end dan time_start menggunakan moment
+            time_end: timeEnd,
+            time_start: timeStart,
           };
         });
 

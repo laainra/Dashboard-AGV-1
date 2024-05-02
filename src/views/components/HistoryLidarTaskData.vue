@@ -32,6 +32,10 @@ export default {
         },
       ],
     },
+    selectedDate: [
+      new Date(),
+      new Date(new Date().getTime() + 9 * 24 * 60 * 60 * 1000),
+    ],
   }),
 
   created() {
@@ -158,11 +162,18 @@ export default {
       <!-- <div class="d-flex justify-between card-header pb-0">
       <h6>Login first, then input your ToDo List here 👇🏻</h6>
     </div> -->
-    <div class="d-flex justify-content-end align-items-center">
-      <div>
-        <Datepicker v-if="taskData.length" lang="en" class="mb-3 float-right" position="right"/>
+      <div class="d-flex justify-content-end align-items-center">
+        <div>
+          <Datepicker
+            range
+            v-model="selectedDate"
+            v-if="taskData.length"
+            lang="en"
+            class="mb-3 float-right"
+            position="right"
+          />
+        </div>
       </div>
-    </div>
       <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
         <div class="container table-responsive mt-3">
           <div v-if="!taskData.length" class="text-center text-muted">

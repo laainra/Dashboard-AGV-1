@@ -31,7 +31,10 @@ export default {
         },
       ],
     },
-    value4: "",
+    selectedDate: [
+      new Date(),
+      new Date(new Date().getTime() + 9 * 24 * 60 * 60 * 1000),
+    ],
   }),
 
   created() {
@@ -155,7 +158,13 @@ export default {
     </div>
     <div class="d-flex justify-content-end align-items-center">
       <div>
-        <Datepicker lang="en" class="mb-3 float-right" position="right"/>
+        <Datepicker
+          range
+          v-model="selectedDate"
+          lang="en"
+          class="mb-3 float-right"
+          position="right"
+        />
       </div>
     </div>
     <div class="card">
