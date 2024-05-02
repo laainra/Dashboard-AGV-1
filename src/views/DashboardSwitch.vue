@@ -55,7 +55,7 @@
               <div class="card-body px-0 pt-1 pb-2 d-flex flex-column">
                 <div class="pb-0 card-header">
                   <div class="d-flex justify-content-between">
-                    <h6 class="mb-2 card-bg">Data Station AGV Line Follower</h6>
+                    <h6 class="mb-2 card-bg">Data Task AGV Line Follower</h6>
                     <router-link to="/history-line-task" class="text-end"
                       >See History <i class="fa-solid fa-clock-rotate-left"></i
                     ></router-link>
