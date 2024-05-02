@@ -1,5 +1,5 @@
-<template>
-  <div class="container top-0 position-sticky z-index-sticky">
+ <template>
+  <!--<div class="container top-0 position-sticky z-index-sticky">
     <div class="row">
       <div class="col-12">
         <navbar :isBlur="blur" isBtn="bg-gradient-light" :darkMode="true" />
@@ -29,7 +29,9 @@
           <div class="card z-index-0">
             <div class="card-header text-center pt-4">
               <h5>Registration Form</h5>
-            </div>
+            </div> -->
+            
+            <!-- Comment -->
             <!-- <div class="row px-xl-5 px-sm-4 px-3">
               <div class="col-3 ms-auto px-1">
                 <a class="btn btn-outline-light w-100" href="javascript:;">
@@ -138,15 +140,16 @@
                 </p>
               </div>
             </div> -->
-            <div class="card-body">
+            <!-- Comment -->
+            <!-- <div class="card-body">
               <form role="form" @submit.prevent="handleRegister" method="post">
                 <argon-input
                   type="text"
                   placeholder="Name"
                   aria-label="Name"
                   v-model="input.name"
-                />
-                <argon-input
+                /> -->
+                <!-- <argon-input
                   type="text"
                   placeholder="Username"
                   aria-label="Username"
@@ -157,7 +160,7 @@
                   placeholder="Password"
                   aria-label="Password"
                   v-model="input.password"
-                />
+                /> -->
                 <!-- <argon-input
                   type="password"
                   placeholder="Confirm Password"
@@ -172,7 +175,7 @@
                     >
                   </label>
                 </argon-checkbox> -->
-                <div class="text-center">
+                <!-- <div class="text-center">
                   <argon-button
                     class="mt-4"
                     variant="gradient"
@@ -199,88 +202,88 @@
       </div>
     </div>
   </main>
-  <app-footer />
-</template>
+  <app-footer />-->
+</template> 
 
-<script>
-import Navbar from "@/examples/PageLayout/Navbar.vue";
-import AppFooter from "@/examples/PageLayout/Footer.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
-import useAuthStore from "../store/auth.js";
-import { mapActions } from "pinia";
-import { useToast } from "vue-toastification";
-const body = document.getElementsByTagName("body")[0];
+ <script>
+// import Navbar from "@/examples/PageLayout/Navbar.vue";
+// import AppFooter from "@/examples/PageLayout/Footer.vue";
+// import ArgonInput from "@/components/ArgonInput.vue";
+// import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
+// import ArgonButton from "@/components/ArgonButton.vue";
+// import useAuthStore from "../store/auth.js";
+// import { mapActions } from "pinia";
+// import { useToast } from "vue-toastification";
+// const body = document.getElementsByTagName("body")[0];
 
-export default {
-  name: "signup",
-  components: {
-    Navbar,
-    AppFooter,
-    ArgonInput,
-    ArgonCheckbox,
-    ArgonButton,
-  },
-  data() {
-    return {
-      input: {
-        name: "",
-        username: "",
-        password: "",
-      },
-      loading: false,
-      blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
-      btnClass: "bg-gradient-success",
-    };
-  },
-  methods: {
-    ...mapActions(useAuthStore, ["a$register"]),
+// export default {
+//   name: "signup",
+//   components: {
+//     Navbar,
+//     AppFooter,
+//     ArgonInput,
+//     ArgonCheckbox,
+//     ArgonButton,
+//   },
+//   data() {
+//     return {
+//       input: {
+//         name: "",
+//         username: "",
+//         password: "",
+//       },
+//       loading: false,
+//       blur: "blur border-radius-lg my-3 py-2 start-0 end-0 mx-4 shadow",
+//       btnClass: "bg-gradient-success",
+//     };
+//   },
+//   methods: {
+//     ...mapActions(useAuthStore, ["a$register"]),
 
-    async handleRegister() {
-      this.loading = true;
-      const toast = useToast();
-      try {
-        await this.a$register({
-          name: this.input.name,
-          username: this.input.username,
-          password: this.input.password,
-        });
-        this.$router.push("/signin");
-        toast.success("Register Success");
-        this.resetForm();
-      } catch (error) {
-        this.loading = false;
-        toast.error("Register Error:", error);
-      }
-    },
+//     async handleRegister() {
+//       this.loading = true;
+//       const toast = useToast();
+//       try {
+//         await this.a$register({
+//           name: this.input.name,
+//           username: this.input.username,
+//           password: this.input.password,
+//         });
+//         this.$router.push("/signin");
+//         toast.success("Register Success");
+//         this.resetForm();
+//       } catch (error) {
+//         this.loading = false;
+//         toast.error("Register Error:", error);
+//       }
+//     },
 
-    resetForm() {
-      this.input.name = "";
-      this.input.username = "";
-      this.input.password = "";
-    },
-  },
-  created() {
-    this.$store.state.hideConfigButton = true;
-    this.$store.state.showNavbar = false;
-    this.$store.state.showSidenav = false;
-    this.$store.state.showFooter = false;
-    body.classList.remove("bg-gray-100");
-  },
-  beforeUnmount() {
-    this.$store.state.hideConfigButton = false;
-    this.$store.state.showNavbar = true;
-    this.$store.state.showSidenav = true;
-    this.$store.state.showFooter = true;
-    body.classList.add("bg-gray-100");
-  },
-};
+//     resetForm() {
+//       this.input.name = "";
+//       this.input.username = "";
+//       this.input.password = "";
+//     },
+//   },
+//   created() {
+//     this.$store.state.hideConfigButton = true;
+//     this.$store.state.showNavbar = false;
+//     this.$store.state.showSidenav = false;
+//     this.$store.state.showFooter = false;
+//     body.classList.remove("bg-gray-100");
+//   },
+//   beforeUnmount() {
+//     this.$store.state.hideConfigButton = false;
+//     this.$store.state.showNavbar = true;
+//     this.$store.state.showSidenav = true;
+//     this.$store.state.showFooter = true;
+//     body.classList.add("bg-gray-100");
+//   },
+// };
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .bg-image {
   background-size: cover;
   background-image: url("../assets/img/bg-registration.jpg");
-}
-</style>
+} 
+</style> -->

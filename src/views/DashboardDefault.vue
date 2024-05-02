@@ -47,7 +47,7 @@
           <div class="p-3 pb-0 card-header">
             <div class="d-flex justify-content-between">
               <h6 class="mb-2">Data Station AGV Lidar</h6>
-              <router-link to="/tables" class="text-end">See details</router-link>
+              <router-link to="/history-lidar-task" class="text-end">See History</router-link>
             </div>
           </div>
           <div class="table-responsive">

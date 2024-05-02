@@ -97,7 +97,7 @@
           </template>
         </sidenav-item>
       </li>
-      <li v-if="!isLoggedIn" class="nav-item">
+      <!-- <li v-if="!isLoggedIn" class="nav-item">
         <sidenav-item
           url="/signup"
           :class="getRoute() === 'signup' ? 'active' : ''"
@@ -107,7 +107,7 @@
             <i class="ni ni-collection text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li>
+      </li> -->
       <li v-if="isLoggedIn" class="nav-item">
         <router-link to="/" class="nav-link" @click="logout">
           <i class="ni ni-user-run text-warning text-sm opacity-10"></i>
