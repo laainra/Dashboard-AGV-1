@@ -76,7 +76,7 @@
           <div class="card-body px-0 pt-1 pb-2 d-flex flex-column">
             <div class="p-3 pb-0 card-header">
             <div class="d-flex justify-content-between">
-              <h6 class="mb-2 card-bg">Data Station AGV Lidar</h6>
+              <h6 class="mb-2 card-bg">Data Task AGV Lidar</h6>
               <router-link to="/history-lidar-task" class="text-end">See History</router-link>
             </div>
           </div>
