@@ -13,6 +13,8 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import ToastPlugin from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
+import VueDatepickerUi from 'vue-datepicker-ui'
+import 'vue-datepicker-ui/lib/vuedatepickerui.css';
 
 const appInstance = createApp(App);
 appInstance.use(createPinia());
@@ -22,6 +24,7 @@ appInstance.use(ArgonDashboard);
 appInstance.mount("#app");
 appInstance.use(Toast, { timeout: 1500 });
 appInstance.use(ToastPlugin);
+appInstance.use('DatePicker',  VueDatepickerUi)
 //   this.ros = new ROSLIB.Ros({
   //     url: 'ws://' + window.location.hostname + ':9090',
   //   });

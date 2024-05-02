@@ -1,7 +1,7 @@
 <script>
 // import { useListStore } from "../../store/todo";
 import { mapState, mapActions } from "pinia";
-
+import moment from "moment";
 // import component
 import BaseInput from "../components/BaseInput.vue";
 import BaseTable from "../components/BaseTable.vue";
@@ -37,8 +37,8 @@ export default {
         },
       ],
     },
+    value4: "",
   }),
-
 
   created() {
     const socket = new WebSocket(
@@ -51,17 +51,25 @@ export default {
     // Ambil data dari WebSocket
     socket.onmessage = function (event) {
       const data = JSON.parse(event.data);
-      
+
       try {
         // Ubah struktur data
         const modifiedData = data.map((item) => {
-          console.log(item,"Adawd");
+          // Parsing time_end dan time_start menggunakan moment
+          const timeEnd = item.time_end
+            ? moment(item.time_end).format("MMMM Do YYYY, h:mm:ss a")
+            : "";
+          const timeStart = moment(item.time_start).format(
+            "MMMM Do YYYY, h:mm:ss a"
+          );
+
           return {
             agv: item.agv.code,
             station_from: item.station_from.code,
-            station_to: item.station_to?.code ?? '',
-            time_end: item?.time_end ?? '',
-            time_start: item.time_start,
+            station_to: item.station_to?.code ?? "",
+            // Mengubah time_end dan time_start menggunakan moment
+            time_end: timeEnd,
+            time_start: timeStart,
           };
         });
 
@@ -146,26 +154,36 @@ export default {
 </script>
 
 <template>
-  <div class="text-center mb-5">
-    <h2 class="text-white">Data Task AGV Lidar</h2>
-  </div>
-  <div class="card">
-    <!-- <div class="d-flex justify-between card-header pb-0">
-      <h6>Login first, then input your ToDo List here 👇🏻</h6>
-    </div> -->
+  <div class="container-fluid">
+    <div class="text-center mb-5">
+      <h2 class="text-white">Data Task AGV Line Follower</h2>
+    </div>
+    <div class="card">
+      <Datepicker lang="en" />
+      <!-- <div class="d-flex justify-between card-header pb-0">
+        <h6>Login first, then input your ToDo List here 👇🏻</h6>
+      </div> -->
 
-    <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
-
-      <div class="container table-responsive">
-        <base-table
-          class="table"
-          :data="taskData"
-          :columns="table.columns"
-          :actions="table.actions"
-          @handle-row="handleLogEvent"
-          @edit-row="handleEditEvent"
-          @remove-row="handleRemoveEvent"
-        />
+      <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
+        <div class="container table-responsive mt-3">
+          <div v-if="!taskData.length" class="text-center text-muted">
+            <img
+              src="src/assets/img/robot-with-pliers.png"
+              style="width: 30%"
+            />
+            <h3 class="mb-4">Data Not Found</h3>
+          </div>
+          <base-table
+            v-else
+            class="table"
+            :data="taskData"
+            :columns="table.columns"
+            :actions="table.actions"
+            @handle-row="handleLogEvent"
+            @edit-row="handleEditEvent"
+            @remove-row="handleRemoveEvent"
+          />
+        </div>
       </div>
     </div>
   </div>

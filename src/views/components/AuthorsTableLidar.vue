@@ -120,12 +120,6 @@ export default {
 
 <template>
   <div class="container table-responsive">
-    <div class="d-flex justify-content-between p-2">
-      <h6 class="mb-2">Data AGV Lidar</h6>
-      <router-link to="/tables" class="text-end">See details
-        <i class="fa-solid fa-clock-rotate-left"></i>
-      </router-link>
-    </div>
     <base-table-dashboard
       class="table"
       :data="taskData"
