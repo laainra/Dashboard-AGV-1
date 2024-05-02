@@ -129,7 +129,7 @@
         </div>
       </div>
     </div>
-
+</div>
 </template>
 <script>
 // (Give me code for getting the websocket value)
