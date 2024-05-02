@@ -4,8 +4,10 @@ import { mapState, mapActions } from "pinia";
 import moment from "moment";
 // import component
 import BaseInput from "../components/BaseInput.vue";
-import BaseTable from "../components/BaseTable.vue";
+import BaseTableDashboard from "../components/BaseTableDashboard.vue";
 import ArgonButton from "../../components/ArgonButton.vue";
+import "vue-datepicker-ui/lib/vuedatepickerui.css";
+import VueDatepickerUi from "vue-datepicker-ui";
 
 const initialInput = {
   title: "",
@@ -23,14 +25,6 @@ export default {
     table: {
       columns: ["agv", "station_from", "station_to", "time_start", "time_end"],
       actions: [
-        {
-          title: "Handle",
-          event: "handle-event",
-        },
-        {
-          title: "Edit",
-          event: "edit-event",
-        },
         {
           title: "Remove",
           event: "remove-event",
@@ -101,8 +95,9 @@ export default {
     };
   },
   components: {
-    BaseTable,
+    BaseTableDashboard,
     ArgonButton,
+    Datepicker: VueDatepickerUi,
   },
   // computed: {
   //   ...mapState(useListStore, ["getList", "getDetail"]),
@@ -158,8 +153,12 @@ export default {
     <div class="text-center mb-5">
       <h2 class="text-white">Data Task AGV Line Follower</h2>
     </div>
+    <div class="d-flex justify-content-end align-items-center">
+      <div>
+        <Datepicker lang="en" class="mb-3 float-right" position="right"/>
+      </div>
+    </div>
     <div class="card">
-      <Datepicker lang="en" />
       <!-- <div class="d-flex justify-between card-header pb-0">
         <h6>Login first, then input your ToDo List here 👇🏻</h6>
       </div> -->
@@ -173,14 +172,12 @@ export default {
             />
             <h3 class="mb-4">Data Not Found</h3>
           </div>
-          <base-table
+          <base-table-dashboard
             v-else
             class="table"
             :data="taskData"
             :columns="table.columns"
             :actions="table.actions"
-            @handle-row="handleLogEvent"
-            @edit-row="handleEditEvent"
             @remove-row="handleRemoveEvent"
           />
         </div>

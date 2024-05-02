@@ -5,7 +5,7 @@ import moment from "moment";
 
 // import component
 import BaseInput from "../components/BaseInput.vue";
-import BaseTable from "../components/BaseTable.vue";
+import BaseTableDashboard from "../components/BaseTableDashboard.vue";
 import ArgonButton from "../../components/ArgonButton.vue";
 
 const initialInput = {
@@ -24,14 +24,6 @@ export default {
     table: {
       columns: ["agv", "station_from", "station_to", "time_start", "time_end"],
       actions: [
-        {
-          title: "Handle",
-          event: "handle-event",
-        },
-        {
-          title: "Edit",
-          event: "edit-event",
-        },
         {
           title: "Remove",
           event: "remove-event",
@@ -101,7 +93,7 @@ export default {
     };
   },
   components: {
-    BaseTable,
+    BaseTableDashboard,
     ArgonButton,
   },
   // computed: {
@@ -173,14 +165,12 @@ export default {
             />
             <h3 class="mb-4">Data Not Found</h3>
           </div>
-          <base-table
+          <base-table-dashboard
             v-else
             class="table"
             :data="taskData"
             :columns="table.columns"
             :actions="table.actions"
-            @handle-row="handleLogEvent"
-            @edit-row="handleEditEvent"
             @remove-row="handleRemoveEvent"
           />
         </div>
