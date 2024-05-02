@@ -7,6 +7,8 @@ import moment from "moment";
 import BaseInput from "../components/BaseInput.vue";
 import BaseTableDashboard from "../components/BaseTableDashboard.vue";
 import ArgonButton from "../../components/ArgonButton.vue";
+import "vue-datepicker-ui/lib/vuedatepickerui.css";
+import VueDatepickerUi from "vue-datepicker-ui";
 
 const initialInput = {
   title: "",
@@ -95,6 +97,7 @@ export default {
   components: {
     BaseTableDashboard,
     ArgonButton,
+    Datepicker: VueDatepickerUi,
   },
   // computed: {
   //   ...mapState(useListStore, ["getList", "getDetail"]),
@@ -155,7 +158,11 @@ export default {
       <!-- <div class="d-flex justify-between card-header pb-0">
       <h6>Login first, then input your ToDo List here 👇🏻</h6>
     </div> -->
-
+    <div class="d-flex justify-content-end align-items-center">
+      <div>
+        <Datepicker v-if="taskData.length" lang="en" class="mb-3 float-right" position="right"/>
+      </div>
+    </div>
       <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
         <div class="container table-responsive mt-3">
           <div v-if="!taskData.length" class="text-center text-muted">
