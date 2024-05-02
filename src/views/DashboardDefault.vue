@@ -24,41 +24,41 @@
       </div>
     </div>
     <div class="row">
-          <div class="col-lg col-md-6 col-6">
-            <card
-              :title="stats.money.title"
-              :value="stats.money.value"
-              :percentage="stats.money.percentage"
-              :iconClass="stats.money.iconClass"
-              :iconBackground="stats.money.iconBackground"
-              :detail="stats.money.detail"
-              directionReverse
-            ></card>
-          </div>
-          <div class="col-lg col-md-6 col-12">
-            <card
-              :title="stats.users.title"
-              :value="stats.users.value"
-              :percentage="stats.users.percentage"
-              :iconClass="stats.users.iconClass"
-              :iconBackground="stats.users.iconBackground"
-              :detail="stats.users.detail"
-              directionReverse
-            ></card>
-          </div>
-          <div class="col-lg col-md-6 col-12">
-            <card
-              :title="stats.clients.title"
-              :value="stats.clients.value"
-              :percentage="stats.clients.percentage"
-              :iconClass="stats.clients.iconClass"
-              :iconBackground="stats.clients.iconBackground"
-              :percentageColor="stats.clients.percentageColor"
-              :detail="stats.clients.detail"
-              directionReverse
-            ></card>
-          </div>
-        </div>
+      <div class="col-lg col-md-6 col-6">
+        <card
+          :title="stats.money.title"
+          :value="stats.money.value"
+          :percentage="stats.money.percentage"
+          :iconClass="stats.money.iconClass"
+          :iconBackground="stats.money.iconBackground"
+          :detail="stats.money.detail"
+          directionReverse
+        ></card>
+      </div>
+      <div class="col-lg col-md-6 col-12">
+        <card
+          :title="stats.users.title"
+          :value="stats.users.value"
+          :percentage="stats.users.percentage"
+          :iconClass="stats.users.iconClass"
+          :iconBackground="stats.users.iconBackground"
+          :detail="stats.users.detail"
+          directionReverse
+        ></card>
+      </div>
+      <div class="col-lg col-md-6 col-12">
+        <card
+          :title="stats.clients.title"
+          :value="stats.clients.value"
+          :percentage="stats.clients.percentage"
+          :iconClass="stats.clients.iconClass"
+          :iconBackground="stats.clients.iconBackground"
+          :percentageColor="stats.clients.percentageColor"
+          :detail="stats.clients.detail"
+          directionReverse
+        ></card>
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-7 mb-lg">
         <!-- line chart -->
@@ -72,18 +72,14 @@
     </div>
     <div class="row mt-4">
       <div class="col-lg-12 mb-lg-0 mb-4">
-     <div class="card">
-
-       <div class="card-body px-0 pt-3 pb-2 d-flex flex-column">
-         <div class="container table-responsive">
-           <authors-table/>
-         </div>
-       </div>
-     </div>
+        <div class="card">
+          <div class="card-body px-0 pt-3 pb-2 d-flex flex-column">
+            <authors-table-lidar />
+          </div>
         </div>
       </div>
     </div>
-
+  </div>
 </template>
 <script>
 // (Give me code for getting the websocket value)
@@ -93,7 +89,7 @@ import Carousel from "./components/Carousel.vue";
 import CategoriesCard from "./components/CategoriesCard.vue";
 import ROSLIB from "roslib";
 import BaseTableDashboard from "./components/BaseTableDashboard.vue";
-import AuthorsTable from './components/AuthorsTable.vue';
+import AuthorsTableLidar from "./components/AuthorsTableLidar.vue";
 
 export default {
   name: "dashboard-agv-lidar",
@@ -188,7 +184,7 @@ export default {
     Carousel,
     GradientLineChart,
     BaseTableDashboard,
-    AuthorsTable,
+    AuthorsTableLidar,
   },
 };
 </script>
