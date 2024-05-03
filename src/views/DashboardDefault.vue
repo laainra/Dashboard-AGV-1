@@ -21,14 +21,16 @@
             <div @click="toggleAGV">
               <i v-if="!agvOn" class="fas fa-play-circle fa-5x"></i>
               <i v-else class="fas fa-pause-circle fa-5x"></i>
-
-              <div v-if="avgOn">
-                <form @submit.prevent="setSpeed">
-                  <label>Set Speed Between 0-255</label>
-                  <input type="text" v-model="speedInput" placeholder="Enter speed">
-                  <button type="submit">Set Speed</button>
-                </form>
-              </div>
+              
+            </div>
+            <div v-if="agvOn">
+              <h5>{{ this.speedInput }}</h5>
+              <form @submit.prevent="setSpeed">
+                <label>Set Speed Between 0-255</label>
+                <input type="range" v-model="speedInput" min="0" max="255" step="1">
+               
+                <button type="submit">Set Speed</button>
+              </form>
             </div>
           </div>
         </div>
@@ -140,46 +142,70 @@ export default {
       },
     };
   },
+
+  created() {
+    this.socket = new WebSocket(
+      "wss://sans-api-service.onrender.com/ws/dashboard/line"
+    );
+
+    this.socket.onopen = (event) => {
+      console.log(event);
+      console.log("Successfully connected to the echo websocket server...");
+    };
+
+    this.socket.onclose = (event) => {
+      if (event.wasClean) {
+        alert(
+          `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
+        );
+      } else {
+        alert("[close] Connection died");
+      }
+    };
+
+    this.socket.onerror = (error) => {
+      alert(`[error]`);
+    };
+  },
   methods: {
+
+
     toggleAGV() {
       this.agvOn = !this.agvOn;
 
-      if (this.agvOn) {
-        WebSocket.send(JSON.stringify({
-          payload: "kecepatan:50",
-          topic: "On"
-        }))
-        console.log("AGV Nyala");
-      } else {
-        WebSocket.send(JSON.stringify({
-          payload: "kecepatan:0",
-          topic: "Off"
-        }))
-        console.log("AGV Mati");
-      }
+      const payload = this.agvOn ? "kecepatan:50" : "kecepatan:0";
+      const topic = this.agvOn ? "On" : "Off";
+
+      this.socket.send(JSON.stringify({ payload, topic }));
+
+      console.log(`AGV ${this.agvOn ? 'Nyala' : 'Mati'}`);
 
     },
 
     setSpeed() {
-      this.speed = parseInt(this.speedInput);
-      speedData = {
+      // Parse speedInput as an integer
+      const speed = parseInt(this.speedInput);
+
+      // Create the speed data payload
+      const speedData = {
         payload: "kecepatan:" + speed,
         topic: "setSpeed"
-      }
+      };
+
+      // Check if the parsed speed is a valid number between 0 and 255
       if (!isNaN(speed) && speed >= 0 && speed <= 255) {
-
-        WebSocket.send(JSON.stringify(speedData))
+        // Send the speed data via WebSocket
+        this.socket.send(JSON.stringify(speedData));
         this.speed = speed;
-
-        console.log("speed:", speed);
-
-
+        console.log("Speed:", speed);
       } else {
         console.log('Please enter a valid speed between 0 and 255.');
       }
 
+      // Clear the speedInput field
       this.speedInput = '';
     }
+
   },
   mounted() {
     // this.ros.on('error', function (error) {
