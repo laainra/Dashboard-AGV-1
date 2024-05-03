@@ -21,15 +21,13 @@
             <div @click="toggleAGV">
               <i v-if="!agvOn" class="fas fa-play-circle fa-5x"></i>
               <i v-else class="fas fa-pause-circle fa-5x"></i>
-              
+
             </div>
             <div v-if="agvOn">
               <h5>{{ this.speedInput }}</h5>
-              <form @submit.prevent="setSpeed">
-                <label>Set Speed Between 0-255</label>
-                <input type="range" v-model="speedInput" min="0" max="255" step="1">
-               
-                <button type="submit">Set Speed</button>
+              <form>
+                <label for="speedRange">Set Speed Between 0-255</label>
+                <input id="speedRange" type="range" v-model="speedInput" min="0" max="255" @change="setSpeed">
               </form>
             </div>
           </div>
@@ -167,46 +165,46 @@ export default {
       alert(`[error]`);
     };
   },
-  methods: {
+  // methods: {
 
 
-    toggleAGV() {
-      this.agvOn = !this.agvOn;
+  //   toggleAGV() {
+  //     this.agvOn = !this.agvOn;
 
-      const payload = this.agvOn ? "kecepatan:50" : "kecepatan:0";
-      const topic = this.agvOn ? "On" : "Off";
+  //     const payload = this.agvOn ? "kecepatan:50" : "kecepatan:0";
+  //     const topic = this.agvOn ? "On" : "Off";
 
-      this.socket.send(JSON.stringify({ payload, topic }));
+  //     this.socket.send(JSON.stringify({ payload, topic }));
 
-      console.log(`AGV ${this.agvOn ? 'Nyala' : 'Mati'}`);
+  //     console.log(`AGV ${this.agvOn ? 'Nyala' : 'Mati'}`);
 
-    },
+  //   },
 
-    setSpeed() {
-      // Parse speedInput as an integer
-      const speed = parseInt(this.speedInput);
+  //   setSpeed() {
+  //     // Parse speedInput as an integer
+  //     const speed = parseInt(this.speedInput);
 
-      // Create the speed data payload
-      const speedData = {
-        payload: "kecepatan:" + speed,
-        topic: "setSpeed"
-      };
+  //     // Create the speed data payload
+  //     const speedData = {
+  //       payload: "kecepatan:" + speed,
+  //       topic: "setSpeed"
+  //     };
 
-      // Check if the parsed speed is a valid number between 0 and 255
-      if (!isNaN(speed) && speed >= 0 && speed <= 255) {
-        // Send the speed data via WebSocket
-        this.socket.send(JSON.stringify(speedData));
-        this.speed = speed;
-        console.log("Speed:", speed);
-      } else {
-        console.log('Please enter a valid speed between 0 and 255.');
-      }
+  //     // Check if the parsed speed is a valid number between 0 and 255
+  //     if (!isNaN(speed) && speed >= 0 && speed <= 255) {
+  //       // Send the speed data via WebSocket
+  //       this.socket.send(JSON.stringify(speedData));
+  //       this.speed = speed;
+  //       console.log("Speed:", speed);
+  //     } else {
+  //       console.log('Please enter a valid speed between 0 and 255.');
+  //     }
 
-      // Clear the speedInput field
-      this.speedInput = '';
-    }
+  //     // Clear the speedInput field
+  //     this.speedInput = '';
+  //   }
 
-  },
+  // },
   mounted() {
     // this.ros.on('error', function (error) {
     //   console.log(error);
@@ -289,5 +287,44 @@ export default {
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-weight: bold;
+}
+
+.speed-input {
+  margin-top: 20px;
+}
+
+.speed-input h5 {
+  margin-bottom: 10px;
+}
+
+.speed-input label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.speed-input input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  background-color: #ddd;
+  height: 5px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.speed-input input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.speed-input input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
 }
 </style>
