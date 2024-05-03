@@ -161,6 +161,7 @@ export default {
         <Datepicker
           range
           v-model="selectedDate"
+          v-if="taskData.length"
           lang="en"
           class="mb-3 float-right"
           position="right"

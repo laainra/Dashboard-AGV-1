@@ -1,19 +1,19 @@
 import { defineStore } from "pinia";
-import HistoryLineTaskData from "../views/components/HistoryLineTaskData.vue";
-import historytaskService from "../services/historytask.service";
+import HistoryTasksService from "../services/historytask.service";
 
 
 const a$history = defineStore({
   id: "history",
   state: () => ({
-    historyTasks: [],
+    historyLineTasks: [],
+    historyLidarTasks: [],
   }),
   actions: {
     async a$historyLineTasksData() {
       try {
-        const tasks = await historytaskService.HistoryTasksLine();
-        this.historyTasks = tasks.data;
-        console.log(this.historyTasks);
+        const tasks = await HistoryTasksService.HistoryTasksLine();
+        this.historyLineTasks = tasks.data;
+        console.log(this.historyLineTasks);
       } catch (error) {
         console.error("Error checking the history line tasks:", error.message);
         throw error;
@@ -22,18 +22,19 @@ const a$history = defineStore({
 
     async a$historyLidarTasksData() {
         try {
-          const tasks = await historytaskService.HistoryTasksLidar();
-          this.historyTasks = tasks.data;
-          console.log(this.historyTasks);
+          const tasks = await HistoryTasksService.HistoryTasksLidar();
+          this.historyLidarTasks = tasks.data;
+          console.log(this.historyLidarTasks);
         } catch (error) {
           console.error("Error checking the history lidar tasks:", error.message);
           throw error;
         }
       },
   },
-  getters: {
-    
-  },
+  // getters: {
+  //   showHistoryLineTasks: (state) => state.historyLineTasks,
+  //   showHistoryLidarTasks: (state) => state.historyLidarTasks,
+  // },
 });
 
 export default a$history;

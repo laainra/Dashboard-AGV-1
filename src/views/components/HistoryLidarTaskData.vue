@@ -106,9 +106,29 @@ export default {
   // computed: {
   //   ...mapState(useListStore, ["getList", "getDetail"]),
   // },
-  async mounted() {
-    await this.a$list();
-    console.log(a$list);
+  // async mounted() {
+  //   await this.a$list();
+  //   console.log(a$list);
+  // },
+  methods: {
+    ...mapActions("history", ["a$historyLidarTasksData"]),
+    async handleRemoveEvent(row) {
+      // Handle remove event here
+    },
+    async fetchDataBasedOnDate() {
+      // Format selected dates
+      const start_date = moment(this.selectedDate[0]).format("YYYY-MM-DD");
+      const end_date = moment(this.selectedDate[1]).format("YYYY-MM-DD");
+
+      // Call store action to fetch data based on dates
+      await this.a$historyLidarTasksData({ start_date, end_date });
+    },
+  },
+  watch: {
+    selectedDate: {
+      handler: "fetchDataBasedOnDate",
+      immediate: true, // Fetch data immediately when component is created
+    },
   },
   // methods: {
   //   ...mapActions(useListStore, ["a$list", "a$add", "a$edit", "a$delete"]),
@@ -158,22 +178,23 @@ export default {
     <div class="text-center mb-5">
       <h2 class="text-white">Data Task AGV Lidar</h2>
     </div>
-    <div class="card">
-      <!-- <div class="d-flex justify-between card-header pb-0">
-      <h6>Login first, then input your ToDo List here 👇🏻</h6>
-    </div> -->
       <div class="d-flex justify-content-end align-items-center">
         <div>
           <Datepicker
             range
             v-model="selectedDate"
-            v-if="taskData.length"
+            v-if="!taskData.length"
             lang="en"
             class="mb-3 float-right"
             position="right"
           />
         </div>
       </div>
+    <div class="card">
+      <!-- <div class="d-flex justify-between card-header pb-0">
+      <h6>Login first, then input your ToDo List here 👇🏻</h6>
+    </div> -->
+      
       <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
         <div class="container table-responsive mt-3">
           <div v-if="!taskData.length" class="text-center text-muted">

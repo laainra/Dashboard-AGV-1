@@ -50,7 +50,7 @@
         </div>
         <ul class="navbar-nav justify-content-end">
           <!-- Conditionally render the profile icon if user is logged in -->
-          <li v-if="isLoggedIn" class="nav-item d-flex align-items-center">
+          <li v-if="isLoggedIn && !isDashboardAGVLineFollower" class="nav-item d-flex align-items-center">
             <argon-button
               class="btn-danger"
               target="_blank"

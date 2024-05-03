@@ -1,6 +1,6 @@
 import axios from 'axios'; // import axios untuk membuat request HTTP
 
-const API_URL = 'https://sans-api-service.onrender.com/api'; // dekalarasi variabel API URL untuk api agv
+const API_URL = 'https://sans-api-service.onrender.com/api/task'; // dekalarasi variabel API URL untuk api agv
 
 class HistoryTasksService {
   constructor() {
