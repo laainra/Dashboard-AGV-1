@@ -145,18 +145,17 @@ export default {
   <div class="container-fluid">
     <div class="text-center mb-5">
       <h2 class="text-white">Data Task AGV Line Follower</h2>
-    </div>
-    <div class="d-flex justify-content-end align-items-center">
-      <div>
+      <div class="d-flex justify-content-center">
         <Datepicker
           range
           v-model="selectedDate"
           lang="en"
-          class="mb-3 float-right"
-          position="right"
+          class="mb-3"
+          position="center"
         />
       </div>
     </div>
+
     <div class="card">
       <!-- <div class="d-flex justify-between card-header pb-0">
         <h6>Login first, then input your ToDo List here 👇🏻</h6>
@@ -186,6 +185,7 @@ export default {
       </div>
     </div>
   </div>
+
 </template>
 
 <style scoped lang="scss">
