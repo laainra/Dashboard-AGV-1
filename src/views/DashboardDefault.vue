@@ -1,74 +1,69 @@
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
-      <div
-        class="d-flex flex-column justify-content-center align-items-center gap-4"
-      >
+      <div class="d-flex flex-column justify-content-center align-items-center gap-4">
         <div class="card mb-4">
-          <div
-            id="map"
-            class="d-flex flex-column justify-content-center align-items-center sm:h-auto md:h-500"
-            :class="navigationModeClass"
-          >
+          <div id="map" class="d-flex flex-column justify-content-center align-items-center sm:h-auto md:h-500"
+            :class="navigationModeClass">
             <!-- <div class="p-3 w-100">
               <button class=" btn-danger btn-lg w-100" v-if="connected === false" @click="init">Connect GUI To
                 Robot</button>
             </div> -->
-            <img
-              v-if="!robotConnected"
-              src="src/assets/img/robot-with-pliers.png"
-              style="width: 30%"
-            />
+            <img v-if="!robotConnected" src="src/assets/img/robot-with-pliers.png" style="width: 30%" />
           </div>
         </div>
       </div>
     </div>
     <div class="row">
+      <div class="col-lg col-md-4 col-6"> <!-- Mengatur lebar menjadi col-md-4 -->
+        <div class="card z-index-2">
+          <div class="card-body d-flex justify-content-center align-items-center">
+            <div @click="toggleAGV">
+              <i v-if="!agvOn" class="fas fa-play-circle fa-5x"></i>
+              <i v-else class="fas fa-pause-circle fa-5x"></i>
+
+              <div v-if="avgOn">
+                <form @submit.prevent="setSpeed">
+                  <label>Set Speed Between 0-255</label>
+                  <input type="text" v-model="speedInput" placeholder="Enter speed">
+                  <button type="submit">Set Speed</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-lg col-md-6 col-6">
-        <card
-          :title="stats.money.title"
-          :value="stats.money.value"
-          :percentage="stats.money.percentage"
-          :iconClass="stats.money.iconClass"
-          :iconBackground="stats.money.iconBackground"
-          :detail="stats.money.detail"
-          directionReverse
-        ></card>
+        <card :title="stats.money.title" :value="stats.money.value" :percentage="stats.money.percentage"
+          :iconClass="stats.money.iconClass" :iconBackground="stats.money.iconBackground" :detail="stats.money.detail"
+          directionReverse></card>
       </div>
       <div class="col-lg col-md-6 col-12">
-        <card
-          :title="stats.users.title"
-          :value="stats.users.value"
-          :percentage="stats.users.percentage"
-          :iconClass="stats.users.iconClass"
-          :iconBackground="stats.users.iconBackground"
-          :detail="stats.users.detail"
-          directionReverse
-        ></card>
+        <card :title="stats.users.title" :value="stats.users.value" :percentage="stats.users.percentage"
+          :iconClass="stats.users.iconClass" :iconBackground="stats.users.iconBackground" :detail="stats.users.detail"
+          directionReverse></card>
       </div>
       <div class="col-lg col-md-6 col-12">
-        <card
-          :title="stats.clients.title"
-          :value="stats.clients.value"
-          :percentage="stats.clients.percentage"
-          :iconClass="stats.clients.iconClass"
-          :iconBackground="stats.clients.iconBackground"
-          :percentageColor="stats.clients.percentageColor"
-          :detail="stats.clients.detail"
-          directionReverse
-        ></card>
+        <card :title="stats.clients.title" :value="stats.clients.value" :percentage="stats.clients.percentage"
+          :iconClass="stats.clients.iconClass" :iconBackground="stats.clients.iconBackground"
+          :percentageColor="stats.clients.percentageColor" :detail="stats.clients.detail" directionReverse></card>
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-7 mb-lg">
+      <div class="col-lg-12 mb-lg">
         <!-- line chart -->
         <div class="card z-index-2">
           <gradient-line-chart />
         </div>
       </div>
-      <div class="col-lg-5">
-        <carousel />
-      </div>
+      <!-- <carousel /> -->
+      <!-- <div class="col-lg-2">
+        <div class="card z-index-2">
+          <div class="card-body d-flex justify-content-center align-items-center">
+            <i class="fas fa-power-off fa-3x"></i>
+          </div>
+        </div>
+      </div> -->
     </div>
     <div class="row mt-4">
       <div class="col-lg-12 mb-lg-0 mb-4">
@@ -77,9 +72,8 @@
             <div class="p-3 pb-0 card-header">
               <div class="d-flex justify-content-between">
                 <h6 class="mb-2 card-bg">Data Task AGV Lidar</h6>
-                <router-link to="/history-lidar-task" class="text-end"
-                  >See History <i class="fas fa-regular fa-clock"></i></router-link
-                >
+                <router-link to="/history-lidar-task" class="text-end">See History <i
+                    class="fas fa-regular fa-clock"></i></router-link>
               </div>
             </div>
             <authors-table-lidar />
@@ -98,17 +92,26 @@ import CategoriesCard from "./components/CategoriesCard.vue";
 import ROSLIB from "roslib";
 import BaseTableDashboard from "./components/BaseTableDashboard.vue";
 import AuthorsTableLidar from "./components/AuthorsTableLidar.vue";
+import { parse } from "vue/compiler-sfc";
 
 export default {
   name: "dashboard-agv-lidar",
   data() {
     return {
+      speed: 0,
+      speedInput: '',
       ros: null,
       connected: false,
       mapViewer: null,
       mapGridClient: null,
       msg: null,
+      agvOn: false,
       stats: {
+        on_off: {
+          title: "Status Robot",
+          value: "fas fa-power-off", // Corrected value assignment
+          iconBackground: "fas fa-power-off",
+        },
         money: {
           title: "Jumlah Station",
           value: "2",
@@ -126,7 +129,7 @@ export default {
           detail: "Line Follower & Karakuri",
         },
         clients: {
-          title: "Kecepatan Rata-Rata",
+          title: "Kecepatan",
           value: "2km/jam",
           percentage: "",
           iconClass: "ni ni-spaceship",
@@ -136,6 +139,47 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    toggleAGV() {
+      this.agvOn = !this.agvOn;
+
+      if (this.agvOn) {
+        WebSocket.send(JSON.stringify({
+          payload: "kecepatan:50",
+          topic: "On"
+        }))
+        console.log("AGV Nyala");
+      } else {
+        WebSocket.send(JSON.stringify({
+          payload: "kecepatan:0",
+          topic: "Off"
+        }))
+        console.log("AGV Mati");
+      }
+
+    },
+
+    setSpeed() {
+      this.speed = parseInt(this.speedInput);
+      speedData = {
+        payload: "kecepatan:" + speed,
+        topic: "setSpeed"
+      }
+      if (!isNaN(speed) && speed >= 0 && speed <= 255) {
+
+        WebSocket.send(JSON.stringify(speedData))
+        this.speed = speed;
+
+        console.log("speed:", speed);
+
+
+      } else {
+        console.log('Please enter a valid speed between 0 and 255.');
+      }
+
+      this.speedInput = '';
+    }
   },
   mounted() {
     // this.ros.on('error', function (error) {
