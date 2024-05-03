@@ -2,16 +2,16 @@ import { defineStore } from "pinia";
 import HistoryTasksService from "../services/historytask.service";
 
 
-const a$history = defineStore({
+const useHistory = defineStore({
   id: "history",
   state: () => ({
     historyLineTasks: [],
     historyLidarTasks: [],
   }),
   actions: {
-    async a$historyLineTasksData() {
+    async a$historyLineTasksData(type) {
       try {
-        const tasks = await HistoryTasksService.HistoryTasksLine();
+        const tasks = await HistoryTasksService.HistoryTasksLine(type);
         this.historyLineTasks = tasks.data;
         console.log(this.historyLineTasks);
       } catch (error) {
@@ -31,10 +31,11 @@ const a$history = defineStore({
         }
       },
   },
-  // getters: {
-  //   showHistoryLineTasks: (state) => state.historyLineTasks,
-  //   showHistoryLidarTasks: (state) => state.historyLidarTasks,
-  // },
+  
+  getters: {
+    showHistoryLineTasks: (state) => state.historyLineTasks,
+    showHistoryLidarTasks: (state) => state.historyLidarTasks,
+  },
 });
 
-export default a$history;
+export default useHistory;

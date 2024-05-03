@@ -1,6 +1,6 @@
 import axios from 'axios'; // import axios untuk membuat request HTTP
 
-const API_URL = 'https://sans-api-service.onrender.com/api/task'; // dekalarasi variabel API URL untuk api agv
+const API_URL = 'https://sans-api-service.onrender.com/api'; // dekalarasi variabel API URL untuk api agv
 
 class HistoryTasksService {
   constructor() {
@@ -31,7 +31,7 @@ class HistoryTasksService {
 
   async HistoryTasksLine(type) {
     return axios
-    .post(API_URL + "/line", {
+    .post(API_URL + "/task/line", {
       start_date: type.start_date,
       end_date: type.end_date,
     })
@@ -47,7 +47,7 @@ class HistoryTasksService {
   
   async HistoryTasksLidar(type) {
     return axios
-    .post(API_URL + "/lidar", {
+    .post(API_URL + "/task/lidar", {
       start_date: type.start_date,
       end_date: type.end_date,
     })
