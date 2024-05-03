@@ -1,6 +1,7 @@
 <script>
 // import { useListStore } from "../../store/todo";
 import { mapState, mapActions } from "pinia";
+import useHistory from "@/store/history";
 import moment from "moment";
 // import component
 import BaseInput from "../components/BaseInput.vue";
@@ -22,6 +23,7 @@ export default {
     input: { ...initialInput },
     editing: false,
     taskData: [],
+    showHistory: [],
     table: {
       columns: ["agv", "station_from", "station_to", "time_start", "time_end"],
       actions: [
@@ -38,76 +40,43 @@ export default {
   }),
 
   created() {
-    const socket = new WebSocket(
-      "wss://sans-api-service.onrender.com/ws/task/line"
-    );
-
-    // Simpan referensi 'this'
-    const self = this;
-
-    // Ambil data dari WebSocket
-    socket.onmessage = function (event) {
-      const data = JSON.parse(event.data);
-
-      try {
-        // Ubah struktur data
-        const modifiedData = data.map((item) => {
-          // Parsing time_end dan time_start menggunakan moment
-          const timeEnd = item.time_end
-            ? moment(item.time_end).format("MMMM Do YYYY, h:mm:ss a")
-            : "";
-          const timeStart = moment(item.time_start).format(
-            "MMMM Do YYYY, h:mm:ss a"
-          );
-
-          return {
-            agv: item.agv.code,
-            station_from: item.station_from.code,
-            station_to: item.station_to?.code ?? "",
-            // Mengubah time_end dan time_start menggunakan moment
-            time_end: timeEnd,
-            time_start: timeStart,
-          };
-        });
-
-        // Simpan data yang sudah diubah
-        self.taskData = modifiedData;
-      } catch (error) {
-        console.error("Failed to parse incoming WebSocket message:", error);
-      }
-      console.log("Received data from WebSocket:", data);
-    };
-
-    socket.onopen = function (event) {
-      console.log(event);
-      console.log("Successfully connected to the echo websocket server...");
-    };
-
-    socket.onclose = function (event) {
-      if (event.wasClean) {
-        alert(
-          `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`
-        );
-      } else {
-        alert("[close] Connection died");
-      }
-    };
-
-    socket.onerror = function (error) {
-      alert(`[error]`);
-    };
+    // Panggil fungsi untuk mendapatkan data dari backend saat komponen dibuat
+    this.fetchHistoryLineTasks();
+    console.log("Ini history data", this.fetchHistoryLineTasks());
+  },
+  watch: {
+    selectedDate(dates) {
+      // Panggil fungsi untuk mendapatkan data baru ketika tanggal dipilih berubah
+      this.fetchHistoryLineTasks(dates);
+    },
   },
   components: {
     BaseTableDashboard,
     ArgonButton,
     Datepicker: VueDatepickerUi,
   },
-  // computed: {
-  //   ...mapState(useListStore, ["getList", "getDetail"]),
-  // },
-  async mounted() {
-    await this.a$list();
+  computed: {
+    ...mapState(useHistory, ["showHistoryLineTasks"]),
   },
+  methods: {
+    ...mapActions(useHistory, ["a$historyLineTasksData"]),
+    async fetchHistoryLineTasks(dates = this.selectedDate) {
+      try {
+        const [start_date, end_date] = dates;
+        const historyTasks = await this.a$historyLineTasksData({
+          start_date,
+          end_date,
+        });
+        this.showHistory = historyTasks; // Mengubah dari historyTasks.data menjadi historyTasks
+      } catch (error) {
+        console.error("Error fetching history line tasks:", error.message);
+        throw error;
+      }
+    },
+  },
+  // async mounted() {
+  //   await this.a$list();
+  // },
   // methods: {
   //   ...mapActions(useListStore, ["a$list", "a$add", "a$edit", "a$delete"]),
 
@@ -173,7 +142,10 @@ export default {
 
       <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
         <div class="container table-responsive mt-3">
-          <div v-if="!taskData.length" class="text-center text-muted">
+          <div
+            v-if="!showHistoryLineTasks.length"
+            class="text-center text-muted"
+          >
             <img
               src="src/assets/img/robot-with-pliers.png"
               style="width: 30%"
@@ -183,7 +155,7 @@ export default {
           <base-table-dashboard
             v-else
             class="table"
-            :data="taskData"
+            :data="showHistoryLineTasks"
             :columns="table.columns"
             :actions="table.actions"
             @remove-row="handleRemoveEvent"
