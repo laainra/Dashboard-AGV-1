@@ -22,7 +22,6 @@ export default {
   data: () => ({
     input: { ...initialInput },
     editing: false,
-    taskData: [],
     showHistory: [],
     table: {
       columns: ["agv", "station_from", "station_to", "time_start", "time_end"],
@@ -63,15 +62,37 @@ export default {
     async fetchHistoryLineTasks(dates = this.selectedDate) {
       try {
         const [start_date, end_date] = dates;
-        const historyTasks = await this.a$historyLineTasksData({
+        await this.a$historyLineTasksData({
           start_date,
           end_date,
         });
-        this.showHistory = historyTasks; // Mengubah dari historyTasks.data menjadi historyTasks
+        // ini yang iubah
+        this.showHistory = this.transformData(this.showHistoryLineTasks);
       } catch (error) {
         console.error("Error fetching history line tasks:", error.message);
         throw error;
       }
+    },
+    transformData(historyTasks) {
+      // Lakukan transformasi data di sini
+      return historyTasks.map((item) => {
+        // Parsing time_end dan time_start menggunakan moment
+        const timeEnd = item.time_end
+          ? moment(item.time_end).format("MMMM Do YYYY, h:mm:ss a")
+          : "";
+        const timeStart = moment(item.time_start).format(
+          "MMMM Do YYYY, h:mm:ss a"
+        );
+
+        return {
+          agv: item.agv.code,
+          station_from: item.station_from.code,
+          station_to: item.station_to?.code ?? "",
+          // Mengubah time_end dan time_start menggunakan moment
+          time_end: timeEnd,
+          time_start: timeStart,
+        };
+      });
     },
   },
   // async mounted() {
@@ -156,7 +177,7 @@ export default {
           <base-table-dashboard
             v-else
             class="table"
-            :data="showHistoryLineTasks"
+            :data="showHistory"
             :columns="table.columns"
             :actions="table.actions"
             @remove-row="handleRemoveEvent"

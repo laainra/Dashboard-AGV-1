@@ -13,7 +13,7 @@ const useHistory = defineStore({
       try {
         const tasks = await HistoryTasksService.HistoryTasksLine(type);
         this.historyLineTasks = tasks.data;
-        console.log(this.historyLineTasks);
+        console.log(this.historyLineTasks, "awdaw");
       } catch (error) {
         console.error("Error checking the history line tasks:", error.message);
         throw error;
