@@ -89,7 +89,7 @@ export default {
     return {
       speed: 0,
       speedInput: '',
-      agvOn: false,
+      agvOn: localStorage.getItem("agvOn") === "true",
       stats: {
         on_off: {
           title: "Status Robot",
@@ -156,7 +156,7 @@ export default {
   },
   created() {
     this.socket = new WebSocket(
-      "wss://sans-api-service.onrender.com/ws/dashboard/lidar"
+      "wss://sans-api-service.onrender.com/ws/dashboard/line"
     );
 
     this.socket.onopen = (event) => {
@@ -182,7 +182,7 @@ export default {
 
     toggleAGV() {
       this.agvOn = !this.agvOn;
-
+      localStorage.setItem("agvOn", this.agvOn);
       const payload = this.agvOn ? "kecepatan:50" : "kecepatan:0";
       const topic = this.agvOn ? "On" : "Off";
 

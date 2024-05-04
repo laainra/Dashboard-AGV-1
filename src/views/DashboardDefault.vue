@@ -143,7 +143,7 @@ export default {
 
   created() {
     this.socket = new WebSocket(
-      "wss://sans-api-service.onrender.com/ws/dashboard/line"
+      "wss://sans-api-service.onrender.com/ws/dashboard/lidar"
     );
 
     this.socket.onopen = (event) => {

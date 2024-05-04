@@ -29,6 +29,17 @@ class HistoryTasksService {
     );
   }
 
+  async deleteHistoryTask(taskId) {
+    try {
+      const response = await axios.delete(`${API_URL}/task/${taskId}`);
+      console.log("Delete Task Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Delete Task Error:", error);
+      throw error;
+    }
+  }
+  
   async HistoryTasksLine(type) {
     return axios
     .post(API_URL + "/task/line", {

@@ -30,6 +30,17 @@ const useHistory = defineStore({
           throw error;
         }
       },
+
+    async a$deleteHistoryTask(taskId) {
+      try {
+        await HistoryTasksService.deleteHistoryTask(taskId);
+        // Optionally, you might want to update your task lists after deletion
+        // Call a$historyLineTasksData or a$historyLidarTasksData as needed
+      } catch (error) {
+        console.error("Error deleting history task:", error.message);
+        throw error;
+      }
+    },
   },
   
   getters: {

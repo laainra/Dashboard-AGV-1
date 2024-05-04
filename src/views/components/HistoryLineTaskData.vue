@@ -58,7 +58,15 @@ export default {
     ...mapState(useHistory, ["showHistoryLineTasks"]),
   },
   methods: {
-    ...mapActions(useHistory, ["a$historyLineTasksData"]),
+    ...mapActions(useHistory, ["a$historyLineTasksData", "a$deleteHistoryTask"]),
+    handleRemoveEvent(id) {
+      try {
+        this.a$deleteHistoryTask(id); // Call the delete action from your Pinia store
+        console.log("Delete History Task Successfully");
+      } catch (error) {
+        console.error("Failed to remove row:", error);
+      }
+    },
     async fetchHistoryLineTasks(dates = this.selectedDate) {
       try {
         const [start_date, end_date] = dates;
@@ -95,6 +103,7 @@ export default {
       });
     },
   },
+
   // async mounted() {
   //   await this.a$list();
   // },
