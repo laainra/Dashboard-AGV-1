@@ -9,6 +9,8 @@ import BaseTableDashboard from "../components/BaseTableDashboard.vue";
 import ArgonButton from "../../components/ArgonButton.vue";
 import "vue-datepicker-ui/lib/vuedatepickerui.css";
 import VueDatepickerUi from "vue-datepicker-ui";
+import { useToast } from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const initialInput = {
   title: "",
@@ -62,10 +64,14 @@ export default {
     handleRemoveEvent(id) {
       try {
         this.a$deleteHistoryTask(id); // Call the delete action from your Pinia store
-        console.log("Delete History Task Successfully");
+        this.showToast("History Task Deleted Successfully", "success");
       } catch (error) {
         console.error("Failed to remove row:", error);
       }
+    },
+    showToast(message, type) {
+      const toast = useToast();
+      toast(message, { type });
     },
     async fetchHistoryLineTasks(dates = this.selectedDate) {
       try {
