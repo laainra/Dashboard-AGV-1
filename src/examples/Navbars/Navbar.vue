@@ -1,9 +1,9 @@
 <template>
   <nav
     class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
-    :class="
-      this.$store.state.isRTL ? 'top-0 position-sticky z-index-sticky' : ''
-    "
+    :class="{
+      'top-0 position-sticky z-index-sticky': $store.state.isRTL
+    }"
     v-bind="$attrs"
     id="navbarBlur"
     data-scroll="true"
@@ -16,7 +16,7 @@
       >
         <div
           class="pe-md-3"
-          :class="this.$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
+          :class="$store.state.isRTL ? 'me-md-auto' : 'ms-md-auto'"
         >
           <argon-button
             v-if="
@@ -24,7 +24,7 @@
               currentRouteName === 'Dashboard Agv Line Follower'
             "
             @click="switchToDashboard"
-            >{{ switchButtonDashboardText }}
+          >{{ switchButtonDashboardText }}
             <i class="fas fa-sync" style="margin-left: 5px"></i>
           </argon-button>
 
@@ -34,23 +34,26 @@
               currentRouteName === 'AGV Line Follower'
             "
             @click="switchToAGV"
-            >{{ switchButtonAGVText }}
+          >{{ switchButtonAGVText }}
             <i class="fas fa-sync" style="margin-left: 5px"></i>
           </argon-button>
 
           <argon-button
             v-if="
-              currentRouteName === 'Station AGV Lidar' ||
+              currentRouteName === 'Pose AGV Lidar' ||
               currentRouteName === 'Station AGV Line Follower'
             "
             @click="switchToStation"
-            >{{ switchButtonStationText }}
+          >{{ switchButtonStationText }}
             <i class="fas fa-sync" style="margin-left: 5px"></i>
           </argon-button>
         </div>
         <ul class="navbar-nav justify-content-end">
           <!-- Conditionally render the profile icon if user is logged in -->
-          <li v-if="isLoggedIn && !isDashboardAGVLineFollower" class="nav-item d-flex align-items-center">
+          <li
+            v-if="isLoggedIn && !isDashboardAGVLineFollower"
+            class="nav-item d-flex align-items-center"
+          >
             <argon-button
               class="btn-danger"
               target="_blank"
@@ -60,13 +63,31 @@
               <i class="fas fa-wifi" style="margin-left: 5px"></i>
             </argon-button>
           </li>
+          <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+            <a
+              href="#"
+              @click="toggleSidebar"
+              class="p-0 nav-link text-white"
+              id="iconNavbarSidenav"
+            >
+              <div class="sidenav-toggler-inner">
+                <i class="sidenav-toggler-line bg-white"></i>
+                <i class="sidenav-toggler-line bg-white"></i>
+                <i class="sidenav-toggler-line bg-white"></i>
+              </div>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- add modal -->
-  <ip-input v-model:show="modal.connectIP" modal-classes="modal-lg" @hidden="clearInputs">
+  <ip-input
+    v-model:show="modal.connectIP"
+    modal-classes="modal-lg"
+    @hidden="clearInputs"
+  >
     <template #header>
       <p class="modal-title">Connect Your AGV Here</p>
     </template>
@@ -109,7 +130,8 @@
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
 import { mapActions, mapState } from "pinia";
-import d$dropdown from "@/store/dropdown";
+import { mapMutations } from "vuex";
+import useDropDownStore from "@/store/dropdown";
 import Cookies from "js-cookie";
 import ArgonButton from "../../components/ArgonButton.vue";
 import IpInput from "../../views/components/IpInput.vue";
@@ -130,27 +152,25 @@ export default {
         connectIP: false,
       },
       input: {
-        code: [], // Ubah properti 'code' menjadi array
-        ip: "", // Tambahkan properti 'ip' untuk menyimpan nilai IP
+        code: [],
+        ip: "",
       },
-      availableAGV: [],
-      disabled: true, // Pindahkan properti 'disabled' ke luar dari data
     };
   },
   props: ["minNav", "textWhite"],
   created() {
-    this.a$ddDataAGV(); // Panggil aksi untuk mengambil data AGV dari API saat komponen dibuat
+    this.a$ddDataAGV();
+    this.minNav;
   },
   methods: {
-    ...mapActions(d$dropdown, ["a$ddDataAGV"]),
+    ...mapMutations(["navbarMinimize"]),
+    ...mapActions(useDropDownStore, ["a$ddDataAGV"]),
     clearInputs() {
-      // Reset the input values when the modal is hidden
       this.input.code = [];
       this.input.ip = "";
     },
     connectToRobot() {
       try {
-        // Panggil aksi untuk mengambil data AGV dari API
         this.a$ddDataAGV();
         this.modal.connectIP = true;
       } catch (error) {
@@ -158,8 +178,7 @@ export default {
       }
     },
     toggleSidebar() {
-      this.toggleSidebarColor("bg-white");
-      this.navbarMinimize();
+      this.$store.commit("navbarMinimize");
     },
     switchToDashboard() {
       if (this.isDashboardAGVLineFollower) {
@@ -181,7 +200,7 @@ export default {
     },
     switchToStation() {
       if (this.isStationLineFollower) {
-        this.$router.push({ name: "Station AGV Lidar" });
+        this.$router.push({ name: "Pose AGV Lidar" });
         this.isStationLineFollower = false;
       } else {
         this.$router.push({ name: "Station AGV Line Follower" });
@@ -189,7 +208,7 @@ export default {
       }
     },
     addIP() {
-      // Tambahkan logika untuk menambahkan IP
+      // Your logic to add IP
     },
   },
   components: {
@@ -201,10 +220,8 @@ export default {
   },
   watch: {
     "input.code": function (newVal) {
-      console.log("ini adalah hasil dari newval", newVal);
-      // Saat input AGV berubah, periksa apakah ada AGV yang dipilih
+      console.log("New value:", newVal);
       if (newVal.ip) {
-        // Ambil ID AGV yang dipilih
         this.input.ip = newVal.ip;
       } else {
         this.input.ip = "";
@@ -212,19 +229,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(d$dropdown, ["g$ddListAGV"]),
-
-    selectedAGVIPs() {
-      if (this.input.code.length > 0) {
-        const selectedAGVId = this.input.code[0].id;
-        const selectedAGV = this.g$ddListAGV.find(
-          (agv) => agv.id === selectedAGVId
-        );
-        return selectedAGV ? [selectedAGV] : [];
-      }
-      return [];
-    },
-
+    ...mapState(useDropDownStore, ["g$ddListAGV"]),
     currentRouteName() {
       return this.$route.name;
     },

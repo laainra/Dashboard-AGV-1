@@ -8,8 +8,16 @@ export default {
   data: () => ({
     taskData: [],
     table: {
-      columns: ["AGV", "From", "To", "Status"],
+      columns: ["pose", "x", "y", "z", "w"],
       action: [
+        {
+          title: "Write",
+          event: "write-event",
+        },
+        {
+          title: "Read",
+          event: "read-event",
+        },
         {
           title: "Remove",
           event: "remove-event",

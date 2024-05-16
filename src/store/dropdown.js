@@ -1,13 +1,20 @@
 import { defineStore } from "pinia";
 import AGVService from "../services/agv.service";
 
-const u$dropdown = defineStore({
+const useDropDownStore = defineStore({
   id: "dropdown",
   state: () => ({
     dataAGV: [],
   }),
+  getters: {
+    g$ddListAGV: (state) =>
+      state.dataAGV.map(({ _id, code, ip }) => ({
+        id: _id,
+        name: code,
+        ip: ip,
+      })),
+  },
   actions: {
-    // data AGV
     async a$ddDataAGV() {
       try {
         const agvs = await AGVService.getAGVs();
@@ -19,14 +26,6 @@ const u$dropdown = defineStore({
       }
     },
   },
-  getters: {
-    g$ddListAGV: (state) =>
-      state.dataAGV.map(({ _id, code, ip }) => ({
-        id: _id,
-        name: code,
-        ip: ip,
-      })),
-  },
 });
 
-export default u$dropdown;
+export default useDropDownStore;

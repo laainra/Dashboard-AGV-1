@@ -7,25 +7,24 @@ const useStationStore = defineStore({
     stations: [],
   }),
   getters: {
-    getStations(state) {
+    g$getStations(state) {
       return state.stations;
     },
-    getDetail: ({ stations }) => {
+    g$getDetail: ({ stations }) => {
       return (index) => stations[index];
     },
   },
   actions: {
-    async g$addStation(stationData) {
+    async a$addStation(stationData) {
       try {
         await stationService.addStation(stationData);
-        await this.g$getStations();
       } catch (error) {
         console.error("Error adding station:", error.message);
         throw error;
       }
     },
 
-    async g$getStations() {
+    async a$getStations() {
       try {
         const stations = await stationService.getStations();
         this.stations = stations.data;
@@ -35,33 +34,25 @@ const useStationStore = defineStore({
       }
     },
 
-    async g$editStation({ id, updatedStationData }) {
+    async a$editStation({ id, updatedStationData }) {
       try {
-        //const updatedstation = await stationService.editstation(id, updatedstationData);
         await stationService.updateStation(id, updatedStationData);
-        // await this.g$getstations();
         const index = this.stations.findIndex((station) => station._id === id);
         if (index !== -1) {
           this.stations[index] = updatedStationData;
         }
-        // const index = this.stations.findIndex(station => station._id === id);
-        // if (index !== -1) {
-        //   Object.assign(this.stations[index], updatedstationData);
-        //   // Set isEditing to false
-        //   this.stations[index].isEditing = false;
-        // }
       } catch (error) {
         console.error("Error editing station:", error.message);
         throw error;
       }
     },
 
-    async g$deleteStation(id) {
+    async a$deleteStation(id) {
       try {
         await stationService.deleteStation(id);
         const index = this.stations.findIndex((station) => station._id === id);
         if (index !== -1) {
-          this.stations.splice(index, 1); // Menghapus elemen dari array dengan mempertahankan urutan
+          this.stations.splice(index, 1);
         }
         console.log(`station with ID ${id} deleted.`);
       } catch (error) {

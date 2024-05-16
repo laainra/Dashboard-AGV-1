@@ -17,7 +17,7 @@
 <script>
 import TodoTable from "./components/TodoTable.vue";
 import AddToDoForm from "./components/AddToDoForm.vue";
-import TodoService from "../services/todo.service.js";
+// import TodoService from "../services/todo.service.js";
 
 
 export default {
@@ -25,7 +25,6 @@ export default {
   components: {
     TodoTable,
     AddToDoForm,
-    TodoService
   },
   data() {
     return {

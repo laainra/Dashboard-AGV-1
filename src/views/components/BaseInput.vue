@@ -21,9 +21,13 @@ defineProps({
     default: false
   },
   disabled: {
-    type: Boolean, // Tentukan tipe properti sebagai Boolean
-    default: false // Atur nilai default menjadi false
-  }
+    type: Boolean, 
+    default: false 
+  },
+  type: {
+    type: String, 
+    default: 'text'
+  },
 })
 
 defineEmits(['update:modelValue'])

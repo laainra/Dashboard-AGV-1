@@ -46,7 +46,7 @@ const routes = [
   },
   {
     path: "/station-agv-lidar",
-    name: "Station AGV Lidar",
+    name: "Pose AGV Lidar",
     component: TableDataStationAgvLidar,
   },
   {

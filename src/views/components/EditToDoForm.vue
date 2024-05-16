@@ -48,7 +48,7 @@
 
 <script>
  // import module todo service yang berisi API CRUD untuk Todo
-import TodoService from "../../services/todo.service.js";
+// import TodoService from "../../services/todo.service.js";
 
 export default {
    // membuat function data untuk manipulasi data dalam komponen

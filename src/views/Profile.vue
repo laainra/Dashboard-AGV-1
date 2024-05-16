@@ -13,19 +13,14 @@
         <span class="mask bg-gradient-success opacity-6"></span>
       </div>
       <div class="card shadow-lg mt-n6">
-        <div class="card-body p-3">
-          <div class="row gx-4">
-            <div class="col-auto">
-              <div class="avatar avatar-xl position-relative">
-                <img
-                  src="../assets/img/team-1.jpg"
-                  alt="profile_image"
-                  class="shadow-sm w-200 h-auto border-radius-lg"
-                  style="max-width: 200px;"
-                />
-              </div>
+        <div class="d-flex gap-3 align-items-center">
+      
+            <div>
+              <p style="margin-left: 10px; font-size: 50px; margin-top: 10px;">
+                👨🏻
+              </p>
             </div>
-            <div class="col-auto my-auto">
+            <div class="">
               <div class="h-100">
                 <h5 class="mb-1">{{ name }}</h5>
                 <p class="mb-0 font-weight-bold text-sm">{{ username }}</p>
@@ -39,7 +34,7 @@
                   class="p-1 bg-transparent nav nav-pills nav-fill"
                   role="tablist"
                 > -->
-                  <!-- <li class="nav-item">
+              <!-- <li class="nav-item">
                     <a
                       class="px-0 py-1 mb-0 nav-link active"
                       data-bs-toggle="tab"
@@ -192,73 +187,122 @@
                       <span class="ms-1">Settings</span>
                     </a>
                   </li> -->
-                <!-- </ul>
+              <!-- </ul>
               </div> -->
             </div>
           </div>
         </div>
       </div>
-    </div>
     <div class="py-4 container-fluid">
       <div class="row">
         <div class="col-md-12">
           <div class="card">
-            <div class="card-header pb-0">
-              <div class="d-flex align-items-center">
-                <!-- <p class="mb-0">Edit Profile</p> -->
-                <!-- <argon-button color="success" size="sm" class="ms-auto"
-                  >Settings</argon-button
-                > -->
-              </div>
-            </div>
             <!-- <form @submit.prevent="updateProfile"> -->
             <div class="card-body">
-              <p class="text-uppercase text-sm">User Information</p>
+              <p class="text-uppercase font-weight-bold">User Information</p>
               <div class="row">
-                 <div class="col-md-6">
-                  <label for="example-text-input"  class="form-control-label" 
+                <div class="col-md-6">
+                  <label for="example-text-input" class="form-control-label"
                     >Name</label
                   >
-                  <argon-input type="text" v-model="name" :disable="isDisabled"/>
+                  <argon-input
+                    type="text"
+                    v-model="name"
+                    :disable="isDisabled"
+                  />
                 </div>
-              
+
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
-                  <argon-input type="text" v-model="username" :disable="isDisabled"/>
+                  <argon-input
+                    type="text"
+                    v-model="username"
+                    :disable="isDisabled"
+                  />
                 </div>
-             
+
                 <div class="col-md-6 position-relative">
                   <label for="example-text-input" class="form-control-label"
                     >Password</label
                   >
-                  <div class="input-group ">
-                    <argon-input class="col-11"  :type="passwordVisible ? 'text' : 'password'" :disable="isDisabled" v-model="password" id="password" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
-                    <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                      <i class="fas" :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                  <div class="input-group">
+                    <argon-input
+                      class="col-11"
+                      :type="passwordVisible ? 'text' : 'password'"
+                      :disable="isDisabled"
+                      v-model="password"
+                      id="password"
+                      style="
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                      "
+                    />
+                    <button
+                      class="col-1 btn btn-outline-secondary"
+                      type="button"
+                      @click="togglePasswordVisibility"
+                      style="
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                      "
+                    >
+                      <i
+                        class="fas"
+                        :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"
+                      ></i>
                     </button>
                   </div>
                 </div>
-                
+
                 <div class="col-md-6 position-relative">
                   <label for="example-text-input" class="form-control-label"
                     >Confirm Password</label
                   >
-                  <div class="input-group ">
-                    <argon-input class="col-11" :type="confirmPasswordVisible ? 'text' : 'password'" :disable="isDisabled" v-model="confirmPassword" id="confirmPassword" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"/>
-                    <button class="col-1 btn btn-outline-secondary" type="button" @click="togglePasswordConfirmVisibility" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                      <i class="fas" :class="confirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'"></i>
+                  <div class="input-group">
+                    <argon-input
+                      class="col-11"
+                      :type="confirmPasswordVisible ? 'text' : 'password'"
+                      :disable="isDisabled"
+                      v-model="confirmPassword"
+                      id="confirmPassword"
+                      style="
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                      "
+                    />
+                    <button
+                      class="col-1 btn btn-outline-secondary"
+                      type="button"
+                      @click="togglePasswordConfirmVisibility"
+                      style="
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                      "
+                    >
+                      <i
+                        class="fas"
+                        :class="
+                          confirmPasswordVisible ? 'fa-eye' : 'fa-eye-slash'
+                        "
+                      ></i>
                     </button>
                   </div>
                   <!-- <p v-if="password !== confirmPassword" class="text-danger">Passwords do not match.</p> -->
                 </div>
-                <argon-button color="success" size="sm" class="mx-auto d-block" style="width: 100px; padding: auto; margin-top: auto;"  @click="saveChanges">
-                    {{ isDisabled ? 'Edit' : 'Save'}}
-                  </argon-button>
+                <argon-button
+                  color="success"
+                  size="sm"
+                  class="mx-auto d-block"
+                  style="width: 100px; padding: auto; margin-top: auto"
+                  @click="saveChanges"
+                >
+                  {{ isDisabled ? "Edit" : "Save" }}
+                </argon-button>
               </div>
             </div>
-          <!-- </form> -->
+            <!-- </form> -->
           </div>
         </div>
         <!-- <div class="col-md-4">
@@ -275,19 +319,19 @@ import setTooltip from "@/assets/js/tooltip.js";
 import ProfileCard from "./components/ProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import Cookies from 'js-cookie';
-import {useToast} from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import Cookies from "js-cookie";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 import { mapActions } from "pinia";
 import useAuthStore from "../store/auth.js";
 
 const body = document.getElementsByTagName("body")[0];
 const $toast = useToast();
 
-import { ref } from 'vue';
+import { ref } from "vue";
 export default {
   setup() {
-    const inputValue = ref('');
+    const inputValue = ref("");
     const isDisabled = ref(true);
 
     const toggleEditMode = () => {
@@ -297,7 +341,7 @@ export default {
     return {
       inputValue,
       isDisabled,
-      toggleEditMode
+      toggleEditMode,
     };
   },
   name: "profile",
@@ -305,11 +349,11 @@ export default {
     return {
       showMenu: false,
 
-        name: "",
-        username: "",
-        password: "",
-     
-      confirmPassword: '',
+      name: "",
+      username: "",
+      password: "",
+
+      confirmPassword: "",
       passwordVisible: false,
       confirmPasswordVisible: false,
     };
@@ -329,25 +373,25 @@ export default {
           username: this.username,
           password: this.password,
         });
-        Cookies.set('name', this.name);
-        Cookies.set('username', this.username);
-        Cookies.set('password', this.password);
-        $toast.success('Update profile Success!');
+        Cookies.set("name", this.name);
+        Cookies.set("username", this.username);
+        Cookies.set("password", this.password);
+        $toast.success("Update profile Success!");
       } catch (error) {
         console.log(error);
-        $toast.error( 'Failed to update profile');
+        $toast.error("Failed to update profile");
       }
     },
-  
+
     saveChanges() {
-      if(this.isDisabled){
-          this.toggleEditMode()
+      if (this.isDisabled) {
+        this.toggleEditMode();
       } else {
-        if (this.password === this.confirmPassword ) {
+        if (this.password === this.confirmPassword) {
           this.updateProfile();
-          this.isDisabled=true;
-        }else{
-          $toast.error( 'The password does not match');
+          this.isDisabled = true;
+        } else {
+          $toast.error("The password does not match");
         }
       }
     },
@@ -359,9 +403,9 @@ export default {
     this.$store.state.isAbsolute = true;
     setNavPills();
     setTooltip();
-    this.name = Cookies.get('name');
-    this.username = Cookies.get('username');
-    this.password = Cookies.get('password');
+    this.name = Cookies.get("name");
+    this.username = Cookies.get("username");
+    this.password = Cookies.get("password");
     this.confirmPassword = this.password;
   },
   beforeMount() {
@@ -378,6 +422,6 @@ export default {
     this.$store.state.showFooter = true;
     this.$store.state.hideConfigButton = false;
     body.classList.remove("profile-overview");
-  }
+  },
 };
 </script>

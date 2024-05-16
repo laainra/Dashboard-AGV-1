@@ -1,6 +1,6 @@
 <template>
   <div class="text-center mb-5">
-    <h2 class="text-white">Data Station AGV Lidar</h2>
+    <h2 class="text-white">Data Pose AGV Lidar</h2>
   </div>
   <div class="card">
     <div class="card-body px-0 pt-0 pb-2 d-flex flex-column">
@@ -12,18 +12,44 @@
       >
         <base-input
           v-model="input.code"
-          name="Code"
+          name="x"
           class="input"
-          placeholder="add station code"
+          placeholder="add pose 1"
           required
         ></base-input>
         <br />
 
         <base-input
           v-model="input.status"
-          name="Status"
+          name="y"
           class="input"
-          placeholder="add status"
+          placeholder="add pose 2"
+          required
+        ></base-input>
+        <br />
+
+        <base-input
+          v-model="input.status"
+          name="z"
+          class="input"
+          placeholder="add pose 3"
+          required
+        ></base-input>
+        <br />
+
+        <base-input
+          v-model="input.status"
+          name="w"
+          class="input"
+          placeholder="add pose 4"
+          required
+        ></base-input>
+        <br />
+        <base-input
+          v-model="input.status"
+          name="code"
+          class="input"
+          placeholder="add pose 4"
           required
         ></base-input>
         <br />
@@ -56,7 +82,7 @@
         <base-table
           class="table"
           :columns="table.columns"
-          :data="getStations"
+          :data="g$getStations"
           @edit-row="handleEditEvent"
           @remove-row="handleRemoveEvent"
         />
@@ -74,8 +100,11 @@ import useStationStore from "@/store/station";
 import { useToast } from "vue-toastification";
 
 const initialInput = {
+  x: "",
+  y: "",
+  z: "",
+  w: "",
   code: "",
-  status: "",
 };
 
 export default {
@@ -85,7 +114,7 @@ export default {
       input: { ...initialInput },
       editing: null,
       table: {
-        columns: ["code", "status"],
+        columns: ["x", "y", "z", "w", "code"],
       },
     };
   },
@@ -95,23 +124,24 @@ export default {
     BaseInput,
   },
   computed: {
-    ...mapState(useStationStore, ["getStations", "getDetail"]),
+    ...mapState(useStationStore, ["g$getStations", "g$getDetail"]),
   },
-  mounted() {
-    useStationStore().g$getStations();
+  async mounted() {
+    await this.a$getStations();
   },
   methods: {
     ...mapActions(useStationStore, [
-      "g$addStation",
-      "g$editStation",
-      "g$deleteStation",
+      "a$addStation",
+      "a$getStations",
+      "a$editStation",
+      "a$deleteStation",
     ]),
 
     async addForm(event) {
       try {
         event.preventDefault();
         if (this.editing) {
-          await this.g$editStation({
+          await this.a$editStation({
             id: this.input._id,
             updatedStationData: this.input,
           });
@@ -119,7 +149,8 @@ export default {
           toast.success(`Station ${this.input.code} updated successfully`);
           this.editing = null;
         } else {
-          await this.g$addStation({ ...this.input });
+          await this.a$addStation({ ...this.input });
+          await this.a$getStations();
           const toast = useToast();
           toast.success(`Station ${this.input.code} added successfully`);
         }
@@ -142,11 +173,10 @@ export default {
     async handleRemoveEvent(row) {
       const toast = useToast();
       try {
-        const idToRemove = row._id; // Simpan id yang akan dihapus
-        await this.g$deleteStation(idToRemove);
+        const idToRemove = row._id;
+        await this.a$deleteStation(idToRemove);
         toast.success(`Station with code ${row.code} deleted`);
         if (idToRemove === this.editing) {
-          // Gunakan id yang disimpan untuk memeriksa
           this.editing = null;
         }
       } catch (error) {

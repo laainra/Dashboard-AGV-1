@@ -21,8 +21,8 @@ defineProps({
     default: false
   },
   type: {
-    type: String, // Tambahkan properti type
-    default: 'text' // Atur nilai default sesuai kebutuhan
+    type: String,
+    default: 'text'
   },
   disable: {
     type: Boolean,

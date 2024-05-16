@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import TodoService from "../../services/todo.service.js"; // import module todo service yang berisi method API CRUD untuk Todo
+// import TodoService from "../../services/todo.service.js"; // import module todo service yang berisi method API CRUD untuk Todo
 
 export default {
   // inisiasi data todos denga array kosong

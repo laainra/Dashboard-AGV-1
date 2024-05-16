@@ -7,25 +7,25 @@ const useAgvStore = defineStore({
     agvs: [],
   }),
   getters: {
-    getAGVs(state) {
+    g$getAGVs(state) {
       return state.agvs;
     },
-    getDetail: ({ agvs }) => {
+    g$getDetail: ({ agvs }) => {
       return (index) => agvs[index];
     },
   },
+
   actions: {
-    async g$addAGV(agvData) {
+    async a$addAGV(agvData) {
       try {
         await AGVService.addAGV(agvData);
-        await this.g$getAGVs();
       } catch (error) {
         console.error("Error adding AGV:", error.message);
         throw error;
       }
     },
 
-    async g$getAGVs() {
+    async a$getAGVs() {
       try {
         const agvs = await AGVService.getAGVs();
         this.agvs = agvs.data;
@@ -35,34 +35,22 @@ const useAgvStore = defineStore({
       }
     },
 
-    async g$editAGV({ id, updatedAGVData }) {
+    async a$editAGV({ id, updatedAGVData }) {
       try {
-        //const updatedAgv = await AGVService.editAGV(id, updatedAGVData);
         await AGVService.updateAGV(id, updatedAGVData);
-        // await this.g$getAGVs();
         const index = this.agvs.findIndex((agv) => agv._id === id);
         if (index !== -1) {
           this.agvs[index] = updatedAGVData;
         }
-        // const index = this.agvs.findIndex(agv => agv._id === id);
-        // if (index !== -1) {
-        //   Object.assign(this.agvs[index], updatedAGVData);
-        //   // Set isEditing to false
-        //   this.agvs[index].isEditing = false;
-        // }
       } catch (error) {
         console.error("Error editing AGV:", error.message);
         throw error;
       }
     },
 
-    async g$deleteAGV(id) {
+    async a$deleteAGV(id) {
       try {
-        await AGVService.deleteAGV(id);
-        const index = this.agvs.findIndex((agv) => agv._id === id);
-        if (index !== -1) {
-          this.agvs.splice(index, 1); // Menghapus elemen dari array dengan mempertahankan urutan
-        }
+        await AGVService.deleteAGV(id)
         console.log(`AGV with ID ${id} deleted.`);
       } catch (error) {
         console.error(`Error deleting AGV with ID ${id}:`, error.message);
@@ -70,7 +58,7 @@ const useAgvStore = defineStore({
       }
     },
 
-    async g$getAGVById(id) {
+    async a$getAGVById(id) {
       try {
         return await AGVService.getAGVById(id);
       } catch (error) {

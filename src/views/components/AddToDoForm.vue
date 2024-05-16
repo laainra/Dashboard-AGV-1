@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import TodoService from "../../services/todo.service.js"; // import module todo service yang berisi method API CRUD untuk Todo
+// import TodoService from "../../services/todo.service.js"; // import module todo service yang berisi method API CRUD untuk Todo
 import Cookies from "js-cookie"; // import cookies untuk mengakses cookies di browser
 
 export default {

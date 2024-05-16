@@ -27,7 +27,7 @@
           required
         ></base-input>
         <br />
-<!-- 
+
         <base-input
           v-model="input.rfid"
           name="RFID"
@@ -35,7 +35,7 @@
           placeholder="add rfid"
           required
         ></base-input>
-        <br /> -->
+        <br />
 
         <div class="button-action">
           <argon-button
@@ -65,7 +65,7 @@
         <base-table
           class="table"
           :columns="table.columns"
-          :data="getStations"
+          :data="g$getStations"
           @edit-row="handleEditEvent"
           @remove-row="handleRemoveEvent"
         />
@@ -85,6 +85,7 @@ import { useToast } from "vue-toastification";
 const initialInput = {
   code: "",
   status: "",
+  rfid: "",
 };
 
 export default {
@@ -94,7 +95,7 @@ export default {
       input: { ...initialInput },
       editing: null,
       table: {
-        columns: ["code", "status"],
+        columns: ["code", "status", "rfid"],
       },
     };
   },
@@ -104,23 +105,24 @@ export default {
     BaseInput,
   },
   computed: {
-    ...mapState(useStationStore, ["getStations", "getDetail"]),
+    ...mapState(useStationStore, ["g$getStations", "g$getDetail"]),
   },
-  mounted() {
-    useStationStore().g$getStations();
+  async mounted() {
+    await this.a$getStations();
   },
   methods: {
     ...mapActions(useStationStore, [
-      "g$addStation",
-      "g$editStation",
-      "g$deleteStation",
+      "a$addStation",
+      "a$getStations",
+      "a$editStation",
+      "a$deleteStation",
     ]),
 
     async addForm(event) {
       try {
         event.preventDefault();
         if (this.editing) {
-          await this.g$editStation({
+          await this.a$editStation({
             id: this.input._id,
             updatedStationData: this.input,
           });
@@ -128,7 +130,8 @@ export default {
           toast.success(`Station ${this.input.code} updated successfully`);
           this.editing = null;
         } else {
-          await this.g$addStation({ ...this.input });
+          await this.a$addStation({ ...this.input });
+          await this.a$getStations();
           const toast = useToast();
           toast.success(`Station ${this.input.code} added successfully`);
         }
@@ -151,11 +154,10 @@ export default {
     async handleRemoveEvent(row) {
       const toast = useToast();
       try {
-        const idToRemove = row._id; // Simpan id yang akan dihapus
-        await this.g$deleteStation(idToRemove);
+        const idToRemove = row._id;
+        await this.a$deleteStation(idToRemove);
         toast.success(`Station with code ${row.code} deleted`);
         if (idToRemove === this.editing) {
-          // Gunakan id yang disimpan untuk memeriksa
           this.editing = null;
         }
       } catch (error) {

@@ -1,13 +1,18 @@
 import { defineStore } from "pinia";
 import HistoryTasksService from "../services/historytask.service";
 
-
-const useHistory = defineStore({
+const useHistoryStore = defineStore({
   id: "history",
   state: () => ({
     historyLineTasks: [],
     historyLidarTasks: [],
   }),
+
+  getters: {
+    g$showHistoryLineTasks: (state) => state.historyLineTasks,
+    g$showHistoryLidarTasks: (state) => state.historyLidarTasks,
+  },
+
   actions: {
     async a$historyLineTasksData(type) {
       try {
@@ -21,32 +26,27 @@ const useHistory = defineStore({
     },
 
     async a$historyLidarTasksData() {
-        try {
-          const tasks = await HistoryTasksService.HistoryTasksLidar();
-          this.historyLidarTasks = tasks.data;
-          console.log(this.historyLidarTasks);
-        } catch (error) {
-          console.error("Error checking the history lidar tasks:", error.message);
-          throw error;
-        }
-      },
-
-    async a$deleteHistoryTask(taskId) {
       try {
-        await HistoryTasksService.deleteHistoryTask(taskId);
-        // Optionally, you might want to update your task lists after deletion
-        // Call a$historyLineTasksData or a$historyLidarTasksData as needed
+        const tasks = await HistoryTasksService.HistoryTasksLidar();
+        this.historyLidarTasks = tasks.data;
+        console.log(this.historyLidarTasks);
       } catch (error) {
-        console.error("Error deleting history task:", error.message);
+        console.error("Error checking the history lidar tasks:", error.message);
         throw error;
       }
     },
-  },
-  
-  getters: {
-    showHistoryLineTasks: (state) => state.historyLineTasks,
-    showHistoryLidarTasks: (state) => state.historyLidarTasks,
+
+    async a$deleteHistoryTask(id) {
+      try {
+        await HistoryTasksService.deleteHistoryTask(id);
+        console.log(`tidak terhapus ${id} `)
+      } catch (error) {
+        console.error(`Error deleting AGV with ID ${id}:`, error.message);
+        throw error;
+      }
+    }
+    
   },
 });
 
-export default useHistory;
+export default useHistoryStore;

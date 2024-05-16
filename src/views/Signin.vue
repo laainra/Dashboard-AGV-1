@@ -15,7 +15,7 @@
               class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0"
             >
               <div class="card card-plain">
-                <div class="pb-0 card-header text-start">
+                <div class="pb-0 card-header text-success">
                   <h4 class="font-weight-bolder">Sign In</h4>
                   <p class="mb-0">
                     Enter your username and password to sign in

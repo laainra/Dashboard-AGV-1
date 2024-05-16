@@ -23,18 +23,21 @@ export default createStore({
       state.showConfig = !state.showConfig;
     },
     navbarMinimize(state) {
-      const sidenav_show = document.querySelector(".g-sidenav-show");
-
-      if (sidenav_show.classList.contains("g-sidenav-hidden")) {
-        sidenav_show.classList.remove("g-sidenav-hidden");
-        sidenav_show.classList.add("g-sidenav-pinned");
-        state.isPinned = true;
-      } else {
-        sidenav_show.classList.add("g-sidenav-hidden");
-        sidenav_show.classList.remove("g-sidenav-pinned");
-        state.isPinned = false;
+      let sidenav_show = document.querySelector(".g-sidenav-show");
+    
+      if (sidenav_show) { // Pemeriksaan apakah elemen ditemukan
+        if (sidenav_show.classList.contains("g-sidenav-hidden")) {
+          sidenav_show.classList.remove("g-sidenav-hidden");
+          sidenav_show.classList.add("g-sidenav-pinned");
+          state.isPinned = true;
+        } else {
+          sidenav_show.classList.add("g-sidenav-hidden");
+          sidenav_show.classList.remove("g-sidenav-pinned");
+          state.isPinned = false;
+        }
       }
     },
+    
     sidebarType(state, payload) {
       state.sidebarType = payload;
     },
@@ -50,6 +53,7 @@ export default createStore({
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     }
+    
   },modules: {
     // auth,
   },

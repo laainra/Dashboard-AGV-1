@@ -20,6 +20,15 @@
         <br />
 
         <base-input
+          v-model="input.type"
+          name="Type"
+          class="input"
+          placeholder="add type of AGV"
+          required
+        ></base-input>
+        <br />
+
+        <base-input
           v-model="input.description"
           name="Description"
           class="input"
@@ -65,7 +74,7 @@
         <base-table
           class="table"
           :columns="table.columns"
-          :data="getAGVs"
+          :data="g$getAGVs"
           @edit-row="handleEditEvent"
           @remove-row="handleRemoveEvent"
         />
@@ -84,6 +93,7 @@ import { useToast } from "vue-toastification";
 
 const initialInput = {
   code: "",
+  type: "",
   description: "",
   ip: "",
 };
@@ -95,7 +105,7 @@ export default {
       input: { ...initialInput },
       editing: null,
       table: {
-        columns: ["code", "description", "ip"],
+        columns: ["code", "type", "description", "ip"],
       },
     };
   },
@@ -105,36 +115,41 @@ export default {
     BaseInput,
   },
   computed: {
-    ...mapState(useAgvStore, ["getAGVs", "getDetail"]),
+    ...mapState(useAgvStore, ["g$getAGVs", "g$getDetail"]),
   },
-  mounted() {
-    useAgvStore().g$getAGVs();
+  async mounted() {
+    await this.a$getAGVs();
   },
   methods: {
-    ...mapActions(useAgvStore, ["g$addAGV", "g$editAGV", "g$deleteAGV"]),
+    ...mapActions(useAgvStore, [
+      "a$addAGV",
+      "a$getAGVs",
+      "a$editAGV",
+      "a$deleteAGV",
+    ]),
 
     async addForm(event) {
-  try {
-    event.preventDefault();
-    if (this.editing) {
-      await this.g$editAGV({
-        id: this.input._id,
-        updatedAGVData: this.input,
-      });
-      const toast = useToast();
-      toast.success(`AGV ${this.input.code} updated successfully`);
-      this.editing = null;
-    } else {
-      await this.g$addAGV({ ...this.input }); // Mengirimkan semua data this.input, termasuk ip
-      const toast = useToast();
-      toast.success(`AGV ${this.input.code} added successfully`);
-    }
-    this.resetForm();
-  } catch (error) {
-    console.error("Failed to add/edit entry:", error);
-  }
-},
-
+      try {
+        event.preventDefault();
+        if (this.editing) {
+          await this.a$editAGV({
+            id: this.input._id,
+            updatedAGVData: this.input,
+          });
+          const toast = useToast();
+          toast.success(`AGV ${this.input.code} updated successfully`);
+          this.editing = null;
+        } else {
+          await this.a$addAGV({ ...this.input });
+          await this.a$getAGVs();
+          const toast = useToast();
+          toast.success(`AGV ${this.input.code} added successfully`);
+        }
+        this.resetForm();
+      } catch (error) {
+        console.error("Failed to add/edit entry:", error);
+      }
+    },
 
     handleEditEvent(row) {
       try {
@@ -149,11 +164,10 @@ export default {
     async handleRemoveEvent(row) {
       const toast = useToast();
       try {
-        const idToRemove = row._id; // Simpan id yang akan dihapus
-        await this.g$deleteAGV(idToRemove);
+        const idToRemove = row._id;
+        await this.a$deleteAGV(idToRemove);
         toast.success(`AGV with code ${row.code} deleted`);
         if (idToRemove === this.editing) {
-          // Gunakan id yang disimpan untuk memeriksa
           this.editing = null;
         }
       } catch (error) {

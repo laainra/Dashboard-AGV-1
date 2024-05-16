@@ -1,6 +1,6 @@
-import axios from "axios"; // import axios untuk membuat request HTTP
+import axios from "axios";
 
-const API_URL = "https://sans-api-service.onrender.com/api"; // dekalarasi variabel API URL untuk api agv
+const API_URL = "https://sans-agv.azurewebsites.net/api";
 
 class AGVService {
   constructor() {
@@ -11,7 +11,7 @@ class AGVService {
     // interceptor request
     axios.interceptors.request.use(
       (config) => {
-        config.headers['Access-Control-Allow-Origin'] = '*';
+        config.headers["Access-Control-Allow-Origin"] = "*";
         return config;
       },
       (error) => {
@@ -29,12 +29,12 @@ class AGVService {
       }
     );
   }
-  // membuat method untuk membuat request api post untuk menambahkan agv ke database
 
   async addAGV(agv) {
     return axios
       .post(API_URL + "/agv", {
         code: agv.code,
+        type: agv.type,
         description: agv.description,
         ip: agv.ip,
       })
@@ -47,75 +47,17 @@ class AGVService {
         throw error;
       });
   }
-  //   // membuat method untuk membuat request api get untuk membaca semua data agv dari database
-  //   async readAGV() {
-  //     try {
-  //       const response = await axios.get(API_URL);
-  //       console.log('AGV list retrieved:', response.data);
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error('Error reading AGV list:', error.message);
-  //       throw error;
-  //     }
-  //   }
-  //   // membuat method untuk membuat request api put untuk mengedit data agv dari database berdasarkan id
-  //   async editAGV(id, updatedAGVData) {
-  //     try {
-  //       const response = await axios.put(`${API_URL}${id}`, updatedAGVData);
-  //       console.log('AGV edited:', response.data);
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error('Error editing AGV:', error.message);
-  //       throw error;
-  //     }
-  //   }
-  //   // membuat method untuk membuat request api delete untuk menghapus data agv dari database
-    // async deleteAGV(id) {
-    //   try {
-    //     const response = await axios.delete(`${API_URL}${id}`);
-    //     console.log('AGV deleted:', response.data);
-    //     return response.data;
-    //   } catch (error) {
-    //     console.error('Error deleting AGV:', error.message);
-    //     throw error;
-    //   }
-    // }
-  //   // membuat method untuk membuat request api get untuk membaca data agv dari database berdasarkan id
-  //   async getAGVById(id) {
-  //     try {
-  //       const response = await axios.get(`${API_URL}${id}`);
-  //       console.log('AGV:', response.data);
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error('Error getting AGV by id:', error.message);
-  //       throw error;
-  //     }
-  //   }
-  // }
 
-  // async getAGVById(id) {
-  //   return axios
-  //     .get(API_URL + "/agv/" + id)
-  //     .then((response) => {
-  //       console.log("Get AGV by ID Response:", response.data);
-  //       return response.data;
-  //     })
-  //     .catch((error) => {
-  //       console.error("Get AGV by ID Error:", error);
-  //       throw error;
-  //     });
-  // }
   async getAGVs() {
     try {
       const response = await axios.get(API_URL + "/agv");
       console.log("Read AGV Response:", response.data);
-      return response.data; // Mengembalikan array data langsung
+      return response.data;
     } catch (error) {
       console.error("Read AGV Error:", error);
       throw error;
     }
   }
-  
 
   async updateAGV(id, updatedAGVData) {
     return axios

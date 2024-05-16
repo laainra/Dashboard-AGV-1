@@ -2,7 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 //const API_URL = import.meta.env.VITE_BASE_URL;
-const API_URL = "https://sans-api-service.onrender.com/api";
+const API_URL = "https://sans-agv.azurewebsites.net/api";
 
 class AuthService {
   constructor() {
