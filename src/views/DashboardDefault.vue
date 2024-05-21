@@ -24,7 +24,7 @@
               {{ direction }}
             </h5>
           </div>
-          <div class="card-body p-3">
+          <div class="card-body p-30">
             <Joystick
               :size="85"
               base-color="#FFDDDD"
@@ -125,7 +125,7 @@ import AuthorsTableLidar from "./components/AuthorsTableLidar.vue";
 import AuthorsTableLidarPose from "./components/AuthorsTableLidarPose.vue";
 import Joystick from "vue-joystick-component";
 import axios from "axios";
-import { useToast } from 'vue-toast-notification';
+import { useToast } from "vue-toast-notification";
 
 export default {
   name: "dashboard-agv-lidar",
@@ -136,6 +136,8 @@ export default {
       speed: 0,
       speedInput: "",
       ros: null,
+      axes: [0, 0, 0, 0], // Menambahkan axes
+      buttons: [0, 0, 0, 0], // Menambahkan buttons
       connected: false,
       mapViewer: null,
       mapGridClient: null,
@@ -177,17 +179,19 @@ export default {
   },
   created() {
     this.socket = new WebSocket(
-      "wss://sans-api-service.onrender.com/ws/dashboard/lidar"
+      "wss://sans-agv.azurewebsites.net/ws/connect/lidar"
     );
 
     this.socket.onopen = (event) => {
-      const toast = useToast()
+      const toast = useToast();
       console.log(event);
       toast.success("Successfully connected to the echo websocket server...");
     };
 
+    console.log(`terkoneksi`);
+
     this.socket.onclose = (event) => {
-      const toast = useToast()
+      const toast = useToast();
       if (event.wasClean) {
         toast.warning(
           `Connection closed cleanly, code=${event.code} reason=${event.reason}`
@@ -207,17 +211,43 @@ export default {
   methods: {
     start() {
       console.log("start");
-      this.status = "start"; // Update status on start
+      this.status = "start";
+      
+      this.socket.onmessage = () => {
+        this.socket.send(
+          JSON.stringify({ axes: this.axes, buttons: this.buttons })
+        );
+        
+      }
+      console.log(`Status AGV: ${this.start ? "On" : "Off"}`)
     },
     stop() {
       console.log("stop");
       this.status = "stop"; // Update status on stop
+      this.joyStop(); // Call joyStop on stop
     },
     move({ x, y, direction, distance }) {
       console.log("move", { x, y, direction, distance });
       this.direction = direction; // Update direction
       this.status = "move"; // Update status on move
+      this.distance = distance;
+      this.joyMove(x, y); // Call joyMove on move
     },
+
+    joyStop(index) {
+      var axisVals = this.axes;
+      axisVals[2 * index] = 0;
+      axisVals[2 * index + 1] = 0;
+      this.axes = axisVals;
+    },
+
+    joyMove(x, y, index) {
+      var axisVals = this.axes;
+      axisVals[2 * index] = x;
+      axisVals[2 * index + 1] = y;
+      this.axes = axisVals;
+    },
+
     fetchAGVData() {
       axios
         .get("https://sans-agv.azurewebsites.net/api/agv")
