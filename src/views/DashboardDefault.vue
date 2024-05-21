@@ -178,74 +178,76 @@ export default {
     };
   },
   created() {
-    this.socket = new WebSocket(
-      "wss://sans-agv.azurewebsites.net/ws/connect/lidar"
-    );
-
-    this.socket.onopen = (event) => {
-      const toast = useToast();
-      console.log(event);
-      toast.success("Successfully connected to the echo websocket server...");
-    };
-
-    console.log(`terkoneksi`);
-
-    this.socket.onclose = (event) => {
-      const toast = useToast();
-      if (event.wasClean) {
-        toast.warning(
-          `Connection closed cleanly, code=${event.code} reason=${event.reason}`
-        );
-      } else {
-        toast.danger("Connection died");
-      }
-    };
-
-    this.socket.onerror = (error) => {
-      alert(`[error]`);
-    };
-
-    this.fetchPoseData();
-    this.fetchAGVData();
+    this.connectWebSocket();
   },
   methods: {
+    connectWebSocket() {
+      this.socket = new WebSocket(
+        "wss://sans-agv.azurewebsites.net/ws/connect/lidar"
+      );
+
+      this.socket.onopen = (event) => {
+        const toast = useToast();
+        console.log(event);
+        this.socket.send("ws://0.tcp.ap.ngrok.io:16160");
+        toast.success("Successfully connected to the echo websocket server...");
+      };
+
+      this.socket.onclose = (event) => {
+        const toast = useToast();
+        if (event.wasClean) {
+          toast.warning(
+            `Connection closed cleanly, code=${event.code} reason=${event.reason}`
+          );
+        } else {
+          toast.danger("Connection died");
+        }
+      };
+
+      this.socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      this.socket.onmessage = (event) => {
+        console.log("Received message:", event.data);
+      };
+    },
     start() {
       console.log("start");
       this.status = "start";
-      
-      this.socket.onmessage = () => {
-        this.socket.send(
-          JSON.stringify({ axes: this.axes, buttons: this.buttons })
-        );
-        
-      }
-      console.log(`Status AGV: ${this.start ? "On" : "Off"}`)
+      this.sendJoystickData();
     },
     stop() {
       console.log("stop");
-      this.status = "stop"; // Update status on stop
-      this.joyStop(); // Call joyStop on stop
+      this.status = "stop";
+      this.joyStop();
+      this.sendJoystickData();
     },
     move({ x, y, direction, distance }) {
       console.log("move", { x, y, direction, distance });
-      this.direction = direction; // Update direction
-      this.status = "move"; // Update status on move
-      this.distance = distance;
-      this.joyMove(x, y); // Call joyMove on move
+      this.direction = direction;
+      this.status = "move";
+      this.joyMove(x, y);
+      this.sendJoystickData();
     },
-
-    joyStop(index) {
-      var axisVals = this.axes;
-      axisVals[2 * index] = 0;
-      axisVals[2 * index + 1] = 0;
-      this.axes = axisVals;
+    joyStop() {
+      this.axes = [0, 0, 0, 0];
     },
-
-    joyMove(x, y, index) {
-      var axisVals = this.axes;
-      axisVals[2 * index] = x;
-      axisVals[2 * index + 1] = y;
-      this.axes = axisVals;
+    joyMove(x, y) {
+      this.axes[0] = x;
+      this.axes[1] = y;
+    },
+    sendJoystickData() {
+      if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+        const data = {
+          axes: this.axes,
+          buttons: this.buttons,
+        };
+        this.socket.send(JSON.stringify(data));
+        console.log("Sending joystick data:", data);
+      } else {
+        console.error("WebSocket connection is not open");
+      }
     },
 
     fetchAGVData() {
